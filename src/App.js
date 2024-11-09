@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainPage from './main/MainPage';
+import LoginPage from './login/LoginPage';
+import Kakao from './login/Kakao';
+import MyPage from './mypage/MyPage';
+
+import { UserContext } from './contexts/UserContext';
 
 
 function App() {
@@ -38,6 +43,9 @@ function App() {
     >
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/auth/callback/kakao" element={<Kakao />} />
+          <Route path="/mypage" element={<MyPage />} />
         </Routes>
         </UserContext.Provider>
       </BrowserRouter>
