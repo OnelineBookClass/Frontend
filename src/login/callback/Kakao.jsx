@@ -72,7 +72,7 @@ export default function Kakao() {
                                                 },
                                             });
                                         } else {
-                                            navigate("/home");
+                                            navigate("/");
                                         }
                                     })
                                     .catch((error) => {
