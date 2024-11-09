@@ -1,20 +1,36 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axiosInstance from "../utils/axiosConfig";
-import SearchBar from "./component/SearchBar";
+import SearchBar from "../booksearch/component/SearchBar";
 import PopularBooks from "./component/PopularBooks";
 import RecentRooms from "./component/RecentRooms";
 import Recommendations from "./component/Recommendations";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
     padding: 20px;
     max-width: 768px;
     margin: 0 auto;
+
+    margin-bottom: 40px;
 `;
 
 const MainContent = styled.div`
     display: flex;
     flex-direction: column;
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+`;
+
+const Button = styled.button`
+    width: 100%;
+    height: 30px;
+    background-color: #000;
+    color: #fff;
 `;
 
 // 임시 데이터
@@ -73,6 +89,15 @@ const mockData = {
 
 function MainPage() {
     const [mainData, setMainData] = useState(mockData); // 초기값으로 목업 데이터 설정
+    const navigate = useNavigate();
+
+    const handleButtonClick = (buttonType) => {
+        if (buttonType === "bookSearch") {
+            navigate("/booksearch");
+        } else if (buttonType === "discussionSearch") {
+            navigate("/recent");
+        }
+    };
 
     // useEffect(() => {
     //     const fetchMainData = async () => {
@@ -89,7 +114,16 @@ function MainPage() {
     return (
         <Container>
             <MainContent>
-                <SearchBar />
+                <ButtonContainer>
+                    <Button onClick={() => handleButtonClick("bookSearch")}>
+                        책 검색하기
+                    </Button>
+                    <Button
+                        onClick={() => handleButtonClick("discussionSearch")}
+                    >
+                        방 검색하기
+                    </Button>
+                </ButtonContainer>
                 {mainData && (
                     <>
                         <PopularBooks books={mainData.popularBooks} />

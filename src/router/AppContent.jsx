@@ -9,7 +9,8 @@ import Kakao from "../login/callback/Kakao";
 import MyPage from "../mypage/MyPage";
 import RecommendedDiscussionsAndBooks from "../recommendedDiscussionsAndBooks/RecommendedDiscussionsAndBooks";
 import RecentDiscussions from "../recentDiscussions/RecentDiscussions";
-
+import BookSearchPage from "../booksearch/BookSearchPage";
+import BookInfo from "../bookinfo/BookInfo";
 function AppContent() {
     const location = useLocation();
     const [accessToken, setAccessToken] = useState(null);
@@ -68,6 +69,8 @@ function AppContent() {
                     element={<RecommendedDiscussionsAndBooks />}
                 />
                 <Route path='/recent' element={<RecentDiscussions />} />
+                <Route path='/bookSearch' element={<BookSearchPage />} />
+                <Route path='/book/:bookid' element={<BookInfo />} />
             </Routes>
             {shouldShowHeaderFooter && <Footer />}
         </UserContext.Provider>
