@@ -17,7 +17,7 @@ function GenreSection() {
             <Typography variant="h6">장르</Typography>
             <Grid container spacing={2}>
                 {genres.map((genre) => (
-                    <Grid item xs={4} sm={2} key={genre.name}>
+                    <Grid item xs={6} sm={2} key={genre.name}>
                         <GenreButtonComponent icon={genre.icon} name={genre.name}>
                             <Avatar sx={{ width: 24, height: 24, bgcolor: '#e3e3e3', mr: 2 }}>
                                 {genre.icon}
