@@ -12,6 +12,7 @@ const Container = styled.div`
     box-sizing: border-box;`;
 
 const Title = styled.div`
+    padding-top: 1rem;
     font-weight: bold;
     font-size: clamp(1rem, 5vw, 2rem);
     text-align: left;
