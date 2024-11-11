@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import Logo from "../../asset/image/Logo.png";
 
 const Card = styled.div`
     border: 1px solid #ddd;
@@ -36,7 +37,7 @@ function BookCard({ book }) {
 
     return (
         <Card onClick={handleClick}>
-            <BookImage src={book.imageUrl} alt={book.title} />
+            <BookImage src={Logo} alt={book.title} />
             <h3>{book.title}</h3>
             <p>저자: {book.author}</p>
             <p>출판사: {book.publisher}</p>

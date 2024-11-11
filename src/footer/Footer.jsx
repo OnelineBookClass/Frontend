@@ -14,7 +14,7 @@ const Container = styled.div`
     position: fixed;
     bottom: 0;
     background-color: #de4d25;
-    padding: 10px 0;
+    padding: 20px 0;
 `;
 
 const MenuName = styled.span`
@@ -23,7 +23,9 @@ const MenuName = styled.span`
 
 const NavItem = styled(NavLink)`
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     text-decoration: none;
     color: #ffffff;
     padding: 5px 10px;
@@ -31,11 +33,9 @@ const NavItem = styled(NavLink)`
     border-radius: 20px;
     transition: all 0.3s ease;
     width: 25%;
-    justify-content: center;
 
     svg {
         font-size: 24px;
-        margin-right: 5px;
     }
 
     span {
