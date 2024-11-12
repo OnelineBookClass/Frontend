@@ -62,7 +62,7 @@ function MyPage() {
             <FavoriteGroups />
 
             <SectionHeader>
-                <span>담아 둔 책</span>
+                <span>관심 도서 목록</span>
                 <IconButton onClick={() => window.location.href = "#"}>
                     <ArrowForwardIcon />
                 </IconButton>
