@@ -8,7 +8,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward"; // 추가된 �
 import UserInfo from "./profile/UserInfo";
 import FavoriteGroups from "./profile/FavoriteGroups";
 import DesiredBooks from "./profile/DisiredBooks";
-import DiaryEntries from "./profile/DiaryEntry";
+import DiscussionEntries from "./profile/DiscussionEntries";
 
 const Container = styled.div`
     display: flex;
@@ -70,12 +70,12 @@ function MyPage() {
             <DesiredBooks />
 
             <SectionHeader>
-                <span>내 일기장</span>
+                <span>나의 토론 기록</span>
                 <IconButton onClick={() => window.location.href = "#"}>
                     <ArrowForwardIcon />
                 </IconButton>
             </SectionHeader>
-            <DiaryEntries />
+            <DiscussionEntries />
         </Container>
     );
 }
