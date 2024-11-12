@@ -11,6 +11,8 @@ import RecommendedDiscussionsAndBooks from "../recommendedDiscussionsAndBooks/Re
 import RecentDiscussions from "../recentDiscussions/RecentDiscussions";
 import BookSearchPage from "../booksearch/BookSearchPage";
 import BookInfo from "../bookinfo/BookInfo";
+import MyGroupPage from "../mygroup/MyGroupPage";
+
 function AppContent() {
     const location = useLocation();
     const [accessToken, setAccessToken] = useState(null);
@@ -71,6 +73,7 @@ function AppContent() {
                 <Route path='/recent' element={<RecentDiscussions />} />
                 <Route path='/bookSearch' element={<BookSearchPage />} />
                 <Route path='/book/:bookid' element={<BookInfo />} />
+                <Route path='/mygroup' element={<MyGroupPage />} />
             </Routes>
             {shouldShowHeaderFooter && <Footer />}
         </UserContext.Provider>
