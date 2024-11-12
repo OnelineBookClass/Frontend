@@ -7,7 +7,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"; // 추가된 부분
 import UserInfo from "./profile/UserInfo";
 import FavoriteGroups from "./profile/FavoriteGroups";
-import DesiredBooks from "./profile/DisiredBooks";
+import DesiredBooks from "./profile/DesiredBooks";
 import DiscussionEntries from "./profile/DiscussionEntries";
 
 const Container = styled.div`
@@ -51,10 +51,10 @@ function MyPage() {
 
             <UserInfo />
 
-            <Divider sx={{ my: 2 }} /> {/* 구분선 추가 */}
+            <Divider sx={{ my: 2 }} />
 
             <SectionHeader>
-                <span>담아둔 모임</span>
+                <span>나의 모임</span>
                 <IconButton onClick={() => window.location.href = "#"}>
                     <ArrowForwardIcon />
                 </IconButton>
@@ -62,7 +62,7 @@ function MyPage() {
             <FavoriteGroups />
 
             <SectionHeader>
-                <span>모임하고 싶은 책</span>
+                <span>담아 둔 책</span>
                 <IconButton onClick={() => window.location.href = "#"}>
                     <ArrowForwardIcon />
                 </IconButton>

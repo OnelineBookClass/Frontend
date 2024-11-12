@@ -15,6 +15,8 @@ function UserInfo() {
     const username = "박태우";
     const rating = 4.5;
 
+    // 유저 정보 불러오는 api 삽입 예정
+
     return (
         <CenteredProfileContainer>
             {/* 사진 부분 */}
