@@ -1,77 +1,83 @@
 import React from "react";
 import styled from "styled-components";
-import ButtonStyled from "@mui/material/Button";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import SettingsIcon from "@mui/icons-material/Settings";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"; // 추가된 부분
 import UserInfo from "./profile/UserInfo";
-import DiscussionList from "./profile/DIscussionList";
+import FavoriteGroups from "./profile/FavoriteGroups";
+import DesiredBooks from "./profile/DisiredBooks";
+import DiaryEntries from "./profile/DiaryEntry";
 
 const Container = styled.div`
- display: flex;
+    display: flex;
     flex-direction: column;
     min-height: 100vh;
     padding: 0 1rem 1rem 1rem;
-    box-sizing: border-box;`;
+    box-sizing: border-box;
+`;
+
+const Header = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+`;
 
 const Title = styled.div`
-    padding-top: 1rem;
     font-weight: bold;
     font-size: clamp(1rem, 5vw, 2rem);
     text-align: left;
-    align-items: flex-start;
-    margin-bottom: 1rem;
 `;
 
-const StyledHr = styled.hr`
-  width: 100%; /* 구분선의 너비 */
-  border: 0;
-  border-top: 2px solid #ccc; /* 구분선 색 */
-  margin: 0;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); /* 그림자 추가 */
+const SectionHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1.5rem 0 1rem;
+    font-weight: bold;
 `;
-
 
 function MyPage() {
-
-    const discussions = [{
-        id : 1,
-        content : "채식주의자 1",
-        date : "2024.10.31"
-    },
-    {
-        id : 2,
-        content : "채식주의자 2",
-        date : "2024.10.31"
-    },
-    {
-        id : 3,
-        content : "채식주의자 3",
-        date : "2024.10.31"
-    },
-    {
-        id : 4,
-        content : "채식주의자 4",
-        date : "2024.10.31"
-    },
-]
     return (
         <Container>
-            <Title>MyPage</Title>
-            <StyledHr></StyledHr>
+            <Header>
+                <Title>마이페이지</Title>
+                <IconButton onClick={() => window.location.href = "/settings"}>
+                    <SettingsIcon />
+                </IconButton>
+            </Header>
 
-            <UserInfo></UserInfo>
-            <ButtonStyled
-                variant="contained"
-                sx={{
-                    padding: "1rem", fontSize: "1.3rem", whiteSpace: "nowrap",
-                    backgroundColor: "black", borderRadius : "1rem"
-                }}
-                white>
-                개인정보 수정
-            </ButtonStyled>
-            <DiscussionList discussions={discussions}>
-            </DiscussionList>
+            <UserInfo />
+
+            <Divider sx={{ my: 2 }} /> {/* 구분선 추가 */}
+
+            <SectionHeader>
+                <span>담아둔 모임</span>
+                <IconButton onClick={() => window.location.href = "#"}>
+                    <ArrowForwardIcon />
+                </IconButton>
+            </SectionHeader>
+            <FavoriteGroups />
+
+            <SectionHeader>
+                <span>모임하고 싶은 책</span>
+                <IconButton onClick={() => window.location.href = "#"}>
+                    <ArrowForwardIcon />
+                </IconButton>
+            </SectionHeader>
+            <DesiredBooks />
+
+            <SectionHeader>
+                <span>내 일기장</span>
+                <IconButton onClick={() => window.location.href = "#"}>
+                    <ArrowForwardIcon />
+                </IconButton>
+            </SectionHeader>
+            <DiaryEntries />
         </Container>
     );
 }
-
 
 export default MyPage;
