@@ -15,7 +15,7 @@ function DiscussionEntries() {
     const [entries, setEntries] = useState([]);
 
     useEffect(() => {
-        const fetchDiaryEntries = async () => {
+        const fetchDiscussionEntries = async () => {
             try {
 
 
@@ -40,11 +40,11 @@ function DiscussionEntries() {
 
 
             } catch (error) {
-                console.error("Failed to fetch diary entries:", error);
+                console.error("Failed to fetch discussion entries:", error);
             }
         };
 
-        fetchDiaryEntries();
+        fetchDiscussionEntries();
     }, []);
 
     return (
