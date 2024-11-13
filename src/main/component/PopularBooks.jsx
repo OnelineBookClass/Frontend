@@ -41,26 +41,27 @@ const BookInfo = styled.div`
 function PopularBooks({ books }) {
     const navigate = useNavigate();
 
-    const handleBookClick = (bookId) => {
-        navigate(`/book/${bookId}`);
+    const handleBookClick = (book) => {
+        navigate(`/book/${book.ISBN}`, { state: { book } });
     };
 
     return (
         <Section>
             <Title>모임이 많은 책</Title>
             <BooksGrid>
-                {books.map((book) => (
-                    <BookCard
-                        key={book.bookId}
-                        onClick={() => handleBookClick(book.bookId)}
-                    >
-                        <BookImage src={book.thumbnail} alt={book.title} />
-                        <BookInfo>
-                            <div>{book.title}</div>
-                            <div>{book.author}</div>
-                        </BookInfo>
-                    </BookCard>
-                ))}
+                {books &&
+                    books.map((book) => (
+                        <BookCard
+                            key={book.ISBN}
+                            onClick={() => handleBookClick(book)}
+                        >
+                            <BookImage src={book.thumbnail} alt={book.title} />
+                            <BookInfo>
+                                <div>{book.title}</div>
+                                <div>{book.author}</div>
+                            </BookInfo>
+                        </BookCard>
+                    ))}
             </BooksGrid>
         </Section>
     );

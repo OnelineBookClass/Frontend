@@ -36,3 +36,19 @@ export const LastActive = styled.p`
     font-size: 14px;
     color: #666;
 `;
+
+export const MeetingImage = styled.img`
+    width: 70px;
+    height: 100px;
+`;
+
+export const Host = styled.p`
+    font-size: 14px;
+    color: #666;
+`;
+
+export const CurrentMember = styled.p`
+    font-size: 14px;
+    color: #666;
+`;
+

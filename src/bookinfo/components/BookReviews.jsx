@@ -18,7 +18,7 @@ function BookReviews({ reviews }) {
                 {reviews.map((review) => (
                     <ReviewItem key={review.id}>
                         <ReviewHeader>
-                            <ReviewUser>{review.user}</ReviewUser>
+                            <ReviewUser>{review.nickName}</ReviewUser>
                             <Rating>{"★".repeat(review.rating)}</Rating>
                         </ReviewHeader>
                         <ReviewContent>{review.content}</ReviewContent>
