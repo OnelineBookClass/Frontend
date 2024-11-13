@@ -11,7 +11,7 @@ function BookHeader({ book }) {
     return (
         <BookHead>
             <BookImage
-                src={book?.imageUrl || "https://via.placeholder.com/150"}
+                src={book?.thumbnail || "https://via.placeholder.com/150"}
                 alt={book?.title}
             />
             <BookDetails>

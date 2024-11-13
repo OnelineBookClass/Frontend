@@ -37,29 +37,19 @@ function Recommendations({ recommended }) {
     return (
         <Section>
             <Title onClick={handleTitleClick}>
-                추천 책 / 방 <IoIosArrowForward />
+                추천 책 <IoIosArrowForward />
             </Title>
             <RecommendedGrid>
-                {recommended.books.map((book) => (
-                    <ItemCard key={book.bookId}>
-                        <ItemImage src={book.thumbnail} alt={book.title} />
-                        <div>
-                            <div>{book.title}</div>
-                            <div>{book.author}</div>
-                            <div>평점: {book.rating}</div>
-                        </div>
-                    </ItemCard>
-                ))}
-                {recommended.rooms.map((room) => (
-                    <ItemCard key={room.roomId}>
-                        <ItemImage src={room.thumbnail} alt={room.roomTitle} />
-                        <div>
-                            <div>{room.roomTitle}</div>
-                            <div>{room.author}</div>
-                            <div>참여자: {room.peopleCount}명</div>
-                        </div>
-                    </ItemCard>
-                ))}
+                {recommended &&
+                    recommended.map((book) => (
+                        <ItemCard key={book.ISBN}>
+                            <ItemImage src={book.thumbnail} alt={book.title} />
+                            <div>
+                                <div>{book.title}</div>
+                                <div>{book.author}</div>
+                            </div>
+                        </ItemCard>
+                    ))}
             </RecommendedGrid>
         </Section>
     );

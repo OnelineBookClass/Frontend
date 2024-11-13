@@ -37,54 +37,35 @@ const Button = styled.button`
 const mockData = {
     popularBooks: [
         {
-            bookId: 1,
-            title: "인기 도서 제목 1",
-            author: "저자 이름 1",
-            thumbnail: "https://via.placeholder.com/150",
-            rating: 4.5,
+            ISBN: "9791168766006",
+            title: "진격의 거인 5",
+            author: "이사야마 하지메",
+            thumbnail:
+                "https://shopping-phinf.pstatic.net/main_4480340/44803409644.20231222155044.jpg",
         },
-        {
-            bookId: 2,
-            title: "인기 도서 제목 2",
-            author: "저자 이름 2",
-            thumbnail: "https://via.placeholder.com/150",
-            rating: 4.3,
-        },
+        // ... other books
     ],
     recentRooms: [
         {
-            roomId: 101,
-            roomTitle: "최근 토론방 제목 1",
-            thumbnail: "https://via.placeholder.com/150",
-            author: "방장 이름 1",
+            roomId: 1,
+            roomTitle: "소년이 온다",
+            thumbnail:
+                "https://shopping-phinf.pstatic.net/main_3249140/32491401626.20231004072435.jpg",
+            author: "한강",
+            intro: "한강의 대표작, 1980년 5월 광주를 다룬 소설",
         },
-        {
-            roomId: 102,
-            roomTitle: "최근 토론방 제목 2",
-            thumbnail: "https://via.placeholder.com/150",
-            author: "방장 이름 2",
-        },
+        // ... other rooms
     ],
-    recommendedItems: {
-        books: [
-            {
-                bookId: 3,
-                title: "추천 도서 제목 1",
-                author: "저자 이름 3",
-                thumbnail: "https://via.placeholder.com/150",
-                rating: 4.6,
-            },
-        ],
-        rooms: [
-            {
-                roomId: 103,
-                roomTitle: "추천 토론방 제목 1",
-                thumbnail: "https://via.placeholder.com/150",
-                author: "방장 이름 3",
-                peopleCount: 1,
-            },
-        ],
-    },
+    recommendedBooks: [
+        {
+            ISBN: "9791168766006",
+            title: "진격의 거인 5",
+            author: "이사야마 하지메",
+            thumbnail:
+                "https://shopping-phinf.pstatic.net/main_4480340/44803409644.20231222155044.jpg",
+        },
+        // ... other recommended books
+    ],
 };
 
 function MainPage() {
@@ -99,17 +80,18 @@ function MainPage() {
         }
     };
 
-    // useEffect(() => {
-    //     const fetchMainData = async () => {
-    //         try {
-    //             const response = await axiosInstance.get("/mongdangbul/home");
-    //             setMainData(response.data);
-    //         } catch (error) {
-    //             console.error("메인 데이터 로딩 실패:", error);
-    //         }
-    //     };
-    //     fetchMainData();
-    // }, []);
+    useEffect(() => {
+        const fetchMainData = async () => {
+            try {
+                const response = await axiosInstance.get("/mongdangbul/home");
+                setMainData(response.data);
+                console.log(response.data);
+            } catch (error) {
+                console.error("메인 데이터 로딩 실패:", error);
+            }
+        };
+        fetchMainData();
+    }, []);
 
     return (
         <Container>
@@ -129,7 +111,7 @@ function MainPage() {
                         <PopularBooks books={mainData.popularBooks} />
                         <RecentRooms rooms={mainData.recentRooms} />
                         <Recommendations
-                            recommended={mainData.recommendedItems}
+                            recommended={mainData.recommendedBooks}
                         />
                     </>
                 )}

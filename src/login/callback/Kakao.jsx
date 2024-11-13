@@ -15,7 +15,6 @@ const Container = styled.div`
 `;
 
 export default function Kakao() {
-    console.log(process.env.REACT_APP_KAKAO_CLIENT_ID);
     const { setAccessToken, setRefreshToken, setLoginType, setUserId } =
         useContext(UserContext);
 
@@ -56,16 +55,15 @@ export default function Kakao() {
                                     userResult.data.kakao_account.profile
                                         .nickname;
                                 setUserId(userId);
+                                console.log(userId);
                                 axios
-                                    .post(
-                                        `${process.env.REACT_APP_API_PORT}/checkUser`,
-                                        {
-                                            userId,
-                                        }
+                                    .get(
+                                        `${process.env.REACT_APP_API_PORT}/mongdangbul/user/checkUser/:${userId}`
                                     )
                                     .then((response) => {
+                                        console.log(response);
                                         if (!response.data.isExist) {
-                                            navigate("/profilesetting", {
+                                            navigate("/", {
                                                 state: {
                                                     userEmail,
                                                     userNickname,
