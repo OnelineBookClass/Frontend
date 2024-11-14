@@ -3,9 +3,11 @@ import { useLocation } from "react-router-dom";
 import { Card, CardMedia, Grid, Typography, CardContent } from "@mui/material";
 import axiosInstance from "../../utils/axiosConfig"; // axiosInstance를 임포트
 
-function FavoriteGroups() {
+function FavoriteGroups({groups}) {
 
-    const location = useLocation();
+    // 일단 보류  (마이페이지에서 제외)
+
+   /* const location = useLocation();
     const userId = location.state?.userId; // userId를 useLocation을 통해 받기
 
     const [entries, setEntries] = useState([]);
@@ -36,14 +38,14 @@ function FavoriteGroups() {
             }
         };
         fetchGroupEntries();
-    }, []);
+    }, []);*/
 
 
 
     return (
         <>
             <Grid container spacing={2}>
-                {entries.map((group) => (
+                {groups.map((group) => (
                     <Grid item xs={3} key={group.roomId}>
                         <Card>
                             <CardMedia component="img" image={group.image} alt={group.title} sx={{ height: 120 }} />
