@@ -19,7 +19,5 @@ export const InnerContainer = styled.div`
     flex-shrink: 1; 
 `
 export const FixedAvatar = styled(Avatar)`
-    width: 80px; 
-    height: 80px; 
-    position: absolute;
+  
 `;

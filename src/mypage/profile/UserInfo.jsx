@@ -1,25 +1,40 @@
 import React from "react";
+import { Typography, Box } from "@mui/material";
+import { ProfileContainer, FixedAvatar } from "./style/UserInfoStyle";
+import styled from "styled-components";
 
-import { Typography } from "@mui/material";
-import { ProfileContainer, InnerContainer, FixedAvatar } from "./style/UserInfoStyle";
+const CenteredProfileContainer = styled(ProfileContainer)`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+`;
 
 function UserInfo() {
-
     const username = "박태우";
+    const rating = 4.5;
+
+    // 유저 정보 불러오는 api 삽입 예정
+
     return (
+        <CenteredProfileContainer>
+            {/* 사진 부분 */}
+            <FixedAvatar sx={{ width: 80, height: 80 }}>박</FixedAvatar>
 
-        <ProfileContainer>
-            <FixedAvatar>박</FixedAvatar>
-            <InnerContainer>
-                <Typography variant="h6" component="div" sx={{ mt: 1 }}>{username}</Typography>
-                <Typography sx={{color : "gray"}}>토론 기록</Typography>
-            </InnerContainer>
-        </ProfileContainer>
+            <Box sx={{ textAlign: "center", mt: 2 }}>
+                {/* 이름 */}
+                <Typography variant="h6" component="div">
+                    {username}
+                </Typography>
 
-
+                {/* 방장 평점 */}
+                <Typography variant="body2" sx={{ color: "gray", mt: 1 }}>
+                    방장 평점 : {rating}
+                </Typography>
+            </Box>
+        </CenteredProfileContainer>
     );
-
-
 }
 
 export default UserInfo;
