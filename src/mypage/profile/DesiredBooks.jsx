@@ -13,13 +13,7 @@ function DesiredBooks({interestBooks}) {
                             <CardMedia component="img" image={book.thumbnail} alt={book.bookTitle} sx={{ height: 120 }} />
 
                             <CardContent>
-                                <Typography variant="h6" color="textPrimary" gutterBottom>
-                                    {book.bookId} 
-                                </Typography>
-                                <Typography variant="body2" color="textSecondary">
-                                    {book.bookTitle}
-                                </Typography>
-                                <Typography variant="body1">ISBN : {book.isbn}</Typography>
+                                <Typography variant="body1" sx={{ fontSize: '0.75rem' }}>ISBN : {book.isbn}</Typography>
                             </CardContent>
                         </Card>
                     </Grid>

@@ -6,7 +6,7 @@ const Wrapper = styled.div`
     margin-bottom: 10rem;
 `;
 
-function DiscussionEntries({discussions}) {
+function DiscussionEntries({ discussions }) {
 
 
     return (
@@ -23,16 +23,31 @@ function DiscussionEntries({discussions}) {
                             />
 
                             <CardContent>
-                            <Typography variant="h5" color="textPrimary" gutterBottom>
-                                    방 제목 : {discussion.roomTitle}  
+                                <Typography
+                                    variant="body2"
+                                    color="textPrimary"
+                                    gutterBottom
+                                    sx={{ fontSize: '0.75rem' }} 
+                                >
+                                    방 제목 : {discussion.roomTitle}
                                 </Typography>
-                                <Typography variant="h7" color="textPrimary" gutterBottom>
-                                    책 제목 : {discussion.bookTitle}  
+                                <Typography
+                                    variant="body2"
+                                    color="textPrimary"
+                                    gutterBottom
+                                    sx={{ fontSize: '0.75rem' }} 
+                                >
+                                    책 제목 : {discussion.bookTitle}
                                 </Typography>
-                                <Typography variant="body2" color="textSecondary">
+                                <Typography
+                                    variant="body2"
+                                    color="textSecondary"
+                                    sx={{ fontSize: '0.75rem' }} 
+                                >
                                     토론 일시 : {discussion.discussionDate}
                                 </Typography>
                             </CardContent>
+
                         </Card>
                     </Grid>
                 ))}
