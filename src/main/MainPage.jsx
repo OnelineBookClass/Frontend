@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axiosInstance from "../utils/axiosConfig";
-import SearchBar from "../booksearch/component/SearchBar";
 import PopularBooks from "./component/PopularBooks";
 import RecentRooms from "./component/RecentRooms";
 import Recommendations from "./component/Recommendations";
@@ -85,7 +84,6 @@ function MainPage() {
             try {
                 const response = await axiosInstance.get("/mongdangbul/home");
                 setMainData(response.data);
-                console.log(response.data);
             } catch (error) {
                 console.error("메인 데이터 로딩 실패:", error);
             }

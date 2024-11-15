@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -9,6 +8,7 @@ import UserInfo from "./profile/UserInfo";
 import FavoriteGroups from "./profile/FavoriteGroups";
 import DesiredBooks from "./profile/DesiredBooks";
 import DiscussionEntries from "./profile/DiscussionEntries";
+import axiosInstance from "../utils/axiosConfig";
 
 const Container = styled.div`
     display: flex;
@@ -40,11 +40,19 @@ const SectionHeader = styled.div`
 `;
 
 function MyPage() {
+    useEffect(async () => {
+        const response = await axiosInstance.get(
+            `/mongdangbul/library/${localStorage.getItem("userId")}`
+        );
+    }, []);
+
     return (
         <Container>
             <Header>
                 <Title>마이페이지</Title>
-                <IconButton onClick={() => window.location.href = "/settings"}>
+                <IconButton
+                    onClick={() => (window.location.href = "/settings")}
+                >
                     <SettingsIcon />
                 </IconButton>
             </Header>
@@ -55,7 +63,7 @@ function MyPage() {
 
             <SectionHeader>
                 <span>나의 모임</span>
-                <IconButton onClick={() => window.location.href = "#"}>
+                <IconButton onClick={() => (window.location.href = "#")}>
                     <ArrowForwardIcon />
                 </IconButton>
             </SectionHeader>
@@ -63,7 +71,7 @@ function MyPage() {
 
             <SectionHeader>
                 <span>관심 도서 목록</span>
-                <IconButton onClick={() => window.location.href = "#"}>
+                <IconButton onClick={() => (window.location.href = "#")}>
                     <ArrowForwardIcon />
                 </IconButton>
             </SectionHeader>
@@ -71,7 +79,7 @@ function MyPage() {
 
             <SectionHeader>
                 <span>나의 토론 기록</span>
-                <IconButton onClick={() => window.location.href = "#"}>
+                <IconButton onClick={() => (window.location.href = "#")}>
                     <ArrowForwardIcon />
                 </IconButton>
             </SectionHeader>

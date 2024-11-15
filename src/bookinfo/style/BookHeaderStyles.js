@@ -4,6 +4,7 @@ export const BookHead = styled.div`
     display: flex;
     gap: 20px;
     margin-bottom: 30px;
+    position: relative;
 `;
 
 export const BookImage = styled.img`
@@ -28,4 +29,20 @@ export const Author = styled.p`
 
 export const Publisher = styled.p`
     color: #666;
+`;
+
+export const HeartButton = styled.button`
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: ${props => props.isLiked ? '#ff0000' : '#cccccc'};
+    transition: color 0.3s ease;
+    
+    &:hover {
+        opacity: 0.8;
+    }
 `;

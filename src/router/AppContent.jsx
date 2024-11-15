@@ -12,6 +12,7 @@ import RecentDiscussions from "../recentDiscussions/RecentDiscussions";
 import BookSearchPage from "../booksearch/BookSearchPage";
 import BookInfo from "../bookinfo/BookInfo";
 import MyGroupPage from "../mygroup/MyGroupPage";
+import Profilesetting from "../login/components/Profilesetting";
 
 function AppContent() {
     const location = useLocation();
@@ -74,6 +75,7 @@ function AppContent() {
                 <Route path='/bookSearch' element={<BookSearchPage />} />
                 <Route path='/book/:bookid' element={<BookInfo />} />
                 <Route path='/mygroup' element={<MyGroupPage />} />
+                <Route path='/profilesetting' element={<Profilesetting />} />
             </Routes>
             {shouldShowHeaderFooter && <Footer />}
         </UserContext.Provider>

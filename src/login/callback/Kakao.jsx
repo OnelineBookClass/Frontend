@@ -47,30 +47,22 @@ export default function Kakao() {
                             },
                         })
                             .then((userResult) => {
-                                // console.log("user info from kakao", userResult);
+                                console.log("user info from kakao", userResult);
                                 const userId = userResult.data.id;
-                                const userEmail =
-                                    userResult.data.kakao_account.email;
-                                const userNickname =
-                                    userResult.data.kakao_account.profile
-                                        .nickname;
                                 setUserId(userId);
                                 console.log(userId);
                                 axios
                                     .get(
-                                        `${process.env.REACT_APP_API_PORT}/mongdangbul/user/checkUser/:${userId}`
+                                        `${process.env.REACT_APP_API_PORT}/mongdangbul/user/checkUser/${userId}`
                                     )
                                     .then((response) => {
-                                        console.log(response);
-                                        if (!response.data.isExist) {
-                                            navigate("/", {
-                                                state: {
-                                                    userEmail,
-                                                    userNickname,
-                                                },
-                                            });
-                                        } else {
+                                        if (response.data.isExist) {
+                                            window.alert(
+                                                `${response.data.nickName}님 환영합니다!`
+                                            );
                                             navigate("/");
+                                        } else {
+                                            navigate("/profilesetting");
                                         }
                                     })
                                     .catch((error) => {

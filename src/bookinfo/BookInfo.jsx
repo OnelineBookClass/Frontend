@@ -12,29 +12,31 @@ function BookInfo() {
     const location = useLocation();
     const book = location.state?.book;
 
-    // API 호출 부분 (주석처리)
+    const fetchBookData = async () => {
+        try {
+            const response = await axiosInstance.get(
+                `/mongdangbul/books/${book.ISBN}`
+            );
+            setMeetings(response.data.rooms);
+            setReviews(response.data.reviews);
+        } catch (error) {
+            console.error("Failed to fetch book data:", error);
+        }
+    };
 
     useEffect(() => {
-        const fetchBookData = async () => {
-            try {
-                const response = await Promise.all([
-                    axiosInstance.get(`/mongdangbul/books/${book.ISBN}`),
-                ]);
-                setMeetings(response[0].data.rooms);
-                setReviews(response[0].data.reviews);
-            } catch (error) {
-                console.error("Failed to fetch book data:", error);
-            }
-        };
         fetchBookData();
-    }, [book.ISBN]);
+    }, []);
 
     return (
         <Container>
             <BookHeader book={book} />
-
             <BookDiscussions discussions={meetings} imageURL={book.thumbnail} />
-            <BookReviews reviews={reviews} />
+            <BookReviews
+                reviews={reviews}
+                isbn={book.ISBN}
+                onReviewSubmit={fetchBookData}
+            />
         </Container>
     );
 }
