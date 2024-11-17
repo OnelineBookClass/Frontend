@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 function BookDiscussions({ discussions, imageURL }) {
     const navigate = useNavigate();
-    console.log(discussions);
 
     const handleDiscussionClick = (discussionId) => {
         navigate(`/discussion/${discussionId}`);

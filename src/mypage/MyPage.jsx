@@ -135,7 +135,9 @@ function MyPage() {
         <Container>
             <Header>
                 <Title>마이페이지</Title>
-                <IconButton onClick={() => window.location.href = "/settings"}>
+                <IconButton
+                    onClick={() => (window.location.href = "/settings")}
+                >
                     <SettingsIcon />
                 </IconButton>
             </Header>
@@ -146,7 +148,7 @@ function MyPage() {
 
             <SectionHeader>
                 <span>관심 도서 목록</span>
-                <IconButton onClick={() => window.location.href = "#"}>
+                <IconButton onClick={() => (window.location.href = "#")}>
                     <ArrowForwardIcon />
                 </IconButton>
             </SectionHeader>
@@ -154,7 +156,7 @@ function MyPage() {
 
             <SectionHeader>
                 <span>나의 토론 기록</span>
-                <IconButton onClick={() => window.location.href = "#"}>
+                <IconButton onClick={() => (window.location.href = "#")}>
                     <ArrowForwardIcon />
                 </IconButton>
             </SectionHeader>
