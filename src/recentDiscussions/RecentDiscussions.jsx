@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, } from "react";
 import styled from "styled-components";
 import Title from "./components/Title";
 import StyledHr from "./components/StyledHr";
@@ -61,6 +61,7 @@ function RecentDiscussions() {
         ]
     }
 
+  
     const location = useLocation();
     const userId = location.state?.userId;
 
