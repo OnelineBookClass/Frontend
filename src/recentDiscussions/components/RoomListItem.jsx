@@ -15,11 +15,11 @@ function RoomListItem(props){
                 }}
                 >📚</FixedAvatar>
                 <LeftWrapper>
-                    <ContentText>{room.roomName}</ContentText>
-                    <ContentText>인원 : {room.personnel}</ContentText>
+                    <ContentText>{room.roomTitle}</ContentText>
+                    <ContentText>인원 : {room.hostNickname}</ContentText>
                 </LeftWrapper>
                 <RightWrapper>
-                    <ContentText>{room.hashtag}</ContentText>
+                    <ContentText>{room.tag}</ContentText>
                 </RightWrapper>
             </OuterWrapper>
             <StyledHr />
