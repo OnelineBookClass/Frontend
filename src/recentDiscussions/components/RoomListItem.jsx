@@ -15,8 +15,9 @@ function RoomListItem(props){
                 }}
                 >📚</FixedAvatar>
                 <LeftWrapper>
-                    <ContentText>{room.roomTitle}</ContentText>
-                    <ContentText>인원 : {room.hostNickname}</ContentText>
+                    <ContentText>방제 : {room.roomTitle}</ContentText>
+                    <ContentText>토론 시작 일 : {room.createdAt}</ContentText>
+                    <ContentText>호스트 : {room.hostNickname}</ContentText>
                 </LeftWrapper>
                 <RightWrapper>
                     <ContentText>{room.tag}</ContentText>
