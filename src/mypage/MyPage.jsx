@@ -1,14 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"; // 추가된 부분
 import UserInfo from "./profile/UserInfo";
-import FavoriteGroups from "./profile/FavoriteGroups";
 import DesiredBooks from "./profile/DesiredBooks";
 import DiscussionEntries from "./profile/DiscussionEntries";
 import axiosInstance from "../utils/axiosConfig";
+import { useLocation } from "react-router-dom";
+
 
 const Container = styled.div`
     display: flex;
@@ -40,10 +41,94 @@ const SectionHeader = styled.div`
 `;
 
 function MyPage() {
-    useEffect(async () => {
-        const response = await axiosInstance.get(
-            `/mongdangbul/library/${localStorage.getItem("userId")}`
-        );
+
+    const mockData = {
+        "myInfo" : {
+            "userImage" : "https://via.placeholder.com/150",
+            "rating" : 4.5,
+            "nickName" : "nick"
+        },
+        "interestBooks": [
+            {
+                "thumbnail": "https://via.placeholder.com/150",
+                "isbn": "0x011112",
+            },
+            {
+                "thumbnail": "https://via.placeholder.com/150",
+                "isbn": "0x011113",
+            },
+            {
+                "thumbnail": "https://via.placeholder.com/150",
+                "isbn": "0x011114",
+            },
+            {
+                "thumbnail": "https://via.placeholder.com/150",
+                "isbn": "0x011115",
+            },
+            {
+                "thumbnail": "https://via.placeholder.com/150",
+                "isbn": "0x011116",
+            },
+        ],
+        "discussions": [
+            {
+                "discussionId": 1,
+                "roomTitle" : "string",
+                "bookTitle": "string",
+                "discussionDate": "date",
+                "thumbnail": "https://via.placeholder.com/150"
+            },
+            {
+                "discussionId": 2,
+                "roomTitle" : "string",
+                "bookTitle": "string",
+                "discussionDate": "date",
+                "thumbnail": "https://via.placeholder.com/150"
+            },
+            {
+                "discussionId": 3,
+                "roomTitle" : "string",
+                "bookTitle": "string",
+                "discussionDate": "date",
+                "thumbnail": "https://via.placeholder.com/150"
+            },
+            {
+                "discussionId": 4,
+                "roomTitle" : "string",
+                "bookTitle": "string",
+                "discussionDate": "date",
+                "thumbnail": "https://via.placeholder.com/150"
+            },
+            {
+                "discussionId": 5,
+                "roomTitle" : "string",
+                "bookTitle": "string",
+                "discussionDate": "date",
+                "thumbnail": "https://via.placeholder.com/150"
+            },
+            
+        ]
+    }
+
+    const location = useLocation();
+    const userId = location.state?.userId;
+
+    const [mypageData, setMypageData] = useState(mockData);
+
+    useEffect(() => {
+        const fetchMypageData = async () => {
+            try {
+                if (userId) {
+                    const response = await axiosInstance.get(`/mongdangbul/library/${userId}`);
+                    setMypageData(response.data);
+                }
+
+            }
+            catch (error) {
+                console.error("마이 데이터 로딩 실패 : " + error);
+            }
+        };
+        fetchMypageData();
     }, []);
 
     return (
@@ -57,17 +142,9 @@ function MyPage() {
                 </IconButton>
             </Header>
 
-            <UserInfo />
+            <UserInfo myInfo={mypageData.myInfo}/>
 
             <Divider sx={{ my: 2 }} />
-
-            <SectionHeader>
-                <span>나의 모임</span>
-                <IconButton onClick={() => (window.location.href = "#")}>
-                    <ArrowForwardIcon />
-                </IconButton>
-            </SectionHeader>
-            <FavoriteGroups />
 
             <SectionHeader>
                 <span>관심 도서 목록</span>
@@ -75,7 +152,7 @@ function MyPage() {
                     <ArrowForwardIcon />
                 </IconButton>
             </SectionHeader>
-            <DesiredBooks />
+            <DesiredBooks interestBooks={mypageData.interestBooks.slice(0, 4)} />
 
             <SectionHeader>
                 <span>나의 토론 기록</span>
@@ -83,7 +160,7 @@ function MyPage() {
                     <ArrowForwardIcon />
                 </IconButton>
             </SectionHeader>
-            <DiscussionEntries />
+            <DiscussionEntries discussions={mypageData.discussions.slice(0, 4)} />
         </Container>
     );
 }

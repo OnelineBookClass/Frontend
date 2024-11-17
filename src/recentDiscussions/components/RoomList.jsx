@@ -2,9 +2,8 @@ import React from "react";
 import { DiscussionTitle, ContentWrapper, Wrapper, TitleWrapper  } from "../style/RoomListStyle"
 import RoomListItem from "./RoomListItem";
 
-function RoomList(props) {
+function RoomList({rooms}) {
 
-    const { rooms } = props;
 
     return (
         <Wrapper>
@@ -13,7 +12,7 @@ function RoomList(props) {
             </TitleWrapper>
             <ContentWrapper>
                 {rooms.map((room) => (
-                    <RoomListItem key={room.id} room={room} />
+                    <RoomListItem key={room.roomId} room={room} />
                 ))}
             </ContentWrapper>
         </Wrapper>

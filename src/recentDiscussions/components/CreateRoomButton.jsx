@@ -1,7 +1,16 @@
 import React from 'react';
 import ButtonStyled from '@mui/material/Button';
+import {useNavigate } from 'react-router-dom';
 
 function CreateRoomButton() {
+
+    const navigate = useNavigate();
+
+    const handleButtonClick = () => {
+        navigate('/createRoom'); // 지정된 경로로 이동
+    };
+
+
     return (
         <ButtonStyled
             variant="contained"
@@ -13,6 +22,7 @@ function CreateRoomButton() {
                 borderRadius: '1rem',
                 marginBottom : '1rem'
             }}
+            onClick={handleButtonClick}
         >
             방 만들기
         </ButtonStyled>
