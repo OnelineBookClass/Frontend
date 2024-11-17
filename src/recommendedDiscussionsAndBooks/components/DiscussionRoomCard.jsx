@@ -6,16 +6,16 @@ function DiscussionRoomCard({ room }) {
         <Card sx={{ minWidth: 160, flex: '0 0 auto' }}>
             <CardContent>
                 <Typography variant="caption" color="textSecondary">
-                    {room.genre}
+                    태그 : {room.tag}
                 </Typography>
                 <Box sx={{ height: 80, backgroundColor: '#f5f5f5', mb: 1 }} display="flex" justifyContent="center" alignItems="center">
-                    {room.image}
+                    임시 이미지 {room.image}
                 </Box>
                 <Typography variant="body2" fontWeight="bold">
-                    {room.title}
+                    {room.roomTitle}
                 </Typography>
                 <Typography variant="caption" color="textSecondary">
-                    {room.tags.map((tag) => `#${tag}`).join(' ')}
+                    {room.createdAt} | {room.hostNickname}
                 </Typography>
             </CardContent>
         </Card>
