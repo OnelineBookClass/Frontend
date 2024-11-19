@@ -3,6 +3,8 @@ import { useState } from "react";
 import Footer from "../footer/Footer";
 import { Routes, Route, useLocation } from "react-router-dom";
 
+import ChattingRoom from "../chattingroom/Chattingroom";
+
 import MainPage from "../main/MainPage";
 import LoginPage from "../login/LoginPage";
 import Kakao from "../login/callback/Kakao";
@@ -14,7 +16,10 @@ import BookInfo from "../bookinfo/BookInfo";
 import MyGroupPage from "../mygroup/MyGroupPage";
 import Profilesetting from "../login/components/Profilesetting";
 import CreateRoom from "../createRoom/CreateRoom";
-
+import SettingPage from "../mypage/additionalPages/SettingPage";
+import DesiredBooksPage from "../mypage/additionalPages/DesiredBooksPage";
+import MyDiscussionRecordPage from "../mypage/additionalPages/MyDiscussionRecordPage";
+import RoomDetailPage from "../roomdetail/RoomDetailPage";
 function AppContent() {
     const location = useLocation();
     const [accessToken, setAccessToken] = useState(null);
@@ -74,10 +79,24 @@ function AppContent() {
                 />
                 <Route path='/recent' element={<RecentDiscussions />} />
                 <Route path='/bookSearch' element={<BookSearchPage />} />
-                <Route path='/book/:bookid' element={<BookInfo />} />
+                <Route path='/book/:isbn' element={<BookInfo />} />
                 <Route path='/mygroup' element={<MyGroupPage />} />
                 <Route path='/profilesetting' element={<Profilesetting />} />
-                <Route path='/createRoom' element={<CreateRoom />} />
+                <Route path='/create-group' element={<CreateRoom />} />
+                <Route path='/settings' element={<SettingPage />} />
+                <Route path='/desired' element={<DesiredBooksPage />} />
+                <Route
+                    path='/mydiscussion'
+                    element={<MyDiscussionRecordPage />}
+                />
+                <Route
+                    path='/roomdetail/:roomId'
+                    element={<RoomDetailPage />}
+                />
+                <Route
+                    path='/chattingroom/:roomId/:userId'
+                    element={<ChattingRoom />}
+                />
             </Routes>
             {shouldShowHeaderFooter && <Footer />}
         </UserContext.Provider>

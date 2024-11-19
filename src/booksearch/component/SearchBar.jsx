@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
 import axiosInstance from "../../utils/axiosConfig";
@@ -79,64 +79,51 @@ const dummyBooks = [
     },
 ];
 
-function SearchBar({ onSearch }) {
+function SearchBar({ onSearch, currentPage, searchQuery: initialQuery }) {
     const [searchType, setSearchType] = useState("all");
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState(initialQuery || "");
 
-    const handleSearch = () => {
+    const handleSearch = async (page = 1) => {
         if (!searchQuery) return;
 
-        // 더미 데이터 검색
-        const results = dummyBooks.filter((book) => {
-            if (searchType === "title") {
-                return book.title
-                    .toLowerCase()
-                    .includes(searchQuery.toLowerCase());
-            } else {
-                return book.author
-                    .toLowerCase()
-                    .includes(searchQuery.toLowerCase());
-            }
-        });
+        try {
+            const response = await axiosInstance.get(
+                `/mongdangbul/books/searchNaver`,
+                {
+                    params: {
+                        query: searchQuery,
+                        page: page,
+                        display: 6,
+                    },
+                }
+            );
 
-        onSearch(results);
-
-        // API 호출 부분 (주석처리)
-        /*
-        axiosInstance.get(
-            `/mongdangbul/books/search?query=${searchQuery}&type=${searchType}`
-        ).then(response => {
-            onSearch(response.data);
-        });
-        */
+            console.log("검색 결과:", response.data);
+            onSearch(response.data.bookList, response.data.meta, searchQuery);
+        } catch (error) {
+            console.error("검색 오류:", error);
+        }
     };
+
+    // currentPage가 변경될 때마다 검색 실행
+    useEffect(() => {
+        if (searchQuery) {
+            handleSearch(currentPage);
+        }
+    }, [currentPage]);
 
     return (
         <SearchContainer>
             <SearchWrapper>
-                <SearchSelect
-                    value={searchType}
-                    onChange={(e) => setSearchType(e.target.value)}
-                >
-                    <option value='all'>제목 또는 저자</option>
-                    <option value='title'>제목</option>
-                    <option value='author'>저자</option>
-                </SearchSelect>
                 <SearchInput
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder={
-                        searchType === "all"
-                            ? "검색어를 입력하세요"
-                            : searchType === "title"
-                            ? "책 이름을 입력하세요"
-                            : "저자 이름을 입력하세요"
-                    }
+                    placeholder='검색어를 입력하세요 !'
                     onKeyPress={(e) => {
-                        if (e.key === "Enter") handleSearch();
+                        if (e.key === "Enter") handleSearch(1);
                     }}
                 />
-                <SearchButton onClick={handleSearch}>
+                <SearchButton onClick={() => handleSearch(1)}>
                     <FaSearch />
                 </SearchButton>
             </SearchWrapper>

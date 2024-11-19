@@ -32,18 +32,31 @@ function BookCard({ book }) {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/book/${book.id}`, { state: { book } });
+        navigate(`/book/${book.isbn}`, { state: { book } });
     };
+
+    console.log(book);
 
     return (
         <Card onClick={handleClick}>
-            <BookImage src={Logo} alt={book.title} />
+            <BookImage
+                src={book.thumbnail || Logo}
+                alt={book.title}
+                onError={(e) => {
+                    e.target.src = Logo; // 이미지 로드 실패시 기본 로고 표시
+                }}
+            />
             <h3>{book.title}</h3>
-            <p>저자: {book.author}</p>
-            <p>출판사: {book.publisher}</p>
             <p>
-                평점: <Rating>{book.rating}</Rating>
+                저자:{" "}
+                {book.authors ? book.authors.join(", ") : "저자 정보 없음"}
             </p>
+            <p>출판사: {book.publisher || "출판사 정보 없음"}</p>
+            {book.rating && (
+                <p>
+                    평점: <Rating>{book.rating}</Rating>
+                </p>
+            )}
         </Card>
     );
 }

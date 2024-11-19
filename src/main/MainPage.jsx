@@ -5,31 +5,72 @@ import PopularBooks from "./component/PopularBooks";
 import RecentRooms from "./component/RecentRooms";
 import Recommendations from "./component/Recommendations";
 import { useNavigate } from "react-router-dom";
+import { FaSearch } from "react-icons/fa";
+import banner from "../asset/image/모닥불.jpg";
+
+const BannerContainer = styled.div`
+    position: relative;
+    width: 100%;
+    height: 200px;
+    margin-bottom: 40px;
+`;
+
+const BannerImage = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+`;
+
+const LogoText = styled.div`
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+`;
+
+const Description = styled.div`
+    position: absolute;
+    top: 170px;
+    right: 10px;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+`;
 
 const Container = styled.div`
-    padding: 20px;
     max-width: 768px;
     margin: 0 auto;
-
     margin-bottom: 40px;
 `;
 
 const MainContent = styled.div`
     display: flex;
     flex-direction: column;
+    padding: 0 20px;
 `;
 
 const ButtonContainer = styled.div`
     display: flex;
     flex-direction: row;
     gap: 10px;
+    margin-bottom: 20px;
 `;
 
 const Button = styled.button`
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    height: 30px;
-    background-color: #000;
+    height: 30%;
+    background-color: #8e0202;
     color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: clamp(1.4rem, 10vw, 2.5rem);
 `;
 
 // 임시 데이터
@@ -93,15 +134,21 @@ function MainPage() {
 
     return (
         <Container>
+            <BannerContainer>
+                <BannerImage
+                    src={banner} // 배너 이미지 경로 지정 필요
+                    alt='몽당불 배너'
+                />
+                <LogoText>몽당불</LogoText>
+                <Description>
+                    모임을 즐기는 사람들을 위한 책 추천 서비스
+                </Description>
+            </BannerContainer>
             <MainContent>
                 <ButtonContainer>
                     <Button onClick={() => handleButtonClick("bookSearch")}>
-                        책 검색하기
-                    </Button>
-                    <Button
-                        onClick={() => handleButtonClick("discussionSearch")}
-                    >
-                        방 검색하기
+                        <FaSearch />
+                        <div style={{ marginLeft: "1rem" }}>책 검색하기</div>
                     </Button>
                 </ButtonContainer>
                 {mainData && (

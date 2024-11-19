@@ -23,6 +23,9 @@ function BookReviews({ reviews, isbn, onReviewSubmit }) {
     const [showWriteForm, setShowWriteForm] = useState(false);
     const [content, setContent] = useState("");
     const [rating, setRating] = useState(5);
+    const [editingReviewId, setEditingReviewId] = useState(null);
+    const [editContent, setEditContent] = useState("");
+    const [editRating, setEditRating] = useState(5);
     const { userId } = useContext(UserContext);
 
     const handleSubmit = async () => {
@@ -44,6 +47,44 @@ function BookReviews({ reviews, isbn, onReviewSubmit }) {
         } catch (error) {
             console.error("리뷰 작성 실패:", error);
             alert("리뷰 작성에 실패했습니다.");
+        }
+    };
+
+    const handleEdit = (review) => {
+        setEditingReviewId(review.reviewId);
+        setEditContent(review.content);
+        setEditRating(review.rating);
+    };
+
+    const handleUpdate = async (reviewId) => {
+        try {
+            await axiosInstance.put("/mongdangbul/books/reviews/modify", {
+                reviewId,
+                content: editContent,
+                rating: editRating,
+            });
+            setEditingReviewId(null);
+            onReviewSubmit();
+        } catch (error) {
+            console.error("리뷰 수정 실패:", error);
+            alert("리뷰 수정에 실패했습니다.");
+        }
+    };
+
+    const handleDelete = async (reviewId) => {
+        if (window.confirm("리뷰를 삭제하시겠습니까?")) {
+            try {
+                await axiosInstance.delete(
+                    "/mongdangbul/books/reviews/delete",
+                    {
+                        data: { reviewId },
+                    }
+                );
+                onReviewSubmit();
+            } catch (error) {
+                console.error("리뷰 삭제 실패:", error);
+                alert("리뷰 삭제에 실패했습니다.");
+            }
         }
     };
 
@@ -84,13 +125,70 @@ function BookReviews({ reviews, isbn, onReviewSubmit }) {
 
             <ReviewList>
                 {reviews.map((review) => (
-                    <ReviewItem key={review.id}>
+                    <ReviewItem key={review.reviewId}>
                         <ReviewHeader>
                             <ReviewUser>{review.nickName}</ReviewUser>
-                            <Rating>{"★".repeat(review.rating)}</Rating>
+                            {editingReviewId === review.reviewId ? (
+                                <RatingSelect
+                                    value={editRating}
+                                    onChange={(e) =>
+                                        setEditRating(Number(e.target.value))
+                                    }
+                                >
+                                    {[5, 4, 3, 2, 1].map((num) => (
+                                        <option key={num} value={num}>
+                                            {"★".repeat(num)}
+                                        </option>
+                                    ))}
+                                </RatingSelect>
+                            ) : (
+                                <Rating>{"★".repeat(review.rating)}</Rating>
+                            )}
                         </ReviewHeader>
-                        <ReviewContent>{review.content}</ReviewContent>
-                        <LikeButton>👍 {review.likes}</LikeButton>
+                        {editingReviewId === review.reviewId ? (
+                            <>
+                                <TextArea
+                                    value={editContent}
+                                    onChange={(e) =>
+                                        setEditContent(e.target.value)
+                                    }
+                                />
+                                <ButtonGroup>
+                                    <button
+                                        onClick={() =>
+                                            handleUpdate(review.reviewId)
+                                        }
+                                    >
+                                        수정완료
+                                    </button>
+                                    <button
+                                        onClick={() => setEditingReviewId(null)}
+                                    >
+                                        취소
+                                    </button>
+                                </ButtonGroup>
+                            </>
+                        ) : (
+                            <>
+                                <ReviewContent>{review.content}</ReviewContent>
+                                {String(userId) === String(review.userId) && (
+                                    <ButtonGroup>
+                                        <button
+                                            onClick={() => handleEdit(review)}
+                                        >
+                                            수정
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                handleDelete(review.reviewId)
+                                            }
+                                        >
+                                            삭제
+                                        </button>
+                                    </ButtonGroup>
+                                )}
+                            </>
+                        )}
                     </ReviewItem>
                 ))}
             </ReviewList>

@@ -89,26 +89,29 @@ export const TextArea = styled.textarea`
 export const ButtonGroup = styled.div`
     display: flex;
     gap: 10px;
+    margin-top: 10px;
     justify-content: flex-end;
 
     button {
-        padding: 8px 16px;
-        border: none;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
         border-radius: 4px;
+        background: white;
         cursor: pointer;
-
-        &:first-child {
-            background-color: #28a745;
-            color: white;
-        }
-
-        &:last-child {
-            background-color: #dc3545;
-            color: white;
-        }
+        transition: all 0.2s;
 
         &:hover {
-            opacity: 0.9;
+            background: #f0f0f0;
+        }
+
+        &:first-child {
+            border-color: #8e0202;
+            color: #8e0202;
+
+            &:hover {
+                background: #8e0202;
+                color: white;
+            }
         }
     }
 `;

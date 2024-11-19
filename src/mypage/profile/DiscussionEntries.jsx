@@ -7,8 +7,6 @@ const Wrapper = styled.div`
 `;
 
 function DiscussionEntries({ discussions }) {
-
-
     return (
         <Wrapper>
             <Grid container spacing={2}>
@@ -16,7 +14,7 @@ function DiscussionEntries({ discussions }) {
                     <Grid item xs={3} key={discussion.discussionId}>
                         <Card>
                             <CardMedia
-                                component="img"
+                                component='img'
                                 image={discussion.thumbnail}
                                 alt={"사진이 존재하지 않습니다."}
                                 sx={{ height: 120 }}
@@ -24,30 +22,29 @@ function DiscussionEntries({ discussions }) {
 
                             <CardContent>
                                 <Typography
-                                    variant="body2"
-                                    color="textPrimary"
+                                    variant='body2'
+                                    color='textPrimary'
                                     gutterBottom
-                                    sx={{ fontSize: '0.75rem' }} 
+                                    sx={{ fontSize: "0.75rem" }}
                                 >
                                     방 제목 : {discussion.roomTitle}
                                 </Typography>
                                 <Typography
-                                    variant="body2"
-                                    color="textPrimary"
+                                    variant='body2'
+                                    color='textPrimary'
                                     gutterBottom
-                                    sx={{ fontSize: '0.75rem' }} 
+                                    sx={{ fontSize: "0.75rem" }}
                                 >
                                     책 제목 : {discussion.bookTitle}
                                 </Typography>
                                 <Typography
-                                    variant="body2"
-                                    color="textSecondary"
-                                    sx={{ fontSize: '0.75rem' }} 
+                                    variant='body2'
+                                    color='textSecondary'
+                                    sx={{ fontSize: "0.75rem" }}
                                 >
                                     토론 일시 : {discussion.discussionDate}
                                 </Typography>
                             </CardContent>
-
                         </Card>
                     </Grid>
                 ))}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import BookDiscussions from "./components/BookDiscussions";
 import BookReviews from "./components/BookReviews";
 import BookHeader from "./components/BookHeader";
@@ -9,32 +9,39 @@ import axiosInstance from "../utils/axiosConfig";
 function BookInfo() {
     const [meetings, setMeetings] = useState([]);
     const [reviews, setReviews] = useState([]);
-    const location = useLocation();
-    const book = location.state?.book;
+    const [book, setBook] = useState(null);
+    const { isbn } = useParams();
 
     const fetchBookData = async () => {
         try {
             const response = await axiosInstance.get(
-                `/mongdangbul/books/${book.ISBN}`
+                `/mongdangbul/books/${isbn}`
             );
-            setMeetings(response.data.rooms);
-            setReviews(response.data.reviews);
+
+            setMeetings(response.data.rooms || []);
+            setReviews(response.data.reviews || []);
+            setBook(response.data.bookInfo);
         } catch (error) {
             console.error("Failed to fetch book data:", error);
         }
     };
 
     useEffect(() => {
-        fetchBookData();
-    }, []);
+        if (isbn) {
+            fetchBookData();
+        }
+    }, [isbn]);
 
     return (
         <Container>
             <BookHeader book={book} />
-            <BookDiscussions discussions={meetings} imageURL={book.thumbnail} />
+            <BookDiscussions
+                discussions={meetings}
+                imageURL={book?.thumbnail}
+            />
             <BookReviews
+                isbn={isbn}
                 reviews={reviews}
-                isbn={book.ISBN}
                 onReviewSubmit={fetchBookData}
             />
         </Container>

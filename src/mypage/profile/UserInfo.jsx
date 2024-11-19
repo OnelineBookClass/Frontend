@@ -12,26 +12,30 @@ const CenteredProfileContainer = styled(ProfileContainer)`
 `;
 
 function UserInfo({ myInfo }) {
-
     // 유저 정보 불러오는 api 삽입 예정
+
+    const profileImageSrc = myInfo?.userImage
+        ? `data:image/jpeg;base64,${myInfo.userImage}`
+        : "";
 
     return (
         <CenteredProfileContainer>
             {/* 사진 부분 */}
             <FixedAvatar
-                src="https://search.pstatic.net/common/?src=http%3A%2F%2Fcafefiles.naver.net%2FMjAxOTA1MDNfMTk1%2FMDAxNTU2ODkzOTI5MzEw.o1b1EHB8_XHS3rrRqHhlDILWRfLXVZx2EODb9_KFYUwg.OomY6nnEUwFSd6ywFWoadsl22AiW1HRCGEcxjVZdcbog.JPEG.haa6613%2FexternalFile.jpg&type=a340"
-                alt={myInfo.nickName}
-                sx={{ width: 80, height: 80 }}></FixedAvatar>
+                src={profileImageSrc}
+                alt={myInfo && myInfo.nickName}
+                sx={{ width: 80, height: 80 }}
+            ></FixedAvatar>
 
             <Box sx={{ textAlign: "center", mt: 2 }}>
                 {/* 이름 */}
-                <Typography variant="h6" component="div">
-                    {myInfo.nickName}
+                <Typography variant='h6' component='div'>
+                    {myInfo && myInfo.nickName}
                 </Typography>
 
                 {/* 방장 평점 */}
-                <Typography variant="body2" sx={{ color: "gray", mt: 1 }}>
-                    방장 평점 : {myInfo.rating}
+                <Typography variant='body2' sx={{ color: "gray", mt: 1 }}>
+                    방장 평점 : {myInfo && myInfo.rating}
                 </Typography>
             </Box>
         </CenteredProfileContainer>

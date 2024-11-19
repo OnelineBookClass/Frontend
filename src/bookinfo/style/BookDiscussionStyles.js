@@ -52,3 +52,25 @@ export const CurrentMember = styled.p`
     color: #666;
 `;
 
+export const EmptyStateContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+`;
+
+export const CreateGroupButton = styled.button`
+    padding: 15px 30px;
+    border: 2px dashed #8e0202;
+    border-radius: 8px;
+    background: transparent;
+    color: #8e0202;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background: #8e0202;
+        color: white;
+    }
+`;

@@ -13,12 +13,18 @@ const Container = styled.div`
     width: 100%;
     position: fixed;
     bottom: 0;
-    background-color: #de4d25;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
     padding: 20px 0;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    margin: 0;
 `;
 
 const MenuName = styled.span`
     font-size: 20px;
+    font-weight: 600;
+    margin-top: 4px;
 `;
 
 const NavItem = styled(NavLink)`
@@ -27,15 +33,14 @@ const NavItem = styled(NavLink)`
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    color: #ffffff;
-    padding: 5px 10px;
-    margin: 0px 10px;
-    border-radius: 20px;
+    color: #666666;
+    padding: 5px 0;
     transition: all 0.3s ease;
-    width: 25%;
+    flex: 1;
+    min-width: 0;
 
     svg {
-        font-size: 24px;
+        font-size: clamp(1rem, 7vw, 2rem);
     }
 
     span {
@@ -46,9 +51,18 @@ const NavItem = styled(NavLink)`
         opacity: 0;
     }
 
-    &:hover,
+    &:hover {
+        color: #8e0202;
+
+        span {
+            max-width: 100px;
+            opacity: 1;
+        }
+    }
+
     &.active {
-        background-color: #981e08;
+        color: #8e0202;
+        background: none;
 
         span {
             max-width: 100px;
@@ -65,12 +79,8 @@ export default function Footer() {
                 <MenuName>홈</MenuName>
             </NavItem>
             <NavItem to='/mygroup' activeClassName='active'>
-                <BsFillPeopleFill />
-                <MenuName>나의 모임</MenuName>
-            </NavItem>
-            <NavItem to='/mylibrary' activeClassName='active'>
                 <SiBookstack />
-                <MenuName>나의 서재</MenuName>
+                <MenuName>나의 모임</MenuName>
             </NavItem>
             <NavItem to='/mypage' activeClassName='active'>
                 <FaRegLaughSquint />

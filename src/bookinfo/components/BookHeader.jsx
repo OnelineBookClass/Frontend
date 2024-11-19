@@ -13,7 +13,6 @@ import {
 
 function BookHeader({ book }) {
     const [isLiked, setIsLiked] = useState(false);
-    // const { userId } = useContext(UserContext);
     const userId = localStorage.getItem("userId");
 
     useEffect(() => {
@@ -25,7 +24,7 @@ function BookHeader({ book }) {
                     "/mongdangbul/library/books/checkInterest",
                     {
                         userId,
-                        isbn: book.ISBN,
+                        isbn: book.isbn,
                     }
                 );
                 if (isMounted) {
@@ -38,20 +37,24 @@ function BookHeader({ book }) {
             }
         };
 
-        checkInterest();
+        if (book && book.isbn) {
+            checkInterest();
+        }
 
         return () => {
             isMounted = false;
         };
-    }, [userId, book.ISBN]);
+    }, [userId, book?.isbn]);
 
     const handleHeartClick = () => {
+        if (!book || !book.isbn) return;
+
         setIsLiked(!isLiked);
 
         axiosInstance
             .post("/mongdangbul/library/books/interest", {
                 userId,
-                isbn: book.ISBN,
+                isbn: book.isbn,
             })
             .catch((error) => {
                 console.error("관심 도서 처리 실패:", error);
@@ -59,16 +62,20 @@ function BookHeader({ book }) {
             });
     };
 
+    if (!book) return null;
+
     return (
         <BookHead>
             <BookImage
-                src={book?.thumbnail || "https://via.placeholder.com/150"}
-                alt={book?.title}
+                src={book.thumbnail || "https://via.placeholder.com/150"}
+                alt={book.title}
             />
             <BookDetails>
-                <Title>{book?.title}</Title>
-                <Author>저자: {book?.author}</Author>
-                <Publisher>출판사: {book?.publisher}</Publisher>
+                <Title>{book.title}</Title>
+                <Author>저자: {book.author || "저자 정보 없음"}</Author>
+                <Publisher>
+                    출판사: {book.publisher || "출판사 정보 없음"}
+                </Publisher>
             </BookDetails>
             <HeartButton onClick={handleHeartClick} isLiked={isLiked}>
                 {isLiked ? "❤️" : "🤍"}

@@ -8,8 +8,7 @@ import UserInfo from "./profile/UserInfo";
 import DesiredBooks from "./profile/DesiredBooks";
 import DiscussionEntries from "./profile/DiscussionEntries";
 import axiosInstance from "../utils/axiosConfig";
-import { useLocation } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
     display: flex;
@@ -40,127 +39,85 @@ const SectionHeader = styled.div`
     font-weight: bold;
 `;
 
+const NoBooks = styled.div`
+    text-align: center;
+    margin-top: 20px;
+`;
+
+const NoDiscussions = styled.div`
+    text-align: center;
+    margin-top: 20px;
+`;
+
 function MyPage() {
-
-    const mockData = {
-        "myInfo" : {
-            "userImage" : "https://via.placeholder.com/150",
-            "rating" : 4.5,
-            "nickName" : "nick"
-        },
-        "interestBooks": [
-            {
-                "thumbnail": "https://via.placeholder.com/150",
-                "isbn": "0x011112",
-            },
-            {
-                "thumbnail": "https://via.placeholder.com/150",
-                "isbn": "0x011113",
-            },
-            {
-                "thumbnail": "https://via.placeholder.com/150",
-                "isbn": "0x011114",
-            },
-            {
-                "thumbnail": "https://via.placeholder.com/150",
-                "isbn": "0x011115",
-            },
-            {
-                "thumbnail": "https://via.placeholder.com/150",
-                "isbn": "0x011116",
-            },
-        ],
-        "discussions": [
-            {
-                "discussionId": 1,
-                "roomTitle" : "string",
-                "bookTitle": "string",
-                "discussionDate": "date",
-                "thumbnail": "https://via.placeholder.com/150"
-            },
-            {
-                "discussionId": 2,
-                "roomTitle" : "string",
-                "bookTitle": "string",
-                "discussionDate": "date",
-                "thumbnail": "https://via.placeholder.com/150"
-            },
-            {
-                "discussionId": 3,
-                "roomTitle" : "string",
-                "bookTitle": "string",
-                "discussionDate": "date",
-                "thumbnail": "https://via.placeholder.com/150"
-            },
-            {
-                "discussionId": 4,
-                "roomTitle" : "string",
-                "bookTitle": "string",
-                "discussionDate": "date",
-                "thumbnail": "https://via.placeholder.com/150"
-            },
-            {
-                "discussionId": 5,
-                "roomTitle" : "string",
-                "bookTitle": "string",
-                "discussionDate": "date",
-                "thumbnail": "https://via.placeholder.com/150"
-            },
-            
-        ]
-    }
-
-    const location = useLocation();
-    const userId = location.state?.userId;
-
-    const [mypageData, setMypageData] = useState(mockData);
+    const userId = localStorage.getItem("userId");
+    const navigate = useNavigate();
+    const [mypageData, setMypageData] = useState();
 
     useEffect(() => {
         const fetchMypageData = async () => {
             try {
                 if (userId) {
-                    const response = await axiosInstance.get(`/mongdangbul/library/${userId}`);
+                    const response = await axiosInstance.get(
+                        `/mongdangbul/library/${userId}`
+                    );
                     setMypageData(response.data);
                 }
-
-            }
-            catch (error) {
+            } catch (error) {
                 console.error("마이 데이터 로딩 실패 : " + error);
             }
         };
         fetchMypageData();
     }, []);
 
+    const settingButtonClick = () => {
+        navigate("/settings", { state: mypageData.myInfo });
+    };
+
     return (
         <Container>
             <Header>
                 <Title>마이페이지</Title>
-                <IconButton
-                    onClick={() => (window.location.href = "/settings")}
-                >
+                <IconButton onClick={settingButtonClick}>
                     <SettingsIcon />
                 </IconButton>
             </Header>
 
-            <UserInfo myInfo={mypageData.myInfo}/>
+            <UserInfo myInfo={mypageData && mypageData.myInfo} />
 
             <Divider sx={{ my: 2 }} />
 
             <SectionHeader>
                 <span>관심 도서 목록</span>
-                <IconButton onClick={() => (window.location.href = "#")}>
+                <IconButton onClick={() => navigate("/desired")}>
                     <ArrowForwardIcon />
                 </IconButton>
             </SectionHeader>
-            <DesiredBooks interestBooks={mypageData.interestBooks.slice(0, 4)} />
+            {mypageData &&
+            mypageData.interestBooks &&
+            mypageData.interestBooks.length > 0 ? (
+                <DesiredBooks
+                    interestBooks={mypageData.interestBooks.slice(0, 4)}
+                />
+            ) : (
+                <NoBooks>관심 도서가 존재하지 않습니다!</NoBooks>
+            )}
 
             <SectionHeader>
                 <span>나의 토론 기록</span>
-                <IconButton onClick={() => (window.location.href = "#")}>
+                <IconButton onClick={() => navigate("/mydiscussion")}>
                     <ArrowForwardIcon />
                 </IconButton>
             </SectionHeader>
-            <DiscussionEntries discussions={mypageData.discussions.slice(0, 4)} />
+            {mypageData &&
+            mypageData.discussions &&
+            mypageData.discussions.length > 0 ? (
+                <DiscussionEntries
+                    discussions={mypageData.discussions.slice(0, 4)}
+                />
+            ) : (
+                <NoDiscussions>토론 기록이 존재하지 않습니다!</NoDiscussions>
+            )}
         </Container>
     );
 }
