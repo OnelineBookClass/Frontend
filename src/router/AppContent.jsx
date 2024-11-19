@@ -14,6 +14,7 @@ import BookInfo from "../bookinfo/BookInfo";
 import MyGroupPage from "../mygroup/MyGroupPage";
 import Profilesetting from "../login/components/Profilesetting";
 import CreateRoom from "../createRoom/CreateRoom";
+import SettingPage from "../settingPage/SettingPage";
 
 function AppContent() {
     const location = useLocation();
@@ -68,6 +69,7 @@ function AppContent() {
                 <Route path='/auth/callback/kakao' element={<Kakao />} />
 
                 <Route path='/mypage' element={<MyPage />} />
+                <Route path='/settings' element={<SettingPage/>}/>
                 <Route
                     path='/recommended'
                     element={<RecommendedDiscussionsAndBooks />}
