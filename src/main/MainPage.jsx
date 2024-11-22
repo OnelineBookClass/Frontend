@@ -42,7 +42,6 @@ const Description = styled.div`
 `;
 
 const Container = styled.div`
-    max-width: 768px;
     margin: 0 auto;
     margin-bottom: 40px;
 `;
