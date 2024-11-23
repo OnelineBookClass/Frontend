@@ -15,7 +15,9 @@ import {
     JoinButton,
 } from "../styles/RoomDetailPage.style";
 
-const RoomInfo = ({ roomDetail, onJoin }) => {
+const RoomInfo = ({ roomDetail, onJoin, participating }) => {
+    const isRoomFull = roomDetail.currentParticipants >= roomDetail.maximum;
+
     return (
         <>
             <RoomHeader>
@@ -49,9 +51,9 @@ const RoomInfo = ({ roomDetail, onJoin }) => {
 
             <JoinButton
                 onClick={onJoin}
-                disabled={roomDetail.currentParticipants >= roomDetail.maximum}
+                disabled={isRoomFull && !participating}
             >
-                {roomDetail.currentParticipants >= roomDetail.maximum
+                {isRoomFull && !participating
                     ? "방이 가득 찼습니다"
                     : "참여하기"}
             </JoinButton>
