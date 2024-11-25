@@ -1,130 +1,181 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import axiosInstance from "../utils/axiosConfig";
 import {
     Container,
     Header,
-    BookIcon,
     Title,
     SliderContainer,
-    NavButton,
     ToggleContainer,
     ToggleButton,
-    GroupInfo,
     GroupTag,
     GroupMember,
+    CustomSlider,
 } from "./style/MyGroup.style";
 import GroupCard from "./components/GroupCard";
 import CreateGroupButton from "./components/CreateGroupButton";
-import Indicators from "./components/Indicators";
-import Logo from "../asset/image/Logo.png";
+import LoadingOverlay from "../components/LoadingOverlay";
+import NoParticipatingGroup from "./components/NoParticipatingGroup";
+import { PiBooks } from "react-icons/pi";
 
 const MyGroupPage = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [groupType, setGroupType] = useState("myGroup"); // 'myGroup' or 'participatedGroup'
+    const [groupType, setGroupType] = useState("myGroup");
+    const [groupData, setGroupData] = useState({
+        myGroup: [],
+        participatedGroup: [],
+    });
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const groups = {
-        myGroup: [
-            {
-                roomId: 1,
-                roomTitle: "첫번째 모임",
-                author: "작가1",
-                bookTitle: "책제목1",
-                rating: 4.5,
-                thumbnail: Logo,
-                tag: "소설",
-                maximum: 10,
-                current: 5,
-                createdAt: "2024-03-20",
-                intro: "모임 소개1",
-            },
-            // ... 더 많은 myGroup 데이터
-        ],
-        participatedGroup: [
-            {
-                roomId: 2,
-                roomTitle: "두번째 모임",
-                author: "작가2",
-                bookTitle: "책제목2",
-                rating: 4.0,
-                hostNickname: "호스트1",
-                thumbnail: Logo,
-                tag: "에세이",
-                maximum: 8,
-                current: 6,
-                createdAt: "2024-03-21",
-                intro: "모임 소개2",
-            },
-            // ... 더 많은 participatedGroup 데이터
-        ],
-    };
+    const userId = localStorage.getItem("userId");
 
-    const currentGroups = groups[groupType];
+    useEffect(() => {
+        const fetchGroups = async () => {
+            setIsLoading(true);
+            try {
+                const response = await axiosInstance.get(
+                    `/mongdangbul/myGroups/${userId}`
+                );
+                setGroupData(response.data);
+                setError(null);
+            } catch (error) {
+                console.error("그룹 데이터 로딩 실패:", error);
+                setError("모임 정보를 불러오는데 실패했습니다.");
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
-    const handlePrevSlide = () => {
-        setCurrentSlide((prev) => (prev > 0 ? prev - 1 : prev));
-    };
+        if (userId) {
+            fetchGroups();
+        }
+    }, [userId]);
 
-    const handleNextSlide = () => {
-        setCurrentSlide((prev) =>
-            prev < currentGroups.length ? prev + 1 : prev
-        );
-    };
+    // 그룹 타입이 변경될 때 현재 슬라이드를 리셋
+    useEffect(() => {
+        setCurrentSlide(0);
+    }, [groupType]);
+
+    const currentGroups = groupData[groupType] || [];
 
     const handleCreateGroup = () => {
         navigate("/create-group");
     };
 
+    const sliderSettings = {
+        dots: true,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        centerMode: true,
+        centerPadding: "120px",
+        arrows: false,
+        draggable: true,
+        swipe: true,
+        beforeChange: (current, next) => setCurrentSlide(next),
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    centerPadding: "100px",
+                },
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    centerPadding: "60px",
+                },
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    centerPadding: "40px",
+                },
+            },
+        ],
+    };
+
+    if (isLoading) {
+        return <LoadingOverlay />;
+    }
+
+    if (error) {
+        return (
+            <Container>
+                <Header>
+                    <Title>{error}</Title>
+                </Header>
+            </Container>
+        );
+    }
+
     return (
         <Container>
             <Header>
-                <BookIcon>📚</BookIcon>
-                <Title>사람들과 함께 책장을 넘겨보세요.</Title>
+                <PiBooks fontSize={50} />
+                <Title>
+                    사람들과 함께
+                    <br /> 책장을 넘겨보세요.
+                </Title>
                 <ToggleContainer>
                     <ToggleButton
                         active={groupType === "myGroup"}
                         onClick={() => setGroupType("myGroup")}
                     >
                         내가 만든 모임
+                        {groupData.myGroup.length > 0 &&
+                            ` (${groupData.myGroup.length})`}
                     </ToggleButton>
                     <ToggleButton
                         active={groupType === "participatedGroup"}
                         onClick={() => setGroupType("participatedGroup")}
                     >
                         참여 중인 모임
+                        {groupData.participatedGroup.length > 0 &&
+                            ` (${groupData.participatedGroup.length})`}
                     </ToggleButton>
                 </ToggleContainer>
             </Header>
 
             <SliderContainer>
-                {currentSlide > 0 && (
-                    <NavButton onClick={handlePrevSlide}>&lt;</NavButton>
-                )}
-
-                {currentSlide < currentGroups.length ? (
-                    <GroupCard
-                        group={currentGroups[currentSlide]}
-                        isHost={groupType === "myGroup"}
-                    >
-                        <GroupTag>{currentGroups[currentSlide].tag}</GroupTag>
-                        <GroupMember>
-                            {currentGroups[currentSlide].current}/
-                            {currentGroups[currentSlide].maximum}명
-                        </GroupMember>
-                    </GroupCard>
-                ) : (
-                    <CreateGroupButton onClick={handleCreateGroup} />
-                )}
-
-                {currentSlide < currentGroups.length && (
-                    <NavButton onClick={handleNextSlide}>&gt;</NavButton>
-                )}
+                <CustomSlider {...sliderSettings}>
+                    {currentGroups.length > 0 ? (
+                        currentGroups.map((group) => (
+                            <div key={group.roomId} className='slide-item'>
+                                <GroupCard
+                                    group={group}
+                                    isHost={groupType === "myGroup"}
+                                >
+                                    <GroupTag>{group.tag}</GroupTag>
+                                    <GroupMember>
+                                        {group.current}/{group.maximum}명
+                                    </GroupMember>
+                                </GroupCard>
+                            </div>
+                        ))
+                    ) : (
+                        <div className='slide-item'>
+                            {groupType === "myGroup" ? (
+                                <CreateGroupButton
+                                    onClick={handleCreateGroup}
+                                />
+                            ) : (
+                                <NoParticipatingGroup />
+                            )}
+                        </div>
+                    )}
+                    {groupType === "myGroup" && currentGroups.length > 0 && (
+                        <div className='slide-item'>
+                            <CreateGroupButton onClick={handleCreateGroup} />
+                        </div>
+                    )}
+                </CustomSlider>
             </SliderContainer>
-
-            <Indicators
-                total={currentGroups.length + 1}
-                current={currentSlide}
-            />
         </Container>
     );
 };

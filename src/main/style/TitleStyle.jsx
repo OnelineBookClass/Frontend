@@ -4,7 +4,6 @@ export const Title = styled.div`
     display: flex;
     align-items: center;
     font-size: 30px;
-    font-weight: bold;
     margin-bottom: 10px;
     cursor: pointer;
 

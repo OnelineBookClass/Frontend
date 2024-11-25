@@ -14,36 +14,12 @@ const Title = styled.div`
     display: flex;
     align-items: center;
     font-size: 30px;
-    font-weight: bold;
     margin-bottom: 20px;
 `;
 
 const StyledSlider = styled(Slider)`
     .slick-track {
         margin-left: 0;
-    }
-
-    .slick-prev,
-    .slick-next {
-        z-index: 1;
-        width: 30px;
-        height: 30px;
-        margin-top: -15px;
-        margin-left: 5px;
-        margin-right: 5px;
-
-        &:before {
-            color: #8e0202;
-            font-size: 30px;
-        }
-    }
-
-    .slick-prev {
-        left: -25px;
-    }
-
-    .slick-next {
-        right: -25px;
     }
 
     .slick-slide > div {
@@ -73,7 +49,6 @@ const BookInfo = styled.div`
 `;
 
 const BookTitle = styled.div`
-    font-weight: bold;
     margin-bottom: 4px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -83,7 +58,7 @@ const BookTitle = styled.div`
 `;
 
 const BookAuthor = styled.div`
-    color: #666;
+    color: #b3b3b3;
     font-size: 0.9rem;
 `;
 

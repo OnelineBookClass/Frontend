@@ -1,31 +1,55 @@
 import React from "react";
-import { Wrapper, OuterWrapper, ContentText, StyledHr, LeftWrapper, RightWrapper}  from "../style/RoomListItemStyle"
-import { FixedAvatar } from "../style/RoomInfo"
+import {
+    Wrapper,
+    OuterWrapper,
+    StyledHr,
+    LeftWrapper,
+    RightWrapper,
+    BookInfo,
+    RoomInfo,
+    BookImage,
+    BookTitle,
+    AuthorText,
+    RoomTitle,
+    IntroText,
+    ParticipantsInfo,
+    TagBadge,
+    InfoSection,
+} from "../style/RoomListItemStyle";
+import { useNavigate } from "react-router-dom";
 
-function RoomListItem(props){
-
-    const {room} = props;
-    return(
-        <Wrapper>
+function RoomListItem({ room }) {
+    const navigate = useNavigate();
+    return (
+        <Wrapper onClick={() => navigate(`/roomdetail/${room.roomId}`)}>
             <OuterWrapper>
-                <FixedAvatar
-                 sx={{
-                    bgcolor: "white", // 배경색
-                    border: "1px solid black", // 테두리 추가
-                }}
-                >📚</FixedAvatar>
-                <LeftWrapper>
-                    <ContentText>방제 :{room.roomTitle}</ContentText>
-                    <ContentText>토론 시작 일 : {room.createdAt}</ContentText>
-                    <ContentText>호스트 : {room.hostNickname}</ContentText>
-                </LeftWrapper>
-                <RightWrapper>
-                    <ContentText>{room.tag}</ContentText>
-                </RightWrapper>
+                <BookImage
+                    src={room.bookInfo.thumbnail}
+                    alt={room.bookInfo.bookTitle}
+                />
+                <InfoSection>
+                    <LeftWrapper>
+                        <BookInfo>
+                            <BookTitle>{room.bookInfo.bookTitle}</BookTitle>
+                            <AuthorText>{room.bookInfo.author}</AuthorText>
+                        </BookInfo>
+                        <RoomInfo>
+                            <RoomTitle>{room.roomTitle}</RoomTitle>
+                            <IntroText>{room.intro}</IntroText>
+                            <ParticipantsInfo>
+                                참여인원: {room.currentParticipants}/
+                                {room.maximum}명
+                            </ParticipantsInfo>
+                        </RoomInfo>
+                    </LeftWrapper>
+                    <RightWrapper>
+                        <TagBadge>{room.tag}</TagBadge>
+                    </RightWrapper>
+                </InfoSection>
             </OuterWrapper>
             <StyledHr />
         </Wrapper>
-    )
+    );
 }
 
 export default RoomListItem;

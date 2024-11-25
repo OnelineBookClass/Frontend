@@ -5,6 +5,7 @@ import BookReviews from "./components/BookReviews";
 import BookHeader from "./components/BookHeader";
 import { Container } from "./style/BookInfoStyles";
 import axiosInstance from "../utils/axiosConfig";
+import Title from "../asset/component/Title";
 
 function BookInfo() {
     const [meetings, setMeetings] = useState([]);
@@ -19,6 +20,7 @@ function BookInfo() {
             );
 
             setMeetings(response.data.rooms || []);
+            console.log(response.data.rooms);
             setReviews(response.data.reviews || []);
             setBook(response.data.bookInfo);
         } catch (error) {
@@ -34,10 +36,13 @@ function BookInfo() {
 
     return (
         <Container>
+            <Title>책 정보</Title>
             <BookHeader book={book} />
             <BookDiscussions
-                discussions={meetings}
+                rooms={meetings}
                 imageURL={book?.thumbnail}
+                bookTitle={book?.title}
+                author={book?.author}
             />
             <BookReviews
                 isbn={isbn}

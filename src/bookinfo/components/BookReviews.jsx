@@ -10,7 +10,6 @@ import {
     ReviewUser,
     Rating,
     ReviewContent,
-    LikeButton,
     TitleContainer,
     WriteButton,
     ReviewForm,
@@ -18,6 +17,7 @@ import {
     ButtonGroup,
     RatingSelect,
 } from "../style/ReviewStyles";
+import { useTheme } from "../../context/ThemeContext";
 
 function BookReviews({ reviews, isbn, onReviewSubmit }) {
     const [showWriteForm, setShowWriteForm] = useState(false);
@@ -27,7 +27,7 @@ function BookReviews({ reviews, isbn, onReviewSubmit }) {
     const [editContent, setEditContent] = useState("");
     const [editRating, setEditRating] = useState(5);
     const { userId } = useContext(UserContext);
-
+    const { isDark } = useTheme();
     const handleSubmit = async () => {
         try {
             await axiosInstance.post("/mongdangbul/books/reviews", {
@@ -125,7 +125,7 @@ function BookReviews({ reviews, isbn, onReviewSubmit }) {
 
             <ReviewList>
                 {reviews.map((review) => (
-                    <ReviewItem key={review.reviewId}>
+                    <ReviewItem key={review.reviewId} isDark={isDark}>
                         <ReviewHeader>
                             <ReviewUser>{review.nickName}</ReviewUser>
                             {editingReviewId === review.reviewId ? (

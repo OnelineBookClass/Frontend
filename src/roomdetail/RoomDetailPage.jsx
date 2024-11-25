@@ -12,7 +12,6 @@ function RoomDetailPage() {
     const [roomDetail, setRoomDetail] = useState(null);
     const [showQuiz, setShowQuiz] = useState(false);
     const [currentQuiz, setCurrentQuiz] = useState(0);
-    const [userAnswers, setUserAnswers] = useState([]);
     const [quizResult, setQuizResult] = useState(null);
     const [showOverlay, setShowOverlay] = useState(false);
     const [showFailMessage, setShowFailMessage] = useState(false);

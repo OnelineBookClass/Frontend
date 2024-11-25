@@ -1,15 +1,15 @@
 export const settings = {
     dots: false,
+    arrows: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 5.5,
     slidesToScroll: 1,
-    arrows: true,
     responsive: [
         {
             breakpoint: 768,
             settings: {
-                slidesToShow: 3,
+                slidesToShow: 2.5,
                 slidesToScroll: 1
             }
         }

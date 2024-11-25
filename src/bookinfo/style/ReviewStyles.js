@@ -17,7 +17,8 @@ export const ReviewList = styled.div`
 
 export const ReviewItem = styled.div`
     padding: 15px;
-    background-color: #f5f5f5;
+    border: ${({ isDark }) =>
+        `2px solid ${isDark ? "rgb(255, 255, 255, 0.1)" : "rgb(0, 0, 0, 0.1)"}`};
     border-radius: 8px;
 `;
 

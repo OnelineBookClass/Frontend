@@ -3,12 +3,16 @@ import styled from "styled-components";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SettingsIcon from "@mui/icons-material/Settings";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward"; // 추가된 부분
+import { FaArrowRight } from "react-icons/fa";
+import { IoSettingsOutline } from "react-icons/io5";
 import UserInfo from "./profile/UserInfo";
 import DesiredBooks from "./profile/DesiredBooks";
 import DiscussionEntries from "./profile/DiscussionEntries";
 import axiosInstance from "../utils/axiosConfig";
 import { useNavigate } from "react-router-dom";
+import { colors } from "@mui/material";
+import Switch from "@mui/material/Switch";
+import { useTheme } from "../context/ThemeContext";
 
 const Container = styled.div`
     display: flex;
@@ -53,6 +57,7 @@ function MyPage() {
     const userId = localStorage.getItem("userId");
     const navigate = useNavigate();
     const [mypageData, setMypageData] = useState();
+    const { isDark, toggleTheme } = useTheme();
 
     useEffect(() => {
         const fetchMypageData = async () => {
@@ -78,9 +83,24 @@ function MyPage() {
         <Container>
             <Header>
                 <Title>마이페이지</Title>
-                <IconButton onClick={settingButtonClick}>
-                    <SettingsIcon />
-                </IconButton>
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                    }}
+                >
+                    <Switch
+                        checked={isDark}
+                        onChange={toggleTheme}
+                        color='default'
+                    />
+                    <IconButton onClick={settingButtonClick}>
+                        <IoSettingsOutline
+                            color={isDark ? "#ffffff" : "#0d142d"}
+                        />
+                    </IconButton>
+                </div>
             </Header>
 
             <UserInfo myInfo={mypageData && mypageData.myInfo} />
@@ -90,7 +110,7 @@ function MyPage() {
             <SectionHeader>
                 <span>관심 도서 목록</span>
                 <IconButton onClick={() => navigate("/desired")}>
-                    <ArrowForwardIcon />
+                    <FaArrowRight color='#ffffff' />
                 </IconButton>
             </SectionHeader>
             {mypageData &&
@@ -106,7 +126,7 @@ function MyPage() {
             <SectionHeader>
                 <span>나의 토론 기록</span>
                 <IconButton onClick={() => navigate("/mydiscussion")}>
-                    <ArrowForwardIcon />
+                    <FaArrowRight color='#ffffff' />
                 </IconButton>
             </SectionHeader>
             {mypageData &&

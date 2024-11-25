@@ -4,7 +4,8 @@ import styled from "styled-components";
 import { useParams, useNavigate } from "react-router-dom";
 
 const ChattingRoom = () => {
-    const { roomId, userId, nickName } = useParams();
+    const userId = localStorage.getItem("userId");
+    const { roomId } = useParams();
     const navigate = useNavigate();
     const [messages, setMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState("");
@@ -37,7 +38,6 @@ const ChattingRoom = () => {
 
         // 채팅 메시지 수신 확인
         newSocket.on("chat", (message) => {
-            console.log("새 메시지 수신:", message);
             setMessages((prev) => [
                 ...prev,
                 {
@@ -82,17 +82,14 @@ const ChattingRoom = () => {
         // 재연결 처리 추가
         newSocket.on("disconnect", () => {
             setIsJoined(false);
-            console.log("서버와 연결이 끊어졌습니다.");
         });
 
         newSocket.on("reconnect", () => {
-            console.log("서버와 재연결되었습니다.");
             newSocket.emit("joinRoom", { roomId, userId });
         });
 
         // 참여자 목록 업데이트 이벤트
         newSocket.on("participantsList", (updatedParticipants) => {
-            console.log("participantsList 이벤트 수신:", updatedParticipants);
             setParticipants(updatedParticipants);
         });
 
@@ -104,11 +101,9 @@ const ChattingRoom = () => {
 
         // joinRoomSuccess 이벤트 리스너 추가
         newSocket.on("joinRoomSuccess", (data) => {
-            console.log("joinRoomSuccess 이벤트 수신:", data);
             setIsJoined(true);
             setIsHost(data.isHost);
             setParticipants(data.participants);
-            console.log("참여자 목록 업데이트:", data.participants);
 
             const formattedHistory = data.chatHistory.map((msg) => ({
                 userId: msg.userId,
@@ -138,12 +133,6 @@ const ChattingRoom = () => {
     const sendMessage = (e) => {
         e.preventDefault();
         if (inputMessage.trim() && socket && isJoined) {
-            console.log("메시지 전송 시도:", {
-                roomId,
-                userId,
-                msg: inputMessage,
-            });
-
             socket.emit("chat", {
                 roomId,
                 userId,
@@ -201,7 +190,7 @@ const ChattingRoom = () => {
                             return (
                                 <MessageBubble
                                     key={index}
-                                    isMine={message.userId === userId}
+                                    isMine={message.userId == userId}
                                     isSystem={isSystem}
                                 >
                                     {!isSystem && (

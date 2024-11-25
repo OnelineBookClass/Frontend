@@ -7,6 +7,7 @@ import Recommendations from "./component/Recommendations";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import banner from "../asset/image/모닥불.jpg";
+import { useTheme } from "../context/ThemeContext";
 
 const BannerContainer = styled.div`
     position: relative;
@@ -25,9 +26,9 @@ const LogoText = styled.div`
     position: absolute;
     top: 10px;
     left: 20px;
-    color: white;
+    color: #ffffff;
+    font-weight: 500;
     font-size: 2.5rem;
-    font-weight: bold;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
 
@@ -35,9 +36,8 @@ const Description = styled.div`
     position: absolute;
     top: 170px;
     right: 10px;
-    color: white;
+    color: #ffffff;
     font-size: 1rem;
-    font-weight: bold;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
 
@@ -52,70 +52,140 @@ const MainContent = styled.div`
     padding: 0 20px;
 `;
 
-const ButtonContainer = styled.div`
+const SearchContainer = styled.div`
     display: flex;
-    flex-direction: row;
-    gap: 10px;
+    justify-content: flex-end;
+    align-items: center;
     margin-bottom: 20px;
+    gap: 10px;
+    width: 100%;
+`;
+
+const SearchInputContainer = styled.div`
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    width: ${(props) => (props.isOpen ? "calc(100% - 60px)" : "0")};
+    transition: width 0.5s ease-in-out;
+
+    form {
+        width: 100%;
+    }
+`;
+
+const SearchInput = styled.input`
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: ${({ isDark }) =>
+        isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(13, 20, 45, 0.1)"};
+    font-size: 1rem;
+    outline: none;
+    box-sizing: border-box;
+    color: ${({ isDark }) => (isDark ? "#ffffff" : "#0d142d")};
+
+    &::placeholder {
+        color: ${({ isDark }) =>
+            isDark ? "rgba(255, 255, 255, 0.7)" : "rgba(13, 20, 45, 0.7)"};
+    }
+
+    &:focus {
+        background-color: ${({ isDark }) =>
+            isDark ? "rgba(255, 255, 255, 0.15)" : "rgba(13, 20, 45, 0.15)"};
+    }
 `;
 
 const Button = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 30%;
-    background-color: #8e0202;
-    color: #fff;
+    min-width: 50px;
+    height: 50px;
+    background: transparent;
     border: none;
-    border-radius: 10px;
-    font-size: clamp(1.4rem, 10vw, 2.5rem);
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
 `;
 
-// 임시 데이터
-const mockData = {
-    popularBooks: [
-        {
-            ISBN: "9791168766006",
-            title: "진격의 거인 5",
-            author: "이사야마 하지메",
-            thumbnail:
-                "https://shopping-phinf.pstatic.net/main_4480340/44803409644.20231222155044.jpg",
-        },
-        // ... other books
-    ],
-    recentRooms: [
-        {
-            roomId: 1,
-            roomTitle: "소년이 온다",
-            thumbnail:
-                "https://shopping-phinf.pstatic.net/main_3249140/32491401626.20231004072435.jpg",
-            author: "한강",
-            intro: "한강의 대표작, 1980년 5월 광주를 다룬 소설",
-        },
-        // ... other rooms
-    ],
-    recommendedBooks: [
-        {
-            ISBN: "9791168766006",
-            title: "진격의 거인 5",
-            author: "이사야마 하지메",
-            thumbnail:
-                "https://shopping-phinf.pstatic.net/main_4480340/44803409644.20231222155044.jpg",
-        },
-        // ... other recommended books
-    ],
-};
+const GlowingIcon = styled(FaSearch)`
+    font-size: clamp(1.4rem, 10vw, 2.5rem);
+    color: ${({ isDark }) => (isDark ? "#e8f1f2" : "#0d142d")};
+    filter: ${({ isDark }) =>
+        isDark
+            ? "drop-shadow(0 0 5px rgba(232, 241, 242, 0.7)) drop-shadow(0 0 10px rgba(176, 196, 222, 0.5)) drop-shadow(0 0 15px rgba(135, 206, 235, 0.3))"
+            : "drop-shadow(0 0 5px rgba(13, 20, 45, 0.7)) drop-shadow(0 0 10px rgba(13, 20, 45, 0.5)) drop-shadow(0 0 15px rgba(13, 20, 45, 0.3))"};
+    animation: ${({ isDark }) => (isDark ? "moonGlow" : "sunGlow")} 3s
+        ease-in-out infinite;
+
+    @keyframes moonGlow {
+        0% {
+            color: #e8f1f2;
+            filter: drop-shadow(0 0 5px rgba(232, 241, 242, 0.7))
+                drop-shadow(0 0 10px rgba(176, 196, 222, 0.5))
+                drop-shadow(0 0 15px rgba(135, 206, 235, 0.3));
+        }
+        50% {
+            color: #f8f9fa;
+            filter: drop-shadow(0 0 7px rgba(232, 241, 242, 0.8))
+                drop-shadow(0 0 12px rgba(176, 196, 222, 0.6))
+                drop-shadow(0 0 17px rgba(135, 206, 235, 0.4));
+        }
+        100% {
+            color: #e8f1f2;
+            filter: drop-shadow(0 0 5px rgba(232, 241, 242, 0.7))
+                drop-shadow(0 0 10px rgba(176, 196, 222, 0.5))
+                drop-shadow(0 0 15px rgba(135, 206, 235, 0.3));
+        }
+    }
+
+    @keyframes sunGlow {
+        0% {
+            color: #0d142d;
+            filter: drop-shadow(0 0 5px rgba(13, 20, 45, 0.7))
+                drop-shadow(0 0 10px rgba(13, 20, 45, 0.5))
+                drop-shadow(0 0 15px rgba(13, 20, 45, 0.3));
+        }
+        50% {
+            color: #1a237e;
+            filter: drop-shadow(0 0 7px rgba(13, 20, 45, 0.8))
+                drop-shadow(0 0 12px rgba(13, 20, 45, 0.6))
+                drop-shadow(0 0 17px rgba(13, 20, 45, 0.4));
+        }
+        100% {
+            color: #0d142d;
+            filter: drop-shadow(0 0 5px rgba(13, 20, 45, 0.7))
+                drop-shadow(0 0 10px rgba(13, 20, 45, 0.5))
+                drop-shadow(0 0 15px rgba(13, 20, 45, 0.3));
+        }
+    }
+`;
 
 function MainPage() {
-    const [mainData, setMainData] = useState(mockData); // 초기값으로 목업 데이터 설정
+    const { isDark } = useTheme();
+    const [mainData, setMainData] = useState();
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
     const navigate = useNavigate();
 
-    const handleButtonClick = (buttonType) => {
-        if (buttonType === "bookSearch") {
-            navigate("/booksearch");
-        } else if (buttonType === "discussionSearch") {
-            navigate("/recent");
+    const handleIconClick = () => {
+        if (!isSearchOpen) {
+            setIsSearchOpen(true);
+            setTimeout(() => {
+                document.querySelector("#searchInput")?.focus();
+            }, 300);
+        } else if (searchTerm.trim()) {
+            navigate(`/booksearch?query=${searchTerm}`);
+        } else {
+            setIsSearchOpen(false);
+        }
+    };
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        if (searchTerm.trim()) {
+            navigate(`/booksearch?query=${searchTerm}&from=main`);
         }
     };
 
@@ -139,17 +209,25 @@ function MainPage() {
                     alt='몽당불 배너'
                 />
                 <LogoText>몽당불</LogoText>
-                <Description>
-                    모임을 즐기는 사람들을 위한 책 추천 서비스
-                </Description>
+                <Description>온라인 독서 모임 플랫폼</Description>
             </BannerContainer>
             <MainContent>
-                <ButtonContainer>
-                    <Button onClick={() => handleButtonClick("bookSearch")}>
-                        <FaSearch />
-                        <div style={{ marginLeft: "1rem" }}>책 검색하기</div>
+                <SearchContainer>
+                    <SearchInputContainer isOpen={isSearchOpen}>
+                        <form onSubmit={handleSearchSubmit}>
+                            <SearchInput
+                                id='searchInput'
+                                placeholder='책 제목을 검색해보세요'
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                isDark={isDark}
+                            />
+                        </form>
+                    </SearchInputContainer>
+                    <Button onClick={handleIconClick} isOpen={isSearchOpen}>
+                        <GlowingIcon isDark={isDark} />
                     </Button>
-                </ButtonContainer>
+                </SearchContainer>
                 {mainData && (
                     <>
                         <PopularBooks books={mainData.popularBooks} />

@@ -1,6 +1,7 @@
 import React from 'react';
 import Router from './router/Router';
 import { createGlobalStyle } from 'styled-components';
+import { ThemeProvider } from './context/ThemeContext';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -18,12 +19,11 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-
   return (
-    <>
+    <ThemeProvider>
       <GlobalStyle />
       <Router />
-    </>
+    </ThemeProvider>
   );
 }
 

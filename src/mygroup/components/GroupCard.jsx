@@ -1,21 +1,33 @@
 import React from "react";
 import styled from "styled-components";
-
+import { useNavigate } from "react-router-dom";
 const CardContainer = styled.div`
-    width: 100%;
-    max-width: 280px;
-    height: 400px;
+    width: 300px;
+    height: 500px;
     padding: 20px;
+    margin: 0;
     border-radius: 15px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: #d8d8d8;
     display: flex;
     flex-direction: column;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
 
     @media (max-width: 768px) {
-        width: 90%;
-        height: 350px;
+        width: 260px;
+        height: 400px;
         padding: 15px;
+    }
+
+    @media (max-width: 480px) {
+        width: 240px;
+        height: 400px;
     }
 `;
 
@@ -31,27 +43,32 @@ const BookImage = styled.img`
     }
 `;
 
-const GroupTitle = styled.h2`
+const GroupTitle = styled.div`
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: bold;
-    margin-bottom: 8px;
+    color: #333;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    display: -webkit-box;
+    line-height: 1.3;
+    height: 2.6em;
 
     @media (max-width: 768px) {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
 `;
 
 const BookTitle = styled.p`
-    font-size: 0.9rem;
-    color: #666;
+    font-size: 1rem;
+    color: #555;
     margin: 0 0 4px 0;
+    font-weight: 500;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 `;
 
 const Author = styled.p`
@@ -76,15 +93,17 @@ const InfoContainer = styled.div`
 `;
 
 const GroupCard = ({ group, isHost, children }) => {
+    const navigate = useNavigate();
+    const userId = localStorage.getItem("userId");
     return (
-        <CardContainer>
+        <CardContainer
+            onClick={() => navigate(`/chattingroom/${group.roomId}/${userId}`)}
+        >
             <BookImage src={group.thumbnail} alt={group.bookTitle} />
             <GroupTitle>{group.roomTitle}</GroupTitle>
             <BookTitle>{group.bookTitle}</BookTitle>
             <Author>저자: {group.author}</Author>
-            <HostInfo>
-                {isHost ? "내가 만든 모임" : `호스트: ${group.hostNickname}`}
-            </HostInfo>
+            {!isHost && <HostInfo>{`호스트: ${group.hostNickname}`}</HostInfo>}
             <InfoContainer>{children}</InfoContainer>
         </CardContainer>
     );

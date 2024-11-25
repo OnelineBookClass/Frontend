@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Logo from "../../asset/image/Logo.png";
 
 const Card = styled.div`
     border: 1px solid #ddd;
+    color: #666;
     border-radius: 8px;
     padding: 15px;
     background: white;
@@ -28,17 +29,40 @@ const Rating = styled.span`
     font-weight: bold;
 `;
 
+const CardContainer = styled.div`
+    border: 1px solid #ddd;
+    color: #666;
+    border-radius: 8px;
+    padding: 15px;
+    background: white;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    &:hover {
+        transform: scale(1.05);
+    }
+`;
+
 function BookCard({ book }) {
     const navigate = useNavigate();
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const from = searchParams.get("from");
 
     const handleClick = () => {
-        navigate(`/book/${book.isbn}`, { state: { book } });
+        if (from === "createGroup") {
+            navigate(
+                `/create-group?isbn=${book.isbn}&bookTitle=${book.title}&author=${book.authors}`,
+                {
+                    state: { thumbnail: book.thumbnail },
+                }
+            );
+        } else {
+            navigate(`/book/${book.isbn}`);
+        }
     };
 
-    console.log(book);
-
     return (
-        <Card onClick={handleClick}>
+        <CardContainer onClick={handleClick}>
             <BookImage
                 src={book.thumbnail || Logo}
                 alt={book.title}
@@ -57,7 +81,7 @@ function BookCard({ book }) {
                     평점: <Rating>{book.rating}</Rating>
                 </p>
             )}
-        </Card>
+        </CardContainer>
     );
 }
 

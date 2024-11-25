@@ -14,6 +14,7 @@ export const BookImage = styled.img`
 `;
 
 export const BookDetails = styled.div`
+    margin-right: 2rem;
     flex: 1;
 `;
 

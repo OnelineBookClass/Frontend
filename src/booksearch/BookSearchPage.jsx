@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import SearchBar from "./component/SearchBar";
 import BookCard from "./component/BookCard";
 import Pagination from "./component/Pagination";
-
+import LoadingOverlay from "../components/LoadingOverlay";
+import axiosInstance from "../utils/axiosConfig";
+import CloseButton from "../asset/component/CloseButton";
+import Title from "../asset/component/Title";
 const Container = styled.div`
     padding: 20px;
-    max-width: 768px;
+    width: 100%;
     margin: 0 auto;
     margin-bottom: 100px;
+    background-color: #0b122c;
 `;
 
 const MainContent = styled.div`
@@ -28,26 +32,54 @@ function BookSearchPage() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [searchQuery, setSearchQuery] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const location = useLocation();
 
-    const handleSearch = (results, meta, query) => {
-        setSearchResults(results);
-        setTotalPages(meta.pageable_count);
-        setSearchQuery(query);
-        setCurrentPage(meta.current_page);
+    const handleSearch = async (query, page = 1) => {
+        setIsLoading(true);
+        try {
+            const response = await axiosInstance.get(
+                "/mongdangbul/books/searchNaver",
+                {
+                    params: {
+                        query: query,
+                        page: page,
+                        display: 6,
+                    },
+                }
+            );
+
+            setSearchResults(response.data.bookList);
+            setTotalPages(response.data.meta.pageable_count);
+            setSearchQuery(query);
+            setCurrentPage(response.data.meta.current_page);
+        } catch (error) {
+            console.error("검색 오류:", error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handlePageChange = (newPage) => {
-        setCurrentPage(newPage);
+        handleSearch(searchQuery, newPage);
     };
+
+    useEffect(() => {
+        // URL에서 검색어 파라미터 가져오기
+        const params = new URLSearchParams(location.search);
+        const query = params.get("query");
+
+        if (query) {
+            setSearchQuery(query);
+            handleSearch(query, 1);
+        }
+    }, [location.search]);
 
     return (
         <Container>
+            <Title>검색 결과</Title>
+            {isLoading && <LoadingOverlay />}
             <MainContent>
-                <SearchBar
-                    onSearch={handleSearch}
-                    currentPage={currentPage}
-                    searchQuery={searchQuery}
-                />
                 <ResultsContainer>
                     {searchResults.map((book) => (
                         <BookCard key={book.isbn} book={book} />

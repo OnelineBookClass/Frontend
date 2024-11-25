@@ -1,13 +1,14 @@
 import styled from "styled-components";
+import Slider from "react-slick";
 
 export const Container = styled.div`
     padding: 1rem;
-    max-width: 1200px;
-    margin: 0 auto;
     min-height: calc(100vh - 60px);
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    padding-bottom: 10rem;
 `;
 
 export const Header = styled.div`
@@ -25,35 +26,20 @@ export const Header = styled.div`
     }
 `;
 
-export const BookIcon = styled.div`
-    font-size: clamp(1.2rem, 2vw, 1.5rem);
-    margin-bottom: 0.5rem;
-`;
-
-export const Title = styled.h1`
+export const Title = styled.div`
     font-size: clamp(1.1rem, 4vw, 1.4rem);
     margin: 0.5rem 0 1.5rem;
     text-align: center;
     word-break: keep-all;
     line-height: 1.4;
-    color: #333;
 `;
 
 export const SliderContainer = styled.div`
     position: relative;
     width: 100%;
-    max-width: 500px;
-    min-height: 350px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 1rem 0;
-    padding: 0 1rem;
-
-    @media (max-width: 768px) {
-        min-height: 300px;
-        padding: 0 0.5rem;
-    }
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0;
 `;
 
 export const NavButton = styled.button`
@@ -131,4 +117,75 @@ export const GroupTag = styled.span`
 export const GroupMember = styled.span`
     color: #666;
     font-size: 0.8rem;
+`;
+
+export const CustomSlider = styled(Slider)`
+    .slick-list {
+        padding: 20px 0;
+    }
+
+    .slick-track {
+        display: flex;
+        align-items: center;
+    }
+
+    .slide-item {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .slick-slide {
+        opacity: 0.4;
+        transform: scale(0.85);
+        transition: all 0.4s ease;
+        
+        &.slick-current {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        > div {
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    .slick-dots {
+            bottom: -40px;
+
+            li {
+                width: 12px;
+                height: 12px;
+                margin: 0 8px;
+
+                button {
+                    width: 12px;
+                    height: 12px;
+                    padding: 0;
+
+                    &:before {
+                        width: 12px;
+                        height: 12px;
+                        font-size: 12px;
+                        color: #ffffff;
+                        opacity: 0.5;
+                    }
+                }
+
+                &.slick-active button:before {
+                    color: #ffffff;
+                    opacity: 1;
+                }
+            }
+        }
+
+    .slick-list {
+        cursor: grab;
+        
+        &:active {
+            cursor: grabbing;
+        }
+    }
 `;
