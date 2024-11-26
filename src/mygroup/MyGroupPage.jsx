@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axiosInstance from "../utils/axiosConfig";
+import styled from "styled-components";
 import {
     Container,
     Header,
@@ -19,6 +20,12 @@ import CreateGroupButton from "./components/CreateGroupButton";
 import LoadingOverlay from "../components/LoadingOverlay";
 import NoParticipatingGroup from "./components/NoParticipatingGroup";
 import { PiBooks } from "react-icons/pi";
+
+const IntroContainer = styled.div`
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+`;
 
 const MyGroupPage = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -116,12 +123,14 @@ const MyGroupPage = () => {
 
     return (
         <Container>
-            <Header>
+            <IntroContainer>
                 <PiBooks fontSize={50} />
                 <Title>
                     사람들과 함께
                     <br /> 책장을 넘겨보세요.
                 </Title>
+            </IntroContainer>
+            <Header>
                 <ToggleContainer>
                     <ToggleButton
                         active={groupType === "myGroup"}

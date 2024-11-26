@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import SettingsIcon from "@mui/icons-material/Settings";
 import { FaArrowRight } from "react-icons/fa";
 import { IoSettingsOutline } from "react-icons/io5";
 import UserInfo from "./profile/UserInfo";
@@ -10,7 +9,6 @@ import DesiredBooks from "./profile/DesiredBooks";
 import DiscussionEntries from "./profile/DiscussionEntries";
 import axiosInstance from "../utils/axiosConfig";
 import { useNavigate } from "react-router-dom";
-import { colors } from "@mui/material";
 import Switch from "@mui/material/Switch";
 import { useTheme } from "../context/ThemeContext";
 
@@ -73,7 +71,7 @@ function MyPage() {
             }
         };
         fetchMypageData();
-    }, []);
+    }, [userId]);
 
     const settingButtonClick = () => {
         navigate("/settings", { state: mypageData.myInfo });

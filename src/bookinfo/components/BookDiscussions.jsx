@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import RoomItems from "../../asset/component/RoomItems";
+import { useTheme } from "../../context/ThemeContext";
 
 const Section = styled.section`
     margin: 20px 0;
@@ -22,11 +23,13 @@ const EmptyStateContainer = styled.div`
 `;
 
 const CreateGroupButton = styled.button`
-    padding: 15px 30px;
-    border: 2px dashed rgba(255, 255, 255, 0.3);
+    width: 100%;
+    padding: 50px 10px;
+    border: 2px dashed
+        ${({ isDark }) => (isDark ? "rgba(255, 255, 255, 0.3)" : "#0d142d")};
+    color: ${({ isDark }) => (isDark ? "#ffffff" : "#0d142d")};
     border-radius: 8px;
     background: transparent;
-    color: #ffffff;
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -38,6 +41,7 @@ const CreateGroupButton = styled.button`
 
 function BookDiscussions({ rooms, imageURL, isbn, bookTitle, author }) {
     const navigate = useNavigate();
+    const { isDark } = useTheme();
 
     const handleCreateGroup = () => {
         navigate(
@@ -51,8 +55,11 @@ function BookDiscussions({ rooms, imageURL, isbn, bookTitle, author }) {
             <Section>
                 <SectionTitle>모임</SectionTitle>
                 <EmptyStateContainer>
-                    <CreateGroupButton onClick={handleCreateGroup}>
-                        모임이 없습니다. 새로운 모임을 만들어보세요!
+                    <CreateGroupButton
+                        onClick={handleCreateGroup}
+                        isDark={isDark}
+                    >
+                        모임이 없습니다. 클릭하여 새로운 모임을 만들어보세요!
                     </CreateGroupButton>
                 </EmptyStateContainer>
             </Section>

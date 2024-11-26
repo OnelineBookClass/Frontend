@@ -2,6 +2,7 @@ import styled, { keyframes } from "styled-components";
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext";
 
 const fadeOut = keyframes`
   from { opacity: 1; }
@@ -59,7 +60,7 @@ const SearchContainer = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: ${(props) => (props.isSearching ? "80%" : "0")};
+    width: ${(props) => (props.isSearching ? "90%" : "0")};
     height: ${(props) => (props.isSearching ? "auto" : "0")};
     opacity: ${(props) => (props.isSearching ? "1" : "0")};
     visibility: ${(props) => (props.isSearching ? "visible" : "hidden")};
@@ -72,7 +73,7 @@ const SearchContainer = styled.div`
 const SearchInput = styled.input`
     width: 100%;
     padding: 12px 20px;
-    border: 2px solid #007bff;
+    border: 2px solid ${(props) => (props.isDark ? "#ffffff" : "#0d142d")};
     border-radius: 20px;
     font-size: 1rem;
     outline: none;
@@ -82,7 +83,7 @@ const SearchInput = styled.input`
 const SearchButton = styled.button`
     background: none;
     border: none;
-    color: #007bff;
+    color: ${(props) => (props.isDark ? "#ffffff" : "#0d142d")};
     font-size: 1.5rem;
     cursor: pointer;
     padding: 10px;
@@ -95,6 +96,7 @@ const CreateGroupButton = () => {
     const [isSearching, setIsSearching] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const navigate = useNavigate();
+    const { isDark } = useTheme();
 
     const handleInitialClick = () => {
         setIsSearching(true);
@@ -122,12 +124,13 @@ const CreateGroupButton = () => {
                         style={{ width: "100%", display: "flex", gap: "10px" }}
                     >
                         <SearchInput
-                            placeholder='책 제목을 검색해보세요'
+                            placeholder='모임할 책을 검색해보세요'
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             autoFocus
+                            isDark={isDark}
                         />
-                        <SearchButton type='submit'>
+                        <SearchButton type='submit' isDark={isDark}>
                             <FaSearch />
                         </SearchButton>
                     </form>

@@ -11,6 +11,7 @@ import {
     BookDetails,
     BlurBackground,
 } from "../style/BookHeaderStyles";
+import { FaHeart } from "react-icons/fa";
 
 function BookHeader({ book }) {
     const [isLiked, setIsLiked] = useState(false);
@@ -76,7 +77,11 @@ function BookHeader({ book }) {
                     alt={book.title}
                 />
                 <HeartButton onClick={handleHeartClick}>
-                    {isLiked ? "❤️" : "🤍"}
+                    {isLiked ? (
+                        <FaHeart color='#da2020' size={30} />
+                    ) : (
+                        <FaHeart color='#9e9e9e' size={30} />
+                    )}
                 </HeartButton>
                 <BookDetails>
                     <Title>{book.title}</Title>

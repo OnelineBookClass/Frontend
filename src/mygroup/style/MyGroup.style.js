@@ -3,12 +3,17 @@ import Slider from "react-slick";
 
 export const Container = styled.div`
     padding: 1rem;
-    min-height: calc(100vh - 60px);
+    height: calc(100vh - 60px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding-bottom: 10rem;
+    overflow: hidden;
+    position: fixed;
+    top: 30px;
+    left: 0;
+    right: 0;
 `;
 
 export const Header = styled.div`
@@ -29,7 +34,6 @@ export const Header = styled.div`
 export const Title = styled.div`
     font-size: clamp(1.1rem, 4vw, 1.4rem);
     margin: 0.5rem 0 1.5rem;
-    text-align: center;
     word-break: keep-all;
     line-height: 1.4;
 `;
@@ -76,7 +80,7 @@ export const ToggleContainer = styled.div`
     gap: 0.5rem;
     margin-bottom: 1rem;
     width: 100%;
-    justify-content: center;
+    justify-content: flex-end;
 
     @media (max-width: 768px) {
         gap: 0.3rem;
@@ -88,7 +92,7 @@ export const ToggleButton = styled.button`
     border: none;
     border-radius: 20px;
     cursor: pointer;
-    background-color: ${props => props.active ? '#007bff' : '#f0f0f0'};
+    background-color: ${props => props.active ? '#2E64FE' : '#f0f0f0'};
     color: ${props => props.active ? 'white' : '#666'};
     transition: all 0.3s ease;
     font-size: clamp(0.8rem, 1.5vw, 0.9rem);

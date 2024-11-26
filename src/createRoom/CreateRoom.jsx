@@ -11,6 +11,7 @@ import InputLabel from "@mui/material/InputLabel";
 import axiosInstance from "../utils/axiosConfig";
 import { useNavigate, useLocation } from "react-router-dom";
 import Title from "../asset/component/Title";
+import { useTheme } from "../context/ThemeContext";
 
 const Container = styled.div`
     position: relative;
@@ -22,7 +23,6 @@ const Container = styled.div`
     padding: 2rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 1rem;
-    color: #ffffff;
 `;
 
 const FormGroup = styled.div`
@@ -31,7 +31,6 @@ const FormGroup = styled.div`
 
 const StyledButton = styled(Button)`
     margin-top: 2rem !important;
-    color: #ffffff;
 `;
 
 const QuizContainer = styled.div`
@@ -72,42 +71,16 @@ const BookInfo = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    color: #ffffff;
 `;
 
 const BookTitle = styled.h2`
     margin: 0;
     font-size: 1.2rem;
-    color: #ffffff;
 `;
 
 const Authors = styled.p`
     margin: 0.5rem 0;
-    color: #ffffff;
 `;
-
-// TextField 공통 스타일 업데이트
-const textFieldStyle = {
-    input: {
-        color: "#ffffff",
-        fontFamily: "GowunDodum-Regular",
-    },
-    label: {
-        color: "#ffffff",
-        fontFamily: "GowunDodum-Regular",
-    },
-    "& .MuiOutlinedInput-root": {
-        "& fieldset": { borderColor: "#ffffff" },
-        "&:hover fieldset": { borderColor: "#ffffff" },
-        "&.Mui-focused fieldset": { borderColor: "#ffffff" },
-    },
-    "& label.Mui-focused": {
-        color: "#ffffff",
-    },
-    "& .MuiInputBase-input": {
-        fontFamily: "GowunDodum-Regular",
-    },
-};
 
 function CreateRoom() {
     const navigate = useNavigate();
@@ -118,6 +91,31 @@ function CreateRoom() {
     const author = searchParams.get("author");
     const userId = localStorage.getItem("userId");
     const thumbnail = location.state?.thumbnail;
+    const { isDark } = useTheme();
+    // TextField 공통 스타일 업데이트
+    const textFieldStyle = {
+        input: {
+            color: isDark ? "#ffffff" : "#0d142d",
+            fontFamily: "GowunDodum-Regular",
+        },
+        label: {
+            color: isDark ? "#ffffff" : "#0d142d",
+            fontFamily: "GowunDodum-Regular",
+        },
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": { borderColor: isDark ? "#ffffff" : "#0d142d" },
+            "&:hover fieldset": { borderColor: isDark ? "#ffffff" : "#0d142d" },
+            "&.Mui-focused fieldset": {
+                borderColor: isDark ? "#ffffff" : "#0d142d",
+            },
+        },
+        "& label.Mui-focused": {
+            color: isDark ? "#ffffff" : "#0d142d",
+        },
+        "& .MuiInputBase-input": {
+            fontFamily: "GowunDodum-Regular",
+        },
+    };
 
     const [formData, setFormData] = useState({
         userId: userId,
@@ -230,7 +228,7 @@ function CreateRoom() {
                     rows={3}
                     sx={{
                         ...textFieldStyle,
-                        textarea: { color: "#ffffff" },
+                        textarea: { color: isDark ? "#ffffff" : "#0d142d" },
                     }}
                 />
             </FormGroup>
@@ -239,9 +237,11 @@ function CreateRoom() {
                 <FormControl fullWidth>
                     <InputLabel
                         sx={{
-                            color: "#ffffff",
+                            color: isDark ? "#ffffff" : "#0d142d",
                             fontFamily: "GowunDodum-Regular",
-                            "&.Mui-focused": { color: "#ffffff" }, // 포커스 시 색상
+                            "&.Mui-focused": {
+                                color: isDark ? "#ffffff" : "#0d142d",
+                            }, // 포커스 시 색상
                         }}
                     >
                         태그
@@ -252,18 +252,20 @@ function CreateRoom() {
                         name='tag'
                         onChange={handleChange}
                         sx={{
-                            color: "#ffffff",
+                            color: isDark ? "#ffffff" : "#0d142d",
                             fontFamily: "GowunDodum-Regular",
                             ".MuiOutlinedInput-notchedOutline": {
-                                borderColor: "#ffffff",
+                                borderColor: isDark ? "#ffffff" : "#0d142d",
                             },
                             "&:hover .MuiOutlinedInput-notchedOutline": {
-                                borderColor: "#ffffff",
+                                borderColor: isDark ? "#ffffff" : "#0d142d",
                             },
                             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                borderColor: "#ffffff",
+                                borderColor: isDark ? "#ffffff" : "#0d142d",
                             },
-                            ".MuiSvgIcon-root": { color: "#ffffff" },
+                            ".MuiSvgIcon-root": {
+                                color: isDark ? "#ffffff" : "#0d142d  ",
+                            },
                         }}
                     >
                         <MenuItem
@@ -308,16 +310,20 @@ function CreateRoom() {
                                                 )
                                             }
                                             sx={{
-                                                color: "#ffffff",
+                                                color: isDark
+                                                    ? "#ffffff"
+                                                    : "#0d142d",
                                                 "&.Mui-checked": {
-                                                    color: "#ffffff",
+                                                    color: isDark
+                                                        ? "#ffffff"
+                                                        : "#0d142d",
                                                 },
                                             }}
                                         />
                                     }
                                     label={`보기 ${choiceIndex + 1}`}
                                     sx={{
-                                        color: "#ffffff",
+                                        color: isDark ? "#ffffff" : "#0d142d",
                                         fontFamily: "GowunDodum-Regular",
                                         "& .MuiFormControlLabel-label": {
                                             fontFamily: "GowunDodum-Regular",
@@ -342,7 +348,9 @@ function CreateRoom() {
                                         ...textFieldStyle,
                                         "& .MuiInputBase-input": {
                                             fontFamily: "GowunDodum-Regular",
-                                            color: "#ffffff",
+                                            color: isDark
+                                                ? "#ffffff"
+                                                : "#0d142d",
                                         },
                                     }}
                                 />
@@ -357,12 +365,9 @@ function CreateRoom() {
                 color='primary'
                 onClick={handleCreateRoom}
                 sx={{
-                    backgroundColor: "#ffffff",
-                    color: "#000000",
+                    backgroundColor: isDark ? "#ffffff" : "#0d142d",
+                    color: isDark ? "#000000" : "#ffffff",
                     fontFamily: "GowunDodum-Regular",
-                    "&:hover": {
-                        backgroundColor: "#e0e0e0",
-                    },
                 }}
             >
                 방 생성

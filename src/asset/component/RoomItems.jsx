@@ -16,7 +16,8 @@ const RoomItem = styled.div`
             isDark ? "rgb(255, 255, 255, 0.1)" : "rgb(0, 0, 0, 0.1)"
         }`};
     padding: 1px;
-    border-left: none;
+    border-left: ${({ isDark }) =>
+        isDark ? "none" : "2px solid rgb(0, 0, 0, 0.1)"};
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
@@ -120,7 +121,7 @@ function RoomItems({ rooms, imageURL = null }) {
     const userId = localStorage.getItem("userId");
     const { isDark } = useTheme();
     const handleRoomClick = (roomId) => {
-        navigate(`/chattingroom/${roomId}/${userId}`);
+        navigate(`/roomdetail/${roomId}`);
     };
 
     return (

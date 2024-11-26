@@ -21,6 +21,7 @@ import {
     CharCount,
 } from "../style/ReviewStyles";
 import { useTheme } from "../../context/ThemeContext";
+import { FaStar } from "react-icons/fa6";
 
 const StarRating = ({ rating, onRatingChange }) => {
     return (
@@ -31,7 +32,7 @@ const StarRating = ({ rating, onRatingChange }) => {
                     filled={star <= rating}
                     onClick={() => onRatingChange(star)}
                 >
-                    ★
+                    <FaStar />
                 </StarButton>
             ))}
         </StarRatingContainer>
@@ -166,7 +167,7 @@ function BookReviews({ reviews, isbn, onReviewSubmit }) {
                                                     : "#ddd",
                                         }}
                                     >
-                                        ★
+                                        <FaStar />
                                     </span>
                                 ))}
                             </Rating>

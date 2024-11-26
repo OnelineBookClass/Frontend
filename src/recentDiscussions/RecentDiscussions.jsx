@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Title from "../asset/component/Title";
-import StyledHr from "./components/StyledHr";
 import CreateRoomButton from "./components/CreateRoomButton";
 import SearchInput from "./components/SearchInput";
 import axiosInstance from "../utils/axiosConfig";
-import CloseButton from "../asset/component/CloseButton";
 import RoomItems from "../asset/component/RoomItems";
 
 const Container = styled.div`
@@ -19,6 +17,7 @@ const Container = styled.div`
 
 function RecentDiscussions() {
     const [recentDiscussionsData, setRecentDiscussionsData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         const fetchRecentDiscussionsData = async () => {
@@ -29,20 +28,26 @@ function RecentDiscussions() {
                 setRecentDiscussionsData(response.data);
             } catch (error) {
                 console.error("최신 토론 조회 실패:", error);
-            } finally {
             }
         };
 
         fetchRecentDiscussionsData();
     }, []);
 
+    const filteredRooms = recentDiscussionsData.filter((room) =>
+        room.roomTitle.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <Container>
             <Title>최신 모임</Title>
-            {/* <StyledHr /> */}
             <CreateRoomButton />
-            {/* <SearchInput /> */}
-            <RoomItems rooms={recentDiscussionsData && recentDiscussionsData} />
+            {recentDiscussionsData.length > 0 && (
+                <>
+                    <SearchInput value={searchTerm} onChange={setSearchTerm} />
+                    <RoomItems rooms={filteredRooms} />
+                </>
+            )}
         </Container>
     );
 }
