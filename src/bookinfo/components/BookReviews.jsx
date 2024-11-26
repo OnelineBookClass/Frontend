@@ -15,14 +15,33 @@ import {
     ReviewForm,
     TextArea,
     ButtonGroup,
-    RatingSelect,
+    StarRatingContainer,
+    StarButton,
+    TextAreaContainer,
+    CharCount,
 } from "../style/ReviewStyles";
 import { useTheme } from "../../context/ThemeContext";
+
+const StarRating = ({ rating, onRatingChange }) => {
+    return (
+        <StarRatingContainer>
+            {[1, 2, 3, 4, 5].map((star) => (
+                <StarButton
+                    key={star}
+                    filled={star <= rating}
+                    onClick={() => onRatingChange(star)}
+                >
+                    ★
+                </StarButton>
+            ))}
+        </StarRatingContainer>
+    );
+};
 
 function BookReviews({ reviews, isbn, onReviewSubmit }) {
     const [showWriteForm, setShowWriteForm] = useState(false);
     const [content, setContent] = useState("");
-    const [rating, setRating] = useState(5);
+    const [rating, setRating] = useState(0);
     const [editingReviewId, setEditingReviewId] = useState(null);
     const [editContent, setEditContent] = useState("");
     const [editRating, setEditRating] = useState(5);
@@ -88,6 +107,20 @@ function BookReviews({ reviews, isbn, onReviewSubmit }) {
         }
     };
 
+    const handleContentChange = (e) => {
+        const text = e.target.value;
+        if (text.length <= 30) {
+            setContent(text);
+        }
+    };
+
+    const handleEditContentChange = (e) => {
+        const text = e.target.value;
+        if (text.length <= 30) {
+            setEditContent(text);
+        }
+    };
+
     return (
         <ReviewsSection>
             <TitleContainer>
@@ -99,21 +132,15 @@ function BookReviews({ reviews, isbn, onReviewSubmit }) {
 
             {showWriteForm && (
                 <ReviewForm>
-                    <RatingSelect
-                        value={rating}
-                        onChange={(e) => setRating(Number(e.target.value))}
-                    >
-                        {[5, 4, 3, 2, 1].map((num) => (
-                            <option key={num} value={num}>
-                                {"★".repeat(num)}
-                            </option>
-                        ))}
-                    </RatingSelect>
-                    <TextArea
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        placeholder='리뷰를 작성해주세요...'
-                    />
+                    <StarRating rating={rating} onRatingChange={setRating} />
+                    <TextAreaContainer>
+                        <TextArea
+                            value={content}
+                            onChange={handleContentChange}
+                            placeholder='리뷰를 작성해주세요... (최대 30자)'
+                        />
+                        <CharCount>{content.length}/30</CharCount>
+                    </TextAreaContainer>
                     <ButtonGroup>
                         <button onClick={handleSubmit}>작성하기</button>
                         <button onClick={() => setShowWriteForm(false)}>
@@ -128,31 +155,34 @@ function BookReviews({ reviews, isbn, onReviewSubmit }) {
                     <ReviewItem key={review.reviewId} isDark={isDark}>
                         <ReviewHeader>
                             <ReviewUser>{review.nickName}</ReviewUser>
-                            {editingReviewId === review.reviewId ? (
-                                <RatingSelect
-                                    value={editRating}
-                                    onChange={(e) =>
-                                        setEditRating(Number(e.target.value))
-                                    }
-                                >
-                                    {[5, 4, 3, 2, 1].map((num) => (
-                                        <option key={num} value={num}>
-                                            {"★".repeat(num)}
-                                        </option>
-                                    ))}
-                                </RatingSelect>
-                            ) : (
-                                <Rating>{"★".repeat(review.rating)}</Rating>
-                            )}
+                            <Rating>
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <span
+                                        key={star}
+                                        style={{
+                                            color:
+                                                star <= review.rating
+                                                    ? "#ffd700"
+                                                    : "#ddd",
+                                        }}
+                                    >
+                                        ★
+                                    </span>
+                                ))}
+                            </Rating>
                         </ReviewHeader>
                         {editingReviewId === review.reviewId ? (
                             <>
-                                <TextArea
-                                    value={editContent}
-                                    onChange={(e) =>
-                                        setEditContent(e.target.value)
-                                    }
-                                />
+                                <TextAreaContainer>
+                                    <TextArea
+                                        value={editContent}
+                                        onChange={handleEditContentChange}
+                                        placeholder='리뷰를 작성해주세요... (최대 30자)'
+                                    />
+                                    <CharCount>
+                                        {editContent.length}/30
+                                    </CharCount>
+                                </TextAreaContainer>
                                 <ButtonGroup>
                                     <button
                                         onClick={() =>

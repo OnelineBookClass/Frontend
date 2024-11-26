@@ -19,6 +19,7 @@ function Router() {
                         color: isDark ? "#ffffff" : "#0d142d",
                         maxWidth: "1000px",
                         margin: "0 auto",
+                        marginBottom: "10rem",
                     },
                 }}
             />

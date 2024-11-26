@@ -7,43 +7,86 @@ export const BookHead = styled.div`
     position: relative;
 `;
 
-export const BookImage = styled.img`
-    width: 150px;
-    height: 200px;
-    object-fit: cover;
-`;
-
-export const BookDetails = styled.div`
-    margin-right: 2rem;
-    flex: 1;
-`;
-
 export const Title = styled.h1`
     font-size: 24px;
     margin-bottom: 10px;
+    color: #0d142d;
 `;
 
 export const Author = styled.p`
-    color: #666;
-    margin-bottom: 5px;
+    color: #c2c2c2;
 `;
 
 export const Publisher = styled.p`
-    color: #666;
+    color: #c1c1c1;
+    font-size: 14px;
+`;
+
+export const BlurBackground = styled.div`
+    position: relative;
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    background: #f5f5f5;
+`;
+
+export const BlurredImage = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url(${(props) => props.src});
+    background-size: cover;
+    background-position: center;
+    filter: blur(20px);
+    opacity: 0.5;
+`;
+
+export const ContentWrapper = styled.div`
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+`;
+
+export const BookImage = styled.img`
+    width: 200px;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    transform: translateY(-50px);
 `;
 
 export const HeartButton = styled.button`
     position: absolute;
-    right: 0;
-    top: 0;
+    top: 20px;
+    right: 20px;
     background: none;
     border: none;
     font-size: 24px;
     cursor: pointer;
-    color: ${props => props.isLiked ? '#ff0000' : '#cccccc'};
-    transition: color 0.3s ease;
-    
+    z-index: 2;
+    padding: 10px;
+
     &:hover {
-        opacity: 0.8;
+        transform: scale(1.1);
     }
+`;
+
+export const BookDetails = styled.div`
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    color: white;
+    z-index: 1;
 `;

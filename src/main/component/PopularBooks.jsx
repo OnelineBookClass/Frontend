@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { settings } from "./PopularBooks/sliderSettings";
+import { useTheme } from "../../context/ThemeContext";
 
 const Section = styled.section`
     margin: 20px 0;
@@ -15,6 +16,7 @@ const Title = styled.div`
     align-items: center;
     font-size: 30px;
     margin-bottom: 20px;
+    font-weight: ${({ isDark }) => (isDark ? "normal" : "bold")};
 `;
 
 const StyledSlider = styled(Slider)`
@@ -42,10 +44,14 @@ const BookImage = styled.img`
     height: 200px;
     object-fit: cover;
     border-radius: 10px;
+    box-shadow: ${({ isDark }) =>
+        isDark
+            ? "0 4px 8px rgba(255, 255, 255, 0.5)"
+            : "0 4px 8px rgba(0, 0, 0, 0.5)"};
 `;
 
 const BookInfo = styled.div`
-    margin-top: 8px;
+    margin-top: 10px;
 `;
 
 const BookTitle = styled.div`
@@ -55,6 +61,7 @@ const BookTitle = styled.div`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: ${({ isDark }) => (isDark ? "normal" : "bold")};
 `;
 
 const BookAuthor = styled.div`
@@ -64,6 +71,7 @@ const BookAuthor = styled.div`
 
 function PopularBooks({ books }) {
     const navigate = useNavigate();
+    const { isDark } = useTheme();
 
     const handleBookClick = (book) => {
         navigate(`/book/${book.ISBN}`);
@@ -75,7 +83,7 @@ function PopularBooks({ books }) {
 
     return (
         <Section>
-            <Title>모임이 많은 책</Title>
+            <Title isDark={isDark}>모임이 많은 책</Title>
             <StyledSlider {...settings}>
                 {books.map((book) => (
                     <BookCard
@@ -83,6 +91,7 @@ function PopularBooks({ books }) {
                         onClick={() => handleBookClick(book)}
                     >
                         <BookImage
+                            isDark={isDark}
                             src={book.thumbnail}
                             alt={book.bookTitle}
                             onError={(e) => {
@@ -91,7 +100,9 @@ function PopularBooks({ books }) {
                             }}
                         />
                         <BookInfo>
-                            <BookTitle>{book.bookTitle}</BookTitle>
+                            <BookTitle isDark={isDark}>
+                                {book.bookTitle}
+                            </BookTitle>
                             <BookAuthor>{book.author}</BookAuthor>
                         </BookInfo>
                     </BookCard>

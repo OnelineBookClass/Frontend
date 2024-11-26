@@ -16,6 +16,7 @@ const RoomItem = styled.div`
             isDark ? "rgb(255, 255, 255, 0.1)" : "rgb(0, 0, 0, 0.1)"
         }`};
     padding: 1px;
+    border-left: none;
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;

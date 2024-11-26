@@ -1,23 +1,24 @@
 import React from "react";
 import styled from "styled-components";
+import { useTheme } from "../../context/ThemeContext";
 
 const PaginationContainer = styled.div`
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
     margin-top: 30px;
 `;
 
 const PageButton = styled.button`
-    padding: 8px 12px;
-    border: 1px solid #ddd;
+    padding: 11px 15px;
     border-radius: 4px;
-    background-color: ${(props) => (props.active ? "#8e0202" : "white")};
+    border: none;
+    background-color: ${(props) => (props.active ? "#23367a" : "#ffffff")};
     color: ${(props) => (props.active ? "white" : "black")};
     cursor: pointer;
 
     &:hover {
-        background-color: ${(props) => (props.active ? "#8e0202" : "#f0f0f0")};
+        background-color: ${(props) => (props.active ? "#23367a" : "#f0f0f0")};
     }
 
     &:disabled {
@@ -27,6 +28,7 @@ const PageButton = styled.button`
 `;
 
 function Pagination({ currentPage, totalPages, onPageChange }) {
+    const { isDark } = useTheme();
     const renderPageButtons = () => {
         const pages = [];
         const maxPages = 5;

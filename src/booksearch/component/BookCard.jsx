@@ -2,25 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import Logo from "../../asset/image/Logo.png";
-
-const Card = styled.div`
-    border: 1px solid #ddd;
-    color: #666;
-    border-radius: 8px;
-    padding: 15px;
-    background: white;
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out;
-    &:hover {
-        transform: scale(1.05);
-    }
-`;
+import { useTheme } from "../../context/ThemeContext";
 
 const BookImage = styled.img`
     width: 100%;
     height: 200px;
     object-fit: cover;
-    border-radius: 4px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    box-shadow: ${({ isDark }) =>
+        isDark
+            ? "0 4px 8px rgba(255, 255, 255, 0.5)"
+            : "0 4px 8px rgba(0, 0, 0, 0.5)"};
     margin-bottom: 10px;
 `;
 
@@ -30,11 +23,8 @@ const Rating = styled.span`
 `;
 
 const CardContainer = styled.div`
-    border: 1px solid #ddd;
-    color: #666;
     border-radius: 8px;
     padding: 15px;
-    background: white;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
     &:hover {
@@ -47,6 +37,7 @@ function BookCard({ book }) {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const from = searchParams.get("from");
+    const { isDark } = useTheme();
 
     const handleClick = () => {
         if (from === "createGroup") {
@@ -69,6 +60,7 @@ function BookCard({ book }) {
                 onError={(e) => {
                     e.target.src = Logo; // 이미지 로드 실패시 기본 로고 표시
                 }}
+                isDark={isDark}
             />
             <h3>{book.title}</h3>
             <p>

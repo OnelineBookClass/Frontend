@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { MdOutlineCancel } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext";
 
 const CloseButtonContainer = styled.button`
     display: flex;
@@ -8,12 +9,14 @@ const CloseButtonContainer = styled.button`
     background: none;
     cursor: pointer;
     font-size: 3rem;
+    color: ${({ isDark }) => (isDark ? "#ffffff" : "#0d142d")};
 `;
 
 function CloseButton() {
     const navigate = useNavigate();
+    const { isDark } = useTheme();
     return (
-        <CloseButtonContainer onClick={() => navigate(-1)}>
+        <CloseButtonContainer onClick={() => navigate(-1)} isDark={isDark}>
             <MdOutlineCancel />
         </CloseButtonContainer>
     );

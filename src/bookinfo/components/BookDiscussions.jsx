@@ -5,11 +5,12 @@ import RoomItems from "../../asset/component/RoomItems";
 
 const Section = styled.section`
     margin: 20px 0;
+    width: 95%;
+    margin: 2rem auto;
 `;
 
 const SectionTitle = styled.h2`
     font-size: 1.3rem;
-    color: #ffffff;
     margin-bottom: 20px;
 `;
 

@@ -6,6 +6,7 @@ export const Title = styled.div`
     font-size: 30px;
     margin-bottom: 10px;
     cursor: pointer;
+    font-weight: ${({ isDark }) => (isDark ? "normal" : "bold")};
 
     &:hover {
         opacity: 0.7;

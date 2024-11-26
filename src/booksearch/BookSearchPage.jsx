@@ -5,14 +5,12 @@ import BookCard from "./component/BookCard";
 import Pagination from "./component/Pagination";
 import LoadingOverlay from "../components/LoadingOverlay";
 import axiosInstance from "../utils/axiosConfig";
-import CloseButton from "../asset/component/CloseButton";
 import Title from "../asset/component/Title";
 const Container = styled.div`
     padding: 20px;
     width: 100%;
     margin: 0 auto;
     margin-bottom: 100px;
-    background-color: #0b122c;
 `;
 
 const MainContent = styled.div`
@@ -25,6 +23,10 @@ const ResultsContainer = styled.div`
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     margin-top: 20px;
+
+    @media (min-width: 620px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
 `;
 
 function BookSearchPage() {
@@ -77,7 +79,7 @@ function BookSearchPage() {
 
     return (
         <Container>
-            <Title>검색 결과</Title>
+            <Title>"{searchQuery}" 검색 결과</Title>
             {isLoading && <LoadingOverlay />}
             <MainContent>
                 <ResultsContainer>

@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 export const ReviewsSection = styled.section`
     margin-bottom: 30px;
+    width: 95%;
+    margin: 0 auto;
 `;
 
 export const SectionTitle = styled.h2`
@@ -33,7 +35,14 @@ export const ReviewUser = styled.span`
 `;
 
 export const Rating = styled.div`
-    color: #ffd700;
+    display: flex;
+    justify-content: flex-end;
+    gap: 2px;
+    font-size: 16px;
+    
+    span {
+        line-height: 1;
+    }
 `;
 
 export const ReviewContent = styled.p`
@@ -55,6 +64,7 @@ export const TitleContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+    gap: 20px;
 `;
 
 export const WriteButton = styled.button`
@@ -70,28 +80,24 @@ export const WriteButton = styled.button`
     }
 `;
 
-export const ReviewForm = styled.div`
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-`;
+
 
 export const TextArea = styled.textarea`
     width: 100%;
     height: 100px;
     padding: 10px;
-    margin: 10px 0;
+    padding-bottom: 30px;
     border: 1px solid #ddd;
     border-radius: 4px;
     resize: vertical;
+    font-family: inherit;
 `;
 
 export const ButtonGroup = styled.div`
     display: flex;
+    justify-content: flex-end;
     gap: 10px;
     margin-top: 10px;
-    justify-content: flex-end;
 
     button {
         padding: 5px 10px;
@@ -117,8 +123,48 @@ export const ButtonGroup = styled.div`
     }
 `;
 
-export const RatingSelect = styled.select`
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
+export const StarRatingContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+`;
+
+export const StarButton = styled.button`
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: ${props => props.filled ? '#ffd700' : '#ddd'};
+    transition: color 0.2s;
+    padding: 0;
+    line-height: 1;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+`;
+
+export const TextAreaContainer = styled.div`
+    position: relative;
+    width: 100%;
+    margin: 10px 0;
+`;
+
+export const CharCount = styled.span`
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 12px;
+    color: #666;
+`;
+
+export const ReviewForm = styled.div`
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    
+    ${StarRatingContainer} {
+        margin-bottom: 15px;
+    }
 `;

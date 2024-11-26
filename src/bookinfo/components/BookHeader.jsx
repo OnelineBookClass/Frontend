@@ -1,14 +1,15 @@
-import { useState, useContext, useEffect } from "react";
-import { UserContext } from "../../login/context/LoginContext";
+import { useState, useEffect } from "react";
 import axiosInstance from "../../utils/axiosConfig";
 import {
-    BookHead,
-    BookImage,
-    BookDetails,
     Title,
     Author,
     Publisher,
+    BlurredImage,
+    ContentWrapper,
+    BookImage,
     HeartButton,
+    BookDetails,
+    BlurBackground,
 } from "../style/BookHeaderStyles";
 
 function BookHeader({ book }) {
@@ -44,7 +45,7 @@ function BookHeader({ book }) {
         return () => {
             isMounted = false;
         };
-    }, [userId, book?.isbn]);
+    }, [userId, book]);
 
     const handleHeartClick = () => {
         if (!book || !book.isbn) return;
@@ -65,22 +66,27 @@ function BookHeader({ book }) {
     if (!book) return null;
 
     return (
-        <BookHead>
-            <BookImage
+        <BlurBackground>
+            <BlurredImage
                 src={book.thumbnail || "https://via.placeholder.com/150"}
-                alt={book.title}
             />
-            <BookDetails>
-                <Title>{book.title}</Title>
-                <Author>저자: {book.author || "저자 정보 없음"}</Author>
-                <Publisher>
-                    출판사: {book.publisher || "출판사 정보 없음"}
-                </Publisher>
-            </BookDetails>
-            <HeartButton onClick={handleHeartClick} isLiked={isLiked}>
-                {isLiked ? "❤️" : "🤍"}
-            </HeartButton>
-        </BookHead>
+            <ContentWrapper>
+                <BookImage
+                    src={book.thumbnail || "https://via.placeholder.com/150"}
+                    alt={book.title}
+                />
+                <HeartButton onClick={handleHeartClick}>
+                    {isLiked ? "❤️" : "🤍"}
+                </HeartButton>
+                <BookDetails>
+                    <Title>{book.title}</Title>
+                    <Author>저자: {book.author || "저자 정보 없음"}</Author>
+                    <Publisher>
+                        출판사: {book.publisher || "출판사 정보 없음"}
+                    </Publisher>
+                </BookDetails>
+            </ContentWrapper>
+        </BlurBackground>
     );
 }
 
