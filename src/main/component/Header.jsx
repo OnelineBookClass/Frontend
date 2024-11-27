@@ -1,0 +1,151 @@
+import React, { useState } from "react";
+import styled from "styled-components";
+import { FaSearch } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext";
+
+const HeaderContainer = styled.div`
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    height: 100px;
+    gap: 20px;
+    margin-bottom: 1rem;
+    padding: 0 20px;
+    background-color: #1a293f;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+`;
+
+const HeaderWrapper = styled.div`
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+`;
+
+const Logo = styled.div`
+    font-size: clamp(1.5rem, 2vw, 3rem);
+    font-weight: bold;
+    color: #ff9933;
+    text-shadow: 0 0 10px rgba(255, 153, 51, 0.5),
+        0 0 20px rgba(255, 153, 51, 0.3), 0 0 30px rgba(255, 153, 51, 0.2);
+    animation: glow 2s ease-in-out infinite;
+
+    @keyframes glow {
+        0%,
+        100% {
+            text-shadow: 0 0 10px rgba(255, 153, 51, 0.5),
+                0 0 20px rgba(255, 153, 51, 0.3);
+        }
+        50% {
+            text-shadow: 0 0 15px rgba(255, 153, 51, 0.7),
+                0 0 25px rgba(255, 153, 51, 0.5);
+        }
+    }
+`;
+
+const SearchContainer = styled.div`
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: flex-end;
+    position: relative;
+`;
+
+const SearchInputContainer = styled.div`
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    width: ${(props) => (props.isOpen ? "calc(100% - 40px)" : "0")};
+    transition: width 0.3s ease-in-out;
+    position: absolute;
+    right: 40px;
+
+    form {
+        width: 100%;
+        display: flex;
+    }
+`;
+
+const SearchInput = styled.input`
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 20px;
+    background-color: #6b738e;
+    outline: none;
+    font-size: 1rem;
+    color: white;
+
+    &::placeholder {
+        color: white;
+    }
+`;
+
+const SearchButton = styled.button`
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+`;
+
+function Header() {
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+    const { isDark } = useTheme();
+    const navigate = useNavigate();
+
+    const handleSearchClick = () => {
+        if (!isSearchOpen) {
+            setIsSearchOpen(true);
+            setTimeout(() => {
+                document.querySelector("#headerSearchInput")?.focus();
+            }, 300);
+        } else if (searchTerm.trim()) {
+            navigate(`/booksearch?query=${searchTerm}`);
+        } else {
+            setIsSearchOpen(false);
+        }
+    };
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        if (searchTerm.trim()) {
+            navigate(`/booksearch?query=${searchTerm}`);
+        }
+    };
+
+    return (
+        <HeaderContainer>
+            <HeaderWrapper>
+                <Logo>몽당불</Logo>
+                <SearchContainer>
+                    <SearchInputContainer isOpen={isSearchOpen}>
+                        <form onSubmit={handleSearchSubmit}>
+                            <SearchInput
+                                id='headerSearchInput'
+                                placeholder='책 제목을 검색해보세요'
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </form>
+                    </SearchInputContainer>
+                    <SearchButton onClick={handleSearchClick}>
+                        <FaSearch color='white' />
+                    </SearchButton>
+                </SearchContainer>
+            </HeaderWrapper>
+        </HeaderContainer>
+    );
+}
+
+export default Header;

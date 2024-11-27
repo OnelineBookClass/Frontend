@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
-import { Title } from "../style/TitleStyle";
 import { useTheme } from "../../context/ThemeContext";
 
 const Section = styled.section`
@@ -28,6 +27,14 @@ const ItemImage = styled.img`
     border-radius: 4px;
 `;
 
+const Title = styled.div`
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+`;
+
 function Recommendations({ recommended }) {
     const { isDark } = useTheme();
     const navigate = useNavigate();
@@ -39,7 +46,7 @@ function Recommendations({ recommended }) {
     return (
         <Section>
             <Title onClick={handleTitleClick} isDark={isDark}>
-                추천 책 <IoIosArrowForward />
+                추천 책
             </Title>
             <RecommendedGrid>
                 {recommended &&

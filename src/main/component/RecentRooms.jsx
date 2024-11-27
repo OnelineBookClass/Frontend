@@ -21,7 +21,14 @@ function RecentRooms({ rooms }) {
     return (
         <Section>
             <Title onClick={handleTitleClick} isDark={isDark}>
-                최신 모임 <IoIosArrowForward />
+                최신 모임{" "}
+                <IoIosArrowForward
+                    style={{
+                        fontSize: "1.5rem",
+                        fontWeight: "bold",
+                        color: "#ffcc66",
+                    }}
+                />
             </Title>
             <RoomItems rooms={rooms} />
         </Section>

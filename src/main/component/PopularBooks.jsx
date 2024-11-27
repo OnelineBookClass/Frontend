@@ -14,9 +14,9 @@ const Section = styled.section`
 const Title = styled.div`
     display: flex;
     align-items: center;
-    font-size: 30px;
+    font-size: 1.2rem;
     margin-bottom: 20px;
-    font-weight: ${({ isDark }) => (isDark ? "normal" : "bold")};
+    font-weight: bold;
 `;
 
 const StyledSlider = styled(Slider)`
@@ -47,7 +47,7 @@ const BookImage = styled.img`
     box-shadow: ${({ isDark }) =>
         isDark
             ? "0 4px 8px rgba(255, 255, 255, 0.5)"
-            : "0 4px 8px rgba(0, 0, 0, 0.5)"};
+            : "0 4px 8px rgba(66, 66, 66, 0.5)"};
 `;
 
 const BookInfo = styled.div`
@@ -62,11 +62,12 @@ const BookTitle = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     font-weight: ${({ isDark }) => (isDark ? "normal" : "bold")};
+    font-size: 0.9rem;
 `;
 
 const BookAuthor = styled.div`
     color: #b3b3b3;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 `;
 
 function PopularBooks({ books }) {

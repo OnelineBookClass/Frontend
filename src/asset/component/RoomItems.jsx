@@ -11,18 +11,12 @@ const RoomsList = styled.div`
 
 const RoomItem = styled.div`
     display: flex;
-    border: ${({ isDark }) =>
-        `2px solid ${
-            isDark ? "rgb(255, 255, 255, 0.1)" : "rgb(0, 0, 0, 0.1)"
-        }`};
-    padding: 1px;
-    border-left: ${({ isDark }) =>
-        isDark ? "none" : "2px solid rgb(0, 0, 0, 0.1)"};
+    height: clamp(120px, 15vw, 160px);
+    border: none;
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-    /* background-color: rgba(13, 20, 45, 0.7); */
-
+    background-color: #343e60;
     &:hover {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         transform: translateY(-2px);
@@ -30,8 +24,8 @@ const RoomItem = styled.div`
 `;
 
 const RoomThumbnail = styled.img`
-    width: 100px;
-    height: 160px;
+    width: clamp(80px, 15vw, 100px);
+    height: clamp(120px, 15vw, 160px);
     border-radius: 8px;
     object-fit: cover;
     margin-right: 15px;
@@ -42,40 +36,21 @@ const RoomInfo = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
-    height: 160px;
-    padding-top: 5px;
+    height: 100%;
+    padding: 5px;
+    min-height: 120px;
 `;
 
 const RoomTitle = styled.div`
-    font-size: 1.3rem;
+    font-size: clamp(1.1rem, 1.5vw, 1.3rem);
     margin-bottom: auto;
-`;
-
-const BookInfoContainer = styled.div`
-    display: flex;
-    gap: 8px;
-    margin-bottom: 10px;
-`;
-
-const BookTitle = styled.div`
-    display: flex;
-    align-items: flex-end;
-    font-size: 1rem;
-    margin: 0 0 1px 0;
-    color: ${({ isDark }) => (isDark ? "#e5e5e5" : "#4f4f4f")};
-`;
-
-const Author = styled.span`
-    display: flex;
-    align-items: flex-end;
-    padding-bottom: 2px;
-    font-size: 0.75rem;
-    color: #a7a7a7;
+    color: #ffffff;
+    padding-right: 80px;
 `;
 
 const Introduction = styled.p`
     font-size: 0.95rem;
-    color: ${({ isDark }) => (isDark ? "#e5e5e5" : "#000000")};
+    color: #e5e5e5;
     font-style: italic;
     margin: 0;
     line-height: 1.4;
@@ -85,10 +60,20 @@ const Introduction = styled.p`
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 1;
-    margin-top: 5px;
+    margin-top: 15px;
+    margin-bottom: 30px;
     display: flex;
     justify-content: center;
     text-align: center;
+`;
+
+const HostName = styled.div`
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 0.85rem;
+    color: #e5e5e5;
+    padding: 4px 8px;
 `;
 
 const MemberCount = styled.div`
@@ -96,12 +81,8 @@ const MemberCount = styled.div`
     bottom: 0;
     right: 0;
     font-size: 0.85rem;
-    color: ${({ isDark }) => (isDark ? "#e5e5e5" : "#000000")};
+    color: #e5e5e5;
     padding: 4px 8px;
-`;
-
-const HostName = styled.span`
-    margin-right: 10px;
 `;
 
 const TagContainer = styled.div`
@@ -113,12 +94,11 @@ const TagContainer = styled.div`
 
 const Tag = styled.span`
     font-size: 0.8rem;
-    color: ${({ isDark }) => (isDark ? "#e5e5e5" : "#000000")};
+    color: #e5e5e5;
 `;
 
 function RoomItems({ rooms, imageURL = null }) {
     const navigate = useNavigate();
-    const userId = localStorage.getItem("userId");
     const { isDark } = useTheme();
     const handleRoomClick = (roomId) => {
         navigate(`/roomdetail/${roomId}`);
@@ -138,12 +118,7 @@ function RoomItems({ rooms, imageURL = null }) {
                     />
                     <RoomInfo>
                         <RoomTitle>{room.title || room.roomTitle}</RoomTitle>
-                        <BookInfoContainer>
-                            <BookTitle isDark={isDark}>
-                                {room.bookTitle}
-                            </BookTitle>
-                            <Author isDark={isDark}>{room.author}</Author>
-                        </BookInfoContainer>
+                        <HostName>{room.hostNickName}</HostName>
                         <Introduction isDark={isDark}>
                             "{room.intro}"
                         </Introduction>
@@ -151,8 +126,7 @@ function RoomItems({ rooms, imageURL = null }) {
                             <Tag isDark={isDark}>#{room.tag}</Tag>
                         </TagContainer>
                         <MemberCount isDark={isDark}>
-                            <HostName>모임장: {room.hostNickName}</HostName>
-                            인원: {room.currentParticipants}/{room.maximum}명
+                            {room.currentParticipants}/{room.maximum}명
                         </MemberCount>
                     </RoomInfo>
                 </RoomItem>

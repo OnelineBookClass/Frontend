@@ -8,7 +8,7 @@ const CloseButtonContainer = styled.button`
     border: none;
     background: none;
     cursor: pointer;
-    font-size: 3rem;
+    font-size: clamp(2rem, 5vw, 3rem);
     color: ${({ isDark }) => (isDark ? "#ffffff" : "#0d142d")};
 `;
 

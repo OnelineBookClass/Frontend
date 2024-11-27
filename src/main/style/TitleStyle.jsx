@@ -3,10 +3,11 @@ import styled from "styled-components";
 export const Title = styled.div`
     display: flex;
     align-items: center;
-    font-size: 30px;
-    margin-bottom: 10px;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
     cursor: pointer;
-    font-weight: ${({ isDark }) => (isDark ? "normal" : "bold")};
+    font-weight: bold;
 
     &:hover {
         opacity: 0.7;

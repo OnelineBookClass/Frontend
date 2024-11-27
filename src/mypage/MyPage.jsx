@@ -9,6 +9,7 @@ import DesiredBooks from "./profile/DesiredBooks";
 import DiscussionEntries from "./profile/DiscussionEntries";
 import axiosInstance from "../utils/axiosConfig";
 import { useNavigate } from "react-router-dom";
+import { styled as muiStyled } from "@mui/material/styles";
 import Switch from "@mui/material/Switch";
 import { useTheme } from "../context/ThemeContext";
 
@@ -51,6 +52,25 @@ const NoDiscussions = styled.div`
     margin-top: 20px;
 `;
 
+const CustomSwitch = muiStyled(Switch)(({ theme }) => ({
+    "& .MuiSwitch-switchBase": {
+        "&.Mui-checked": {
+            color: "#fff",
+            "& + .MuiSwitch-track": {
+                backgroundColor: "#6b738e",
+                opacity: 0.8,
+            },
+        },
+    },
+    "& .MuiSwitch-thumb": {
+        backgroundColor: "#fff",
+    },
+    "& .MuiSwitch-track": {
+        backgroundColor: "#6b738e",
+        opacity: 0.5,
+    },
+}));
+
 function MyPage() {
     const userId = localStorage.getItem("userId");
     const navigate = useNavigate();
@@ -88,11 +108,7 @@ function MyPage() {
                         gap: "10px",
                     }}
                 >
-                    <Switch
-                        checked={isDark}
-                        onChange={toggleTheme}
-                        color='default'
-                    />
+                    <CustomSwitch checked={isDark} onChange={toggleTheme} />
                     <IconButton onClick={settingButtonClick}>
                         <IoSettingsOutline
                             color={isDark ? "#ffffff" : "#0d142d"}

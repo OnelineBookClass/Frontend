@@ -15,8 +15,8 @@ function Router() {
                             "background-color 0.2s ease, color 0.05s ease",
                     },
                     body: {
-                        backgroundColor: isDark ? "#0d142d" : "#ffffff",
-                        color: isDark ? "#ffffff" : "#0d142d",
+                        backgroundColor: isDark ? "#1A293F" : "#ffffff",
+                        color: isDark ? "#ffffff" : "#1A293F",
                         maxWidth: "1000px",
                         margin: "0 auto",
                         marginBottom: "10rem",

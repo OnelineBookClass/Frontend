@@ -56,13 +56,8 @@ export default function LoginPage() {
     }, []);
 
     const kakao = () => {
-        const baseUrl = process.env.PUBLIC_URL || window.location.origin;
-        console.log("Base URL:", baseUrl);
-        console.log("Kakao Client ID:", process.env.REACT_APP_KAKAO_CLIENT_ID);
         window.open(
-            `https://kauth.kakao.com/oauth/authorize?client_id=${
-                "fc36040f829290b13c8b48dcbc521c33" /*process.env.REACT_APP_KAKAO_CLIENT_ID*/
-            }&redirect_uri=${baseUrl}/auth/callback/kakao&response_type=code`,
+            `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=http://localhost:8080/auth/callback/kakao&response_type=code`,
             "_self"
         );
     };

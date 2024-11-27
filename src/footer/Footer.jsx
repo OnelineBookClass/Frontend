@@ -2,24 +2,30 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
-
-import { FaHome } from "react-icons/fa";
-import { SiBookstack } from "react-icons/si";
-import { FaRegLaughSquint } from "react-icons/fa";
+import HomeIcon from "../asset/icon/HomeIcon.png";
+import MyGroupIcon from "../asset/icon/MyGroupIcon.png";
+import MyPageIcon from "../asset/icon/MyPageIcon.png";
 
 const Container = styled.div`
     display: flex;
-    justify-content: space-around;
     width: 100%;
-    max-width: 1000px;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: ${({ isDark }) => (isDark ? "#0d142d" : "#ffffff")};
+    background-color: ${({ isDark }) => (isDark ? "#ffffff" : "#1A293F")};
     padding: 20px 0;
-    box-shadow: 0 -2px 0 rgba(255, 255, 255, 0.2);
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    color: ${({ isDark }) => (isDark ? "#1A293F" : "#ffffff")};
+`;
+
+const FooterWrapper = styled.div`
+    max-width: 1000px;
+    width: 100%;
     margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
 `;
 
 const MenuName = styled.span`
@@ -33,7 +39,6 @@ const NavItem = styled(NavLink)`
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    color: #666666;
     padding: 5px 0;
     transition: all 0.3s ease;
     flex: 1;
@@ -52,7 +57,7 @@ const NavItem = styled(NavLink)`
     }
 
     &:hover {
-        color: ${({ isDark }) => (isDark ? "#ffffff" : "#0d142d")};
+        color: ${({ isDark }) => (isDark ? "#0d142d" : "#ffffff")};
 
         span {
             max-width: 100px;
@@ -61,7 +66,7 @@ const NavItem = styled(NavLink)`
     }
 
     &.active {
-        color: ${({ isDark }) => (isDark ? "#ffffff" : "#0d142d")};
+        color: ${({ isDark }) => (isDark ? "#0d142d" : "#ffffff")};
         background: none;
 
         span {
@@ -75,18 +80,20 @@ export default function Footer() {
     const { isDark } = useTheme();
     return (
         <Container isDark={isDark}>
-            <NavItem to='/main' activeClassName='active' isDark={isDark}>
-                <FaHome />
-                <MenuName>홈</MenuName>
-            </NavItem>
-            <NavItem to='/mygroup' activeClassName='active' isDark={isDark}>
-                <SiBookstack />
-                <MenuName>나의 모임</MenuName>
-            </NavItem>
-            <NavItem to='/mypage' activeClassName='active' isDark={isDark}>
-                <FaRegLaughSquint />
-                <MenuName>마이페이지</MenuName>
-            </NavItem>
+            <FooterWrapper>
+                <NavItem to='/main' activeClassName='active' isDark={isDark}>
+                    <img src={HomeIcon} alt='홈' />
+                    <MenuName>홈</MenuName>
+                </NavItem>
+                <NavItem to='/mygroup' activeClassName='active' isDark={isDark}>
+                    <img src={MyGroupIcon} alt='나의 모임' />
+                    <MenuName>나의 모임</MenuName>
+                </NavItem>
+                <NavItem to='/mypage' activeClassName='active' isDark={isDark}>
+                    <img src={MyPageIcon} alt='마이페이지' />
+                    <MenuName>마이페이지</MenuName>
+                </NavItem>
+            </FooterWrapper>
         </Container>
     );
 }
