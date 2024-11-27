@@ -22,7 +22,8 @@ import NoParticipatingGroup from "./components/NoParticipatingGroup";
 import { PiBooks } from "react-icons/pi";
 
 const IntroContainer = styled.div`
-    width: 95%;
+    width: 100%;
+    max-width: 1000px;
     display: flex;
     flex-direction: column;
 `;

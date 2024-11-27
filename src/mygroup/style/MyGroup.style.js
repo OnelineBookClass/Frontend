@@ -21,7 +21,7 @@ export const Header = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 500px;
+    max-width: 1000px;
     margin: 1rem auto 2rem;
     padding: 0 1rem;
     position: relative;
