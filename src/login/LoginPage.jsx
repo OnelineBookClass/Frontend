@@ -31,11 +31,6 @@ const Container = styled.div`
     height: 100vh;
     text-align: center;
 
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
     &.show-login-button {
         button {
             animation: ${slideDown} 0.5s forwards;
@@ -61,8 +56,10 @@ export default function LoginPage() {
     }, []);
 
     const kakao = () => {
+        console.log(process.env.PUBLIC_URL);
+        console.log(process.env.REACT_APP_KAKAO_CLIENT_ID);
         window.open(
-            `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=http://localhost:8080/auth/callback/kakao&response_type=code`,
+            `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.PUBLIC_URL}/auth/callback/kakao&response_type=code`,
             "_self"
         );
     };
