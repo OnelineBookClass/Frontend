@@ -179,7 +179,7 @@ export const CustomSlider = styled(Slider)`
                 }
 
                 &.slick-active button:before {
-                    color: #ffffff;
+                    color: ${props => props.isDark ? '#ffffff' : '#0d142d'};
                     opacity: 1;
                 }
             }

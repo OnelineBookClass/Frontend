@@ -75,7 +75,7 @@ export default function Footer() {
     const { isDark } = useTheme();
     return (
         <Container isDark={isDark}>
-            <NavItem to='/' activeClassName='active' isDark={isDark}>
+            <NavItem to='/main' activeClassName='active' isDark={isDark}>
                 <FaHome />
                 <MenuName>홈</MenuName>
             </NavItem>

@@ -30,9 +30,12 @@ const Container = styled.div`
     align-items: center;
     height: 100vh;
     text-align: center;
-    background-color: #ffffff;
-    color: #000000;
 
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     &.show-login-button {
         button {
             animation: ${slideDown} 0.5s forwards;

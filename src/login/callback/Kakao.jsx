@@ -60,7 +60,7 @@ export default function Kakao() {
                                             window.alert(
                                                 `${response.data.nickName}님 환영합니다!`
                                             );
-                                            navigate("/");
+                                            navigate("/main");
                                         } else {
                                             navigate("/profilesetting");
                                         }

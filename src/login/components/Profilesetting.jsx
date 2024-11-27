@@ -70,7 +70,7 @@ function Profilesetting() {
                 userImage,
             });
 
-            navigate("/");
+            navigate("/main");
         } catch (error) {
             console.error("프로필 설정 중 오류 발생:", error);
             alert("프로필 설정에 실패했습니다. 다시 시도해주세요.");

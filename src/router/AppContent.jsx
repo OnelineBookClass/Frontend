@@ -28,7 +28,7 @@ function AppContent() {
     const [userId, setUserId] = useState("1234");
 
     const shouldShowHeaderFooter = ![
-        "/login",
+        "/",
         "/auth/callback/kakao",
         "/profilesetting",
     ].includes(location.pathname);
@@ -67,9 +67,9 @@ function AppContent() {
             }}
         >
             <Routes>
-                <Route path='/' element={<MainPage />} />
+                <Route path='/main' element={<MainPage />} />
 
-                <Route path='/login' element={<LoginPage />} />
+                <Route path='/' element={<LoginPage />} />
                 <Route path='/auth/callback/kakao' element={<Kakao />} />
 
                 <Route path='/mypage' element={<MyPage />} />

@@ -20,6 +20,7 @@ import CreateGroupButton from "./components/CreateGroupButton";
 import LoadingOverlay from "../components/LoadingOverlay";
 import NoParticipatingGroup from "./components/NoParticipatingGroup";
 import { PiBooks } from "react-icons/pi";
+import { useTheme } from "../context/ThemeContext";
 
 const IntroContainer = styled.div`
     width: 100%;
@@ -40,6 +41,7 @@ const MyGroupPage = () => {
     const navigate = useNavigate();
 
     const userId = localStorage.getItem("userId");
+    const { isDark } = useTheme();
 
     useEffect(() => {
         const fetchGroups = async () => {
@@ -153,7 +155,7 @@ const MyGroupPage = () => {
             </Header>
 
             <SliderContainer>
-                <CustomSlider {...sliderSettings}>
+                <CustomSlider {...sliderSettings} isDark={isDark}>
                     {currentGroups.length > 0 ? (
                         currentGroups.map((group) => (
                             <div key={group.roomId} className='slide-item'>
