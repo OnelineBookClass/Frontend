@@ -15,13 +15,13 @@ const slideIn = keyframes`
 `;
 
 const StyledButton = styled.button`
-    width: 280px;
-    height: 400px;
+    width: clamp(220px, 25vw, 280px);
+    height: clamp(300px, 40vh, 600px);
     border: 2px dashed #ccc;
     border-radius: 15px;
     background: none;
     color: #666;
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -33,16 +33,6 @@ const StyledButton = styled.button`
     animation: ${(props) => (props.isSearching ? fadeOut : "none")} 0.3s
         forwards;
 
-    @media (max-width: 768px) {
-        width: 240px;
-        height: 350px;
-    }
-
-    @media (max-width: 480px) {
-        width: 220px;
-        height: 330px;
-    }
-
     &:hover {
         background: #f5f5f5;
         border-color: #999;
@@ -50,7 +40,7 @@ const StyledButton = styled.button`
 
     &::before {
         content: "+";
-        font-size: 2rem;
+        font-size: clamp(1.5rem, 2vw, 2rem);
         margin-bottom: 10px;
     }
 `;
@@ -72,10 +62,10 @@ const SearchContainer = styled.div`
 
 const SearchInput = styled.input`
     width: 100%;
-    padding: 12px 20px;
+    padding: clamp(10px, 1.5vw, 12px) clamp(15px, 2vw, 20px);
     border: 2px solid ${(props) => (props.isDark ? "#ffffff" : "#0d142d")};
     border-radius: 20px;
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
     outline: none;
     animation: ${slideIn} 0.3s ease forwards;
 `;

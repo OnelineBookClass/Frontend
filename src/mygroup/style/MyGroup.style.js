@@ -3,15 +3,14 @@ import Slider from "react-slick";
 
 export const Container = styled.div`
     padding: 1rem;
-    height: calc(100vh - 60px);
+    min-height: calc(100vh - 60px);
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding-bottom: 10rem;
-    overflow: hidden;
+    overflow: visible;
     position: fixed;
-    top: 30px;
     left: 0;
     right: 0;
 `;
@@ -78,7 +77,6 @@ export const NavButton = styled.button`
 export const ToggleContainer = styled.div`
     display: flex;
     gap: 0.5rem;
-    margin-bottom: 1rem;
     width: 100%;
     justify-content: flex-end;
 
@@ -92,8 +90,8 @@ export const ToggleButton = styled.button`
     border: none;
     border-radius: 20px;
     cursor: pointer;
-    background-color: ${props => props.active ? '#2E64FE' : '#f0f0f0'};
-    color: ${props => props.active ? 'white' : '#666'};
+    background-color: ${props => props.active ? '#ff9933' : '#f0f0f0'};
+    color: ${props => props.active ? '#0d142d' : '#666'};
     transition: all 0.3s ease;
     font-size: clamp(0.8rem, 1.5vw, 0.9rem);
     white-space: nowrap;
@@ -157,7 +155,6 @@ export const CustomSlider = styled(Slider)`
     }
 
     .slick-dots {
-            bottom: -40px;
 
             li {
                 width: 12px;

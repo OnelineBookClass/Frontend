@@ -1,29 +1,19 @@
 import styled from "styled-components";
 
 const StyledContainer = styled.div`
-    width: 280px;
-    height: 400px;
+    width: clamp(220px, 25vw, 280px);
+    height: clamp(300px, 40vh, 600px);
     border: 2px dashed #ccc;
     border-radius: 15px;
     background: none;
     color: #666;
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 10px;
     margin: 0 auto;
-
-    @media (max-width: 768px) {
-        width: 240px;
-        height: 350px;
-    }
-
-    @media (max-width: 480px) {
-        width: 220px;
-        height: 330px;
-    }
 `;
 
 const MessageText = styled.p`

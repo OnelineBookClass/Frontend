@@ -19,8 +19,8 @@ export const BookInfo = styled.div`
 `;
 
 export const BookCover = styled.img`
-    width: 200px;
-    height: 300px;
+    width: clamp(100px, 20vw, 200px);
+    height: clamp(110px, 30vh, 300px);
     object-fit: cover;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -33,9 +33,8 @@ export const BookDetails = styled.div`
 `;
 
 export const Title = styled.h1`
-    font-size: 24px;
+    font-size: clamp(1rem, 2vw, 1.5rem);
     margin: 0;
-    color: #333;
 `;
 
 export const Author = styled.p`

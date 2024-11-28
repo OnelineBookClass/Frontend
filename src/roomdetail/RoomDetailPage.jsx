@@ -5,6 +5,8 @@ import styled from "styled-components";
 import RoomInfo from "./components/RoomInfo";
 import Quiz from "./components/Quiz";
 import ErrorOverlay from "./components/ErrorOverlay";
+import { useTheme } from "../context/ThemeContext";
+import Title from "../asset/component/Title";
 
 function RoomDetailPage() {
     const { roomId } = useParams();
@@ -17,6 +19,7 @@ function RoomDetailPage() {
     const [showFailMessage, setShowFailMessage] = useState(false);
     const userId = localStorage.getItem("userId");
     const [participating, setParticipating] = useState(false);
+    const { isDark } = useTheme();
 
     useEffect(() => {
         try {
@@ -126,7 +129,7 @@ function RoomDetailPage() {
             {showOverlay && (
                 <ErrorOverlay
                     message='퀴즈를 틀려서 방에 참여하실 수 없습니다!'
-                    onConfirm={() => navigate("/")}
+                    onConfirm={() => navigate("/main")}
                 />
             )}
             {showFailMessage && (
@@ -137,18 +140,24 @@ function RoomDetailPage() {
             )}
 
             {!showQuiz ? (
-                <RoomInfo
-                    roomDetail={roomDetail}
-                    onJoin={handleJoin}
-                    participating={participating}
-                />
+                <>
+                    <Title> 모임 상세 </Title>
+                    <RoomInfo
+                        roomDetail={roomDetail}
+                        onJoin={handleJoin}
+                        participating={participating}
+                    />
+                </>
             ) : (
-                <Quiz
-                    quiz={roomDetail.quizzes[currentQuiz]}
-                    currentQuiz={currentQuiz}
-                    onAnswer={handleQuizAnswer}
-                    quizResult={quizResult}
-                />
+                <>
+                    <Title> 퀴즈 </Title>
+                    <Quiz
+                        quiz={roomDetail.quizzes[currentQuiz]}
+                        currentQuiz={currentQuiz}
+                        onAnswer={handleQuizAnswer}
+                        quizResult={quizResult}
+                    />
+                </>
             )}
         </Container>
     );

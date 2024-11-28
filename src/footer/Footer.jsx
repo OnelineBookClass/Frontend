@@ -29,7 +29,7 @@ const FooterWrapper = styled.div`
 `;
 
 const MenuName = styled.span`
-    font-size: 20px;
+    font-size: clamp(0.85rem, 3vw, 1.25rem);
     margin-top: 4px;
 `;
 
@@ -39,7 +39,6 @@ const NavItem = styled(NavLink)`
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    padding: 5px 0;
     transition: all 0.3s ease;
     flex: 1;
     min-width: 0;

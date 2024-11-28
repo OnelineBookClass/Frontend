@@ -127,7 +127,7 @@ const MyGroupPage = () => {
     return (
         <Container>
             <IntroContainer>
-                <PiBooks fontSize={50} />
+                <PiBooks fontSize='clamp(30px, 5vw, 50px)' />
                 <Title>
                     사람들과 함께
                     <br /> 책장을 넘겨보세요.

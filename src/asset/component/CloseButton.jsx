@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { MdOutlineCancel } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
+import { FaArrowLeft } from "react-icons/fa";
 
 const CloseButtonContainer = styled.button`
     display: flex;
@@ -9,7 +10,7 @@ const CloseButtonContainer = styled.button`
     background: none;
     cursor: pointer;
     font-size: clamp(2rem, 5vw, 3rem);
-    color: ${({ isDark }) => (isDark ? "#ffffff" : "#0d142d")};
+    color: ${({ isDark }) => (isDark ? "#ff9933" : "#0d142d")};
 `;
 
 function CloseButton() {
@@ -17,7 +18,7 @@ function CloseButton() {
     const { isDark } = useTheme();
     return (
         <CloseButtonContainer onClick={() => navigate(-1)} isDark={isDark}>
-            <MdOutlineCancel />
+            <FaArrowLeft />
         </CloseButtonContainer>
     );
 }
