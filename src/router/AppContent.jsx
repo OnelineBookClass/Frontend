@@ -84,7 +84,7 @@ function AppContent() {
                 <Route path='/settings' element={<SettingPage />} />
                 <Route path='/desired' element={<DesiredBooksPage />} />
                 <Route
-                    path='/mydiscussion'
+                    path='/mydiscussion/:discussionId'
                     element={<MyDiscussionRecordPage />}
                 />
                 <Route
@@ -92,7 +92,7 @@ function AppContent() {
                     element={<RoomDetailPage />}
                 />
                 <Route
-                    path='/chattingroom/:roomId/:userId'
+                    path='/chattingroom/:roomId'
                     element={<ChattingRoom />}
                 />
             </Routes>

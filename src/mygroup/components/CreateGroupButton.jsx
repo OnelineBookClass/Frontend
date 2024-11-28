@@ -17,10 +17,10 @@ const slideIn = keyframes`
 const StyledButton = styled.button`
     width: clamp(220px, 25vw, 280px);
     height: clamp(300px, 40vh, 600px);
-    border: 2px dashed #ccc;
+    border: 2px dashed ${(props) => (props.isDark ? "#ff9933" : "#ccc")};
     border-radius: 15px;
     background: none;
-    color: #666;
+    color: ${(props) => (props.isDark ? "#ff9933" : "#666")};
     font-size: clamp(0.9rem, 1.2vw, 1rem);
     cursor: pointer;
     display: flex;
@@ -104,6 +104,7 @@ const CreateGroupButton = () => {
             <StyledButton
                 onClick={handleInitialClick}
                 isSearching={isSearching}
+                isDark={isDark}
             >
                 모임 열기
             </StyledButton>

@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 import {
     RoomHeader,
     BookInfo,
@@ -18,6 +19,13 @@ import {
     TagContainer,
 } from "../styles/RoomDetailPage.style";
 
+const RoomTitle = styled.div`
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #0d142d;
+`;
+
 const RoomInfo = ({ roomDetail, onJoin, participating }) => {
     const isRoomFull = roomDetail.currentParticipants >= roomDetail.maximum;
 
@@ -35,6 +43,7 @@ const RoomInfo = ({ roomDetail, onJoin, participating }) => {
                 </BookCoverWrapper>
 
                 <InfoContainer>
+                    <RoomTitle>{roomDetail.roomTitle}</RoomTitle>
                     <TagContainer>
                         <Tag>{roomDetail.tag}</Tag>
                     </TagContainer>
@@ -47,7 +56,7 @@ const RoomInfo = ({ roomDetail, onJoin, participating }) => {
                         <InfoItem>
                             <Label>방장 평점</Label>
                             <Value isHostRating>
-                                {roomDetail.hostRating}/5
+                                {roomDetail.userRating}/5
                             </Value>
                         </InfoItem>
                         <InfoItem>

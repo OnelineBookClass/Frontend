@@ -69,7 +69,7 @@ function RoomDetailPage() {
                 setShowFailMessage(true);
             } else {
                 if (participating) {
-                    navigate(`/chattingroom/${roomId}/${userId}`);
+                    navigate(`/chattingroom/${roomId}`);
                 } else {
                     setShowQuiz(true);
                 }
@@ -105,6 +105,7 @@ function RoomDetailPage() {
                     setCurrentQuiz(currentQuiz + 1);
                 } else {
                     try {
+                        // 퀴즈 통과 결과 저장
                         await axiosInstance.post(
                             "/mongdangbul/quiz/quizComplete",
                             {
@@ -113,9 +114,23 @@ function RoomDetailPage() {
                                 userId,
                             }
                         );
-                        navigate(`/chattingroom/${roomId}/${userId}`);
+
+                        // 참여자 테이블에 추가
+                        await axiosInstance.post(
+                            "/mongdangbul/rooms/participant",
+                            {
+                                roomId,
+                                userId,
+                                disconnectFlag: false,
+                            }
+                        );
+
+                        navigate(`/chattingroom/${roomId}`);
                     } catch (error) {
-                        console.error("퀴즈 결과 저장 실패:", error);
+                        console.error(
+                            "퀴즈 결과 저장 또는 참여자 등록 실패:",
+                            error
+                        );
                     }
                 }
             }, 1000);

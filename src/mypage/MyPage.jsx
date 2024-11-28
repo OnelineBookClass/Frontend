@@ -11,6 +11,9 @@ import { useNavigate } from "react-router-dom";
 import { styled as muiStyled } from "@mui/material/styles";
 import Switch from "@mui/material/Switch";
 import { useTheme } from "../context/ThemeContext";
+import { MdOutlineWbSunny } from "react-icons/md";
+import { FiMoon } from "react-icons/fi";
+import { FaPowerOff } from "react-icons/fa6";
 
 const Container = styled.div`
     display: flex;
@@ -25,6 +28,7 @@ const Header = styled.div`
     justify-content: space-between;
     align-items: center;
     padding-top: 1rem;
+    position: relative;
 `;
 
 const Title = styled.div`
@@ -70,6 +74,25 @@ const CustomSwitch = muiStyled(Switch)(({ theme }) => ({
     },
 }));
 
+const ThemeControls = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+`;
+
+const SettingsAndLogout = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+const LogoutButton = styled(IconButton)`
+    color: #ff4444 !important;
+    margin-left: 8px;
+`;
+
 function MyPage() {
     const userId = localStorage.getItem("userId");
     const navigate = useNavigate();
@@ -84,6 +107,7 @@ function MyPage() {
                         `/mongdangbul/library/${userId}`
                     );
                     setMypageData(response.data);
+                    console.log(response.data);
                 }
             } catch (error) {
                 console.error("마이 데이터 로딩 실패 : " + error);
@@ -96,24 +120,36 @@ function MyPage() {
         navigate("/settings", { state: mypageData.myInfo });
     };
 
+    const handleLogout = () => {
+        if (window.confirm("로그아웃 하시겠습니까?")) {
+            localStorage.removeItem("userId");
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("refreshToken");
+            navigate("/");
+        }
+    };
+
     return (
         <Container>
             <Header>
                 <Title>마이페이지</Title>
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                    }}
-                >
+                <ThemeControls>
+                    <MdOutlineWbSunny
+                        style={{ fontSize: "clamp(1rem, 5vw, 1.5rem)" }}
+                    />
                     <CustomSwitch checked={isDark} onChange={toggleTheme} />
+                    <FiMoon style={{ fontSize: "clamp(1rem, 5vw, 1.5rem)" }} />
+                </ThemeControls>
+                <SettingsAndLogout>
                     <IconButton onClick={settingButtonClick}>
                         <IoSettingsOutline
                             color={isDark ? "#ffffff" : "#0d142d"}
                         />
                     </IconButton>
-                </div>
+                    <LogoutButton onClick={handleLogout}>
+                        <FaPowerOff />
+                    </LogoutButton>
+                </SettingsAndLogout>
             </Header>
 
             <UserInfo myInfo={mypageData && mypageData.myInfo} />

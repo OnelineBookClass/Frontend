@@ -8,7 +8,7 @@ const CardContainer = styled.div`
     margin: 0;
     border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    background: #cdcdcd;
+    background: #9a9a9a;
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease;
@@ -83,10 +83,9 @@ const InfoContainer = styled.div`
 
 const GroupCard = ({ group, isHost, children }) => {
     const navigate = useNavigate();
-    const userId = localStorage.getItem("userId");
     return (
         <CardContainer
-            onClick={() => navigate(`/chattingroom/${group.roomId}/${userId}`)}
+            onClick={() => navigate(`/chattingroom/${group.roomId}`)}
         >
             <BookImage src={group.thumbnail} alt={group.bookTitle} />
             <GroupTitle>{group.roomTitle}</GroupTitle>

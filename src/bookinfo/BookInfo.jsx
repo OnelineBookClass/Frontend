@@ -6,6 +6,11 @@ import BookHeader from "./components/BookHeader";
 import { Container } from "./style/BookInfoStyles";
 import axiosInstance from "../utils/axiosConfig";
 import Title from "../asset/component/Title";
+import styled from "styled-components";
+
+const TitleWrapper = styled.div`
+    margin-left: 1rem;
+`;
 
 function BookInfo() {
     const [meetings, setMeetings] = useState([]);
@@ -36,7 +41,9 @@ function BookInfo() {
 
     return (
         <Container>
-            <Title>책 정보</Title>
+            <TitleWrapper>
+                <Title>책 정보</Title>
+            </TitleWrapper>
             <BookHeader book={book} />
             <BookDiscussions
                 rooms={meetings}

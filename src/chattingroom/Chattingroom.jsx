@@ -5,6 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { IoMdMenu } from "react-icons/io";
 import { useTheme } from "../context/ThemeContext";
 import { FaSignOutAlt } from "react-icons/fa";
+import { CircularProgress } from "@mui/material";
 
 const ChattingRoom = () => {
     const userId = localStorage.getItem("userId");
@@ -20,6 +21,8 @@ const ChattingRoom = () => {
     const [isHost, setIsHost] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { isDark } = useTheme();
+    const [isLoading, setIsLoading] = useState(false);
+    const [loadingMessage, setLoadingMessage] = useState("");
 
     // 소켓 연결 및 이벤트 리스너 설정
     useEffect(() => {
@@ -35,9 +38,22 @@ const ChattingRoom = () => {
         });
         setSocket(newSocket);
 
-        // 소켓 연결 성공 시 바로 방 참여 요청
+        // 소켓 연결 성공 시 참여자 확인 요청
         newSocket.on("connect", () => {
             console.log("소켓 연결 성공!");
+            newSocket.emit("checkParticipant", { userId, roomId });
+        });
+
+        // 권한 없음 응답 처리
+        newSocket.on("unauthorized", (data) => {
+            alert(data.message);
+            if (data.redirect) {
+                navigate(`/roomdetail/${roomId}`);
+            }
+        });
+
+        // 권한 확인됨 응답 처리
+        newSocket.on("authorized", () => {
             newSocket.emit("joinRoom", { roomId, userId });
         });
 
@@ -80,6 +96,7 @@ const ChattingRoom = () => {
 
         // 에러 처리
         newSocket.on("error", (data) => {
+            setIsLoading(false);
             console.error("소켓 에러 발생:", data);
             setError(data.message);
         });
@@ -93,13 +110,14 @@ const ChattingRoom = () => {
             newSocket.emit("joinRoom", { roomId, userId });
         });
 
-        // 참여자 목록 업데이트 이벤트
+        // 참여자 목록 업데이트 벤트
         newSocket.on("participantsList", (updatedParticipants) => {
             setParticipants(updatedParticipants);
         });
 
         // 토론 종료 이벤트 추가
         newSocket.on("discussionEnded", (data) => {
+            setIsLoading(false);
             alert(data.message);
             navigate("/main");
         });
@@ -121,9 +139,9 @@ const ChattingRoom = () => {
 
         // 요약 결과 수신
         newSocket.on("summaryResult", (analysis) => {
+            setIsLoading(false);
             console.log("토론 요약:", analysis);
 
-            // JSON 데이터를 보기 좋게 포맷팅
             const formattedMsg = `[토론 요약]\n\n▶ 논점\n${
                 analysis.논점 || "논점 없음"
             }\n\n▶ 토론자별 주장\n${
@@ -153,7 +171,7 @@ const ChattingRoom = () => {
             newSocket.disconnect();
             setIsJoined(false);
         };
-    }, [roomId, userId]);
+    }, [roomId, userId, navigate]);
 
     // 메시지 자동 스크롤
     useEffect(() => {
@@ -176,15 +194,48 @@ const ChattingRoom = () => {
     // 토론 종료 함수 추가
     const handleEndDiscussion = () => {
         if (window.confirm("정말로 토론을 종료하시겠습니까?")) {
+            setIsLoading(true);
+            setLoadingMessage("토론이 종료중입니다...");
             socket.emit("endDiscussion", { roomId });
         }
     };
 
     const handleSummary = () => {
         if (window.confirm("토론을 요약하시겠습니까?")) {
+            setIsLoading(true);
+            setLoadingMessage("토론 내용을 요약하고 있습니다...");
             socket.emit("summaryDiscussion", { roomId });
         }
     };
+
+    const LoadingOverlay = styled.div`
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    `;
+
+    const LoadingSpinner = styled.div`
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    `;
+
+    const LoadingText = styled.p`
+        color: #1a293f;
+        margin: 0;
+        font-size: 1rem;
+    `;
 
     if (error) {
         return <ErrorMessage>{error}</ErrorMessage>;
@@ -192,6 +243,14 @@ const ChattingRoom = () => {
 
     return (
         <Container>
+            {isLoading && (
+                <LoadingOverlay>
+                    <LoadingSpinner>
+                        <CircularProgress style={{ color: "#ff9933" }} />
+                        <LoadingText>{loadingMessage}</LoadingText>
+                    </LoadingSpinner>
+                </LoadingOverlay>
+            )}
             <ChatContainer>
                 <MenuButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
                     <IoMdMenu size={24} />

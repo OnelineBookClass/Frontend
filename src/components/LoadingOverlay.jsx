@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
+import { useTheme } from "../context/ThemeContext";
 
 const rotate = keyframes`
     from {
@@ -15,8 +16,8 @@ const Overlay = styled.div`
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background-color: rgba(177, 177, 177, 0.5);
+    height: 100%; //1A293F //ff9933
+    background-color: ${(props) => (props.isDark ? "#1A293F" : "#ffffff")};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,16 +27,17 @@ const Overlay = styled.div`
 const Spinner = styled.div`
     width: 50px;
     height: 50px;
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid #0d142d;
+    border: 5px solid ${(props) => (props.isDark ? "#ffffff" : "#ff9933")};
+    border-top: 5px solid ${(props) => (props.isDark ? "#ff9933" : "#ffffff")};
     border-radius: 50%;
     animation: ${rotate} 1s linear infinite;
 `;
 
 const LoadingOverlay = () => {
+    const { isDark } = useTheme();
     return (
-        <Overlay>
-            <Spinner />
+        <Overlay isDark={isDark}>
+            <Spinner isDark={isDark} />
         </Overlay>
     );
 };

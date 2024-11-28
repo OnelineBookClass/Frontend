@@ -194,7 +194,7 @@ function CreateRoom() {
             console.log("방 생성 성공:", response.data);
             alert("방 생성이 완료되었습니다!");
 
-            navigate(`/chattingroom/${response.data.roomId}/${userId}`);
+            navigate(`/chattingroom/${response.data.roomId}`);
         } catch (error) {
             console.error("방 생성 실패:", error);
             alert("방 생성에 실패했습니다. 다시 시도해주세요.");
