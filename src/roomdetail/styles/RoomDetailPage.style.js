@@ -8,97 +8,162 @@ export const Container = styled.div`
 
 export const RoomHeader = styled.div`
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 30px;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+    margin-top: 50px;
 `;
 
 export const BookInfo = styled.div`
     display: flex;
-    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    position: relative;
+`;
+
+export const BookCoverWrapper = styled.div`
+    position: relative;
+    width: clamp(200px, 30vw, 300px);
+    height: clamp(250px, 40vh, 400px);
+    margin-bottom: -50px;
 `;
 
 export const BookCover = styled.img`
-    width: clamp(100px, 20vw, 200px);
-    height: clamp(110px, 30vh, 300px);
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
-export const BookDetails = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+export const BookCoverOverlay = styled.div`
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8));
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 `;
 
 export const Title = styled.h1`
-    font-size: clamp(1rem, 2vw, 1.5rem);
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
     margin: 0;
+    color: white;
+    text-align: left;
+    z-index: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
 
 export const Author = styled.p`
-    font-size: 18px;
-    color: #666;
-    margin: 0;
-`;
-
-export const Tag = styled.span`
-    background-color: #f0f0f0;
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-size: 14px;
-    width: fit-content;
-`;
-
-export const HostInfo = styled.div`
-    font-size: 16px;
-    color: #666;
-    padding: 5px 10px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
+    position: absolute;
+    top: 45px;
+    left: 20px;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 5px 0;
+    text-align: left;
+    z-index: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
 
 export const InfoContainer = styled.div`
     background-color: #f8f9fa;
     border-radius: 10px;
-    padding: 20px;
-    margin-top: 30px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 30px 20px 20px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
 `;
 
-export const InfoItem = styled.div`
-    margin-bottom: 20px;
-    
-    &:last-child {
-        margin-bottom: 0;
+export const InfoContent = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 15px;
+
+    & > div:nth-child(3) {
+        grid-column: 2;
+        grid-row: 2;
+    }
+    & > div:nth-child(1) {
+        grid-column: 1;
+        grid-row: 1;
+    }
+    & > div:nth-child(2) {
+        grid-column: 2;
+        grid-row: 1;
+    }
+    & > div:nth-child(4) {
+        grid-column: 1;
+        grid-row: 2;
     }
 `;
 
+export const InfoItem = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+`;
+
 export const Label = styled.div`
-    font-weight: 600;
-    color: #495057;
-    margin-bottom: 8px;
-    font-size: 16px;
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    color: #666;
 `;
 
 export const Value = styled.div`
-    color: #212529;
-    font-size: 15px;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    color: #333;
+    font-weight: ${props => props.isParticipants || props.isHostRating ? '600' : 'normal'};
+    color: ${props => props.isParticipants ? '#ff9933' : props.isHostRating ? '#ff9933' : '#333'};
+`;
+
+export const Tag = styled.span`
+    background-color: #ff9933;
+    color: #111;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+`;
+
+export const TagContainer = styled.div`
+    margin-bottom: 10px;
+`;
+
+export const Description = styled.p`
+    font-size: 0.95rem;
     line-height: 1.5;
-    
-    ${props => props.isParticipants && `
-        font-weight: 600;
-        color: #007bff;
-    `}
+    color: #666;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+`;
+
+export const HostInfo = styled.div`
+    font-size: 0.9rem;
+    color: #666;
+    padding: 8px 15px;
+    background-color: #f8f9fa;
+    border-radius: 20px;
+    margin: 10px 0;
 `;
 
 export const JoinButton = styled.button`
     width: 100%;
     padding: 15px;
     margin-top: 30px;
-    background-color: ${props => props.disabled ? '#dee2e6' : '#007bff'};
-    color: white;
+    background-color: ${props => props.disabled ? '#dee2e6' : '#1A293F'};
+    color: ${props => props.disabled ? '#666' : '#ff9933'};
     border: none;
     border-radius: 8px;
     font-size: 18px;
@@ -107,7 +172,7 @@ export const JoinButton = styled.button`
     transition: all 0.2s ease;
 
     &:hover {
-        background-color: ${props => props.disabled ? '#dee2e6' : '#0056b3'};
+        background-color: ${props => props.disabled ? '#dee2e6' : '#1A293F'};
     }
 
     &:active {
@@ -121,7 +186,7 @@ export const QuizContainer = styled.div`
 `;
 
 export const QuizTitle = styled.h2`
-    color: #333;
+    color: #ff9933;
     margin-bottom: 20px;
 `;
 

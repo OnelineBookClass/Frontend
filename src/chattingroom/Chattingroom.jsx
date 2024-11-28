@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import styled from "styled-components";
 import { useParams, useNavigate } from "react-router-dom";
+import { IoMdMenu } from "react-icons/io";
+import { useTheme } from "../context/ThemeContext";
+import { FaSignOutAlt } from "react-icons/fa";
 
 const ChattingRoom = () => {
     const userId = localStorage.getItem("userId");
@@ -15,6 +18,8 @@ const ChattingRoom = () => {
     const messageEndRef = useRef(null);
     const [participants, setParticipants] = useState([]);
     const [isHost, setIsHost] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { isDark } = useTheme();
 
     // 소켓 연결 및 이벤트 리스너 설정
     useEffect(() => {
@@ -96,7 +101,7 @@ const ChattingRoom = () => {
         // 토론 종료 이벤트 추가
         newSocket.on("discussionEnded", (data) => {
             alert(data.message);
-            navigate("/");
+            navigate("/main");
         });
 
         // joinRoomSuccess 이벤트 리스너 추가
@@ -112,6 +117,32 @@ const ChattingRoom = () => {
                 chatTime: new Date(msg.chatTime),
             }));
             setMessages(formattedHistory);
+        });
+
+        // 요약 결과 수신
+        newSocket.on("summaryResult", (analysis) => {
+            console.log("토론 요약:", analysis);
+
+            // JSON 데이터를 보기 좋게 포맷팅
+            const formattedMsg = `[토론 요약]\n\n▶ 논점\n${
+                analysis.논점 || "논점 없음"
+            }\n\n▶ 토론자별 주장\n${
+                analysis.토론자별주장
+                    ? Object.entries(analysis.토론자별주장)
+                          .map(([name, opinion]) => `• ${name}: ${opinion}`)
+                          .join("\n")
+                    : "토론자별 주장이 없습니다."
+            }`;
+
+            setMessages((prev) => [
+                ...prev,
+                {
+                    nickName: "System",
+                    msg: formattedMsg,
+                    chatTime: new Date(),
+                    isSummary: true,
+                },
+            ]);
         });
 
         // 컴포넌트 언마운트 시 정리
@@ -145,7 +176,13 @@ const ChattingRoom = () => {
     // 토론 종료 함수 추가
     const handleEndDiscussion = () => {
         if (window.confirm("정말로 토론을 종료하시겠습니까?")) {
-            socket.emit("endDiscussion");
+            socket.emit("endDiscussion", { roomId });
+        }
+    };
+
+    const handleSummary = () => {
+        if (window.confirm("토론을 요약하시겠습니까?")) {
+            socket.emit("summaryDiscussion", { roomId });
         }
     };
 
@@ -156,7 +193,14 @@ const ChattingRoom = () => {
     return (
         <Container>
             <ChatContainer>
-                <ParticipantsList>
+                <MenuButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                    <IoMdMenu size={24} />
+                </MenuButton>
+
+                <SideMenu isOpen={isMenuOpen}>
+                    <CloseButton onClick={() => setIsMenuOpen(false)}>
+                        ×
+                    </CloseButton>
                     <ParticipantsHeader>
                         참여자 목록 ({participants?.length || 0})
                         {isHost && (
@@ -180,7 +224,18 @@ const ChattingRoom = () => {
                             </ParticipantInfo>
                         </ParticipantItem>
                     ))}
-                </ParticipantsList>
+
+                    {isHost && (
+                        <>
+                            <SummaryButton onClick={handleSummary}>
+                                토론 요약하기
+                            </SummaryButton>
+                        </>
+                    )}
+                    <MainPageButton onClick={() => navigate("/main")}>
+                        <FaSignOutAlt size={24} />
+                    </MainPageButton>
+                </SideMenu>
 
                 <ChatSection>
                     <ChatBox>
@@ -192,8 +247,9 @@ const ChattingRoom = () => {
                                     key={index}
                                     isMine={message.userId == userId}
                                     isSystem={isSystem}
+                                    isSummary={message.isSummary}
                                 >
-                                    {!isSystem && (
+                                    {!isSystem && !message.isSummary && (
                                         <NickName>{message.nickName}</NickName>
                                     )}
                                     <MessageText>{message.msg}</MessageText>
@@ -233,7 +289,13 @@ export default ChattingRoom;
 
 const Container = styled.div`
     width: 100%;
-    padding: 20px;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 20px 5px;
 `;
 
 const ChatContainer = styled.div`
@@ -242,23 +304,13 @@ const ChatContainer = styled.div`
     width: 100%;
     max-width: 900px;
     margin: 0 auto;
+    position: relative;
 `;
 
 const ChatSection = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-`;
-
-const ParticipantsList = styled.div`
-    width: 200px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    height: fit-content;
-    max-height: 500px;
-    overflow-y: auto;
 `;
 
 const ParticipantsHeader = styled.h3`
@@ -306,35 +358,60 @@ const ParticipantName = styled.span`
 `;
 
 const ChatBox = styled.div`
-    height: 500px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
+    height: 85vh;
+    border: none;
+    padding: 10px;
     overflow-y: auto;
     background: #f9f9f9;
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
+
+    /* 스크롤바 스타일링 */
+    &::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+        margin: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #1a293f;
+        border-radius: 4px;
+        border: 2px solid #f9f9f9;
+
+        &:hover {
+            background: #2a3b4f;
+        }
+    }
 `;
 
 const MessageBubble = styled.div`
-    max-width: 70%;
+    max-width: ${(props) => (props.isSummary ? "90%" : "70%")};
     margin: 10px 0;
     padding: 10px 15px;
     border-radius: 15px;
+    font-size: clamp(0.8rem, 5vw, 1.1rem);
     background: ${(props) => {
+        if (props.isSummary) return "#e6f3ff";
         if (props.isSystem) return "#f0f0f0";
-        return props.isMine ? "#007bff" : "#e9ecef";
+        return props.isMine ? "#ff9933" : "#e9ecef";
     }};
     color: ${(props) => {
+        if (props.isSummary) return "#0066cc";
         if (props.isSystem) return "#666";
-        return props.isMine ? "white" : "black";
+        return props.isMine ? "#1a293f" : "black";
     }};
     align-self: ${(props) => {
-        if (props.isSystem) return "center";
+        if (props.isSystem || props.isSummary) return "center";
         return props.isMine ? "flex-end" : "flex-start";
     }};
     margin-left: ${(props) => (props.isMine ? "auto" : "0")};
+    white-space: pre-line;
+    border: ${(props) => (props.isSummary ? "1px solid #b3d9ff" : "none")};
 `;
 
 const NickName = styled.div`
@@ -357,6 +434,7 @@ const TimeStamp = styled.span`
 const Form = styled.form`
     display: flex;
     gap: 10px;
+    margin: 0 5px;
 `;
 
 const Input = styled.input`
@@ -369,14 +447,15 @@ const Input = styled.input`
 
 const SendButton = styled.button`
     padding: 10px 20px;
-    background: ${(props) => (props.disabled ? "#cccccc" : "#007bff")};
-    color: white;
+    background: ${(props) => (props.disabled ? "#cccccc" : "#ff9933")};
+    color: #1a293f;
     border: none;
     border-radius: 4px;
     cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+    font-size: clamp(0.8rem, 5vw, 1rem);
 
     &:hover {
-        background: ${(props) => (props.disabled ? "#cccccc" : "#0056b3")};
+        background: ${(props) => (props.disabled ? "#cccccc" : "#ff9933")};
     }
 `;
 
@@ -387,17 +466,103 @@ const ErrorMessage = styled.div`
     font-size: 16px;
 `;
 
+const SummaryButton = styled.button`
+    width: calc(100% - 40px);
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    position: absolute;
+    bottom: 120px;
+    left: 20px;
+
+    &:hover {
+        background-color: #218838;
+    }
+`;
+
 const EndDiscussionButton = styled.button`
-    padding: 5px 10px;
+    width: calc(100% - 40px);
+    padding: 12px;
     background-color: #dc3545;
     color: white;
     border: none;
-    border-radius: 4px;
-    font-size: 12px;
+    border-radius: 8px;
     cursor: pointer;
-    margin-left: auto;
+    font-size: 16px;
+    font-weight: bold;
+    position: absolute;
+    bottom: 70px;
+    left: 20px;
 
     &:hover {
         background-color: #c82333;
+    }
+`;
+
+const MainPageButton = styled.button`
+    width: calc(100% - 40px);
+    padding: 12px;
+    background: none;
+    color: #dc3545;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+
+    &:hover {
+        background-color: #c82333;
+    }
+`;
+
+const MenuButton = styled.button`
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 100;
+
+    &:hover {
+        opacity: 0.7;
+    }
+`;
+
+const SideMenu = styled.div`
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100vh;
+    background: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transform: translateX(${(props) => (props.isOpen ? "0" : "100%")});
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+    overflow-y: auto;
+`;
+
+const CloseButton = styled.button`
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+
+    &:hover {
+        color: #666;
     }
 `;

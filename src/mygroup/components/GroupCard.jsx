@@ -8,7 +8,7 @@ const CardContainer = styled.div`
     margin: 0;
     border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    background: #d8d8d8;
+    background: #cdcdcd;
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease;

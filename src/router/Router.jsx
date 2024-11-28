@@ -21,6 +21,22 @@ function Router() {
                         margin: "0 auto",
                         marginBottom: "10rem",
                     },
+                    "*::-webkit-scrollbar": {
+                        width: "12px",
+                    },
+                    "*::-webkit-scrollbar-track": {
+                        background: "#f1f1f1",
+                        borderRadius: "4px",
+                        margin: "8px",
+                    },
+                    "*::-webkit-scrollbar-thumb": {
+                        background: "#1a293f",
+                        borderRadius: "4px",
+                        border: "2px solid #f9f9f9",
+                        "&:hover": {
+                            background: "#2a3b4f",
+                        },
+                    },
                 }}
             />
             <AppContent />

@@ -11,12 +11,12 @@ const SearchContainer = styled.div`
 const Input = styled.input`
     width: 100%;
     padding: 12px 40px 12px 15px;
-    border: 2px solid ${({ isDark }) => (isDark ? "#ffffff" : "#0d142d")};
+    border: 2px solid ${({ isDark }) => (isDark ? "#ff9933" : "#0d142d")};
     border-radius: 8px;
     font-size: 1rem;
     outline: none;
     background: transparent;
-    color: ${({ isDark }) => (isDark ? "#ffffff" : "#0d142d")};
+    color: ${({ isDark }) => (isDark ? "#ff9933" : "#0d142d")};
 
     &::placeholder {
         color: #999;
@@ -28,7 +28,7 @@ const SearchIcon = styled.div`
     right: 15px;
     top: 50%;
     transform: translateY(-50%);
-    color: ${({ isDark }) => (isDark ? "#ffffff" : "#0d142d")};
+    color: ${({ isDark }) => (isDark ? "#ff9933" : "#0d142d")};
 `;
 
 function SearchInput({ value, onChange }) {

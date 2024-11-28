@@ -50,7 +50,8 @@ const SearchContainer = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: ${(props) => (props.isSearching ? "90%" : "0")};
+    width: ${(props) =>
+        props.isSearching ? "clamp(300px, 50vw, 600px)" : "0"};
     height: ${(props) => (props.isSearching ? "auto" : "0")};
     opacity: ${(props) => (props.isSearching ? "1" : "0")};
     visibility: ${(props) => (props.isSearching ? "visible" : "hidden")};
@@ -62,7 +63,7 @@ const SearchContainer = styled.div`
 
 const SearchInput = styled.input`
     width: 100%;
-    padding: clamp(10px, 1.5vw, 12px) clamp(15px, 2vw, 20px);
+    padding: clamp(10px, 1.5vw, 12px) clamp(12px, 2vw, 20px);
     border: 2px solid ${(props) => (props.isDark ? "#ffffff" : "#0d142d")};
     border-radius: 20px;
     font-size: clamp(0.9rem, 1.2vw, 1rem);

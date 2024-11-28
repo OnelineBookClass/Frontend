@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import { FaArrowRight } from "react-icons/fa";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -119,12 +118,16 @@ function MyPage() {
 
             <UserInfo myInfo={mypageData && mypageData.myInfo} />
 
-            <Divider sx={{ my: 2 }} />
-
             <SectionHeader>
                 <span>관심 도서 목록</span>
                 <IconButton onClick={() => navigate("/desired")}>
-                    <FaArrowRight color='#ffffff' />
+                    <FaArrowRight
+                        style={{
+                            fontSize: "1.5rem",
+                            fontWeight: "bold",
+                            color: "#ffcc66",
+                        }}
+                    />
                 </IconButton>
             </SectionHeader>
             {mypageData &&
@@ -138,10 +141,7 @@ function MyPage() {
             )}
 
             <SectionHeader>
-                <span>나의 토론 기록</span>
-                <IconButton onClick={() => navigate("/mydiscussion")}>
-                    <FaArrowRight color='#ffffff' />
-                </IconButton>
+                <span style={{ marginTop: "1rem" }}>나의 토론 기록</span>
             </SectionHeader>
             {mypageData &&
             mypageData.discussions &&

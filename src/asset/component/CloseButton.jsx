@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { MdOutlineCancel } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import { FaArrowLeft } from "react-icons/fa";
@@ -9,8 +8,8 @@ const CloseButtonContainer = styled.button`
     border: none;
     background: none;
     cursor: pointer;
-    font-size: clamp(2rem, 5vw, 3rem);
-    color: ${({ isDark }) => (isDark ? "#ff9933" : "#0d142d")};
+    font-size: clamp(1rem, 5vw, 2.5rem);
+    color: #ff9933;
 `;
 
 function CloseButton() {

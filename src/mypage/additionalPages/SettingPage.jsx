@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosConfig";
 import { useLocation } from "react-router-dom";
+import Title from "../../asset/component/Title";
 
 const Container = styled.div`
     display: flex;
@@ -13,40 +14,15 @@ const Container = styled.div`
     margin: 0 auto;
 `;
 
-const Input = styled.input`
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+const HiddenFileInput = styled.input`
+    display: none;
 `;
 
-const ButtonGroup = styled.div`
+const ImageUploadContainer = styled.div`
     display: flex;
-    gap: 10px;
-    margin-top: 20px;
-`;
-
-const Button = styled.button`
-    padding: 10px 20px;
-    background-color: ${(props) => props.color || "#fee500"};
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-
-    &:hover {
-        background-color: ${(props) => props.hoverColor || "#e6cf00"};
-    }
-`;
-
-const WithdrawButton = styled(Button)`
-    margin-top: 50px;
-    background-color: #ff4444;
-    color: white;
-
-    &:hover {
-        background-color: #cc0000;
-    }
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
 `;
 
 const ImagePreview = styled.img`
@@ -54,7 +30,90 @@ const ImagePreview = styled.img`
     height: 150px;
     border-radius: 75px;
     object-fit: cover;
-    margin: 20px 0;
+    margin-bottom: 15px;
+    border: 3px solid #f6934c;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+`;
+
+const FileUploadLabel = styled.label`
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #343e60;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+
+    &:hover {
+        background-color: #1a293f;
+    }
+`;
+
+const InputGroup = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin: 15px 0;
+`;
+
+const InputLabel = styled.span`
+    font-size: 16px;
+    font-weight: 500;
+    min-width: 70px;
+`;
+
+const Input = styled.input`
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+
+    &:focus {
+        border-color: #f6934c;
+        outline: none;
+    }
+`;
+
+const ButtonGroup = styled.div`
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+    width: 100%;
+    max-width: 400px; // 버튼 그룹 최대 너비 제한
+`;
+
+const Button = styled.button`
+    flex: 1;
+    padding: 12px 20px;
+    background-color: ${(props) => props.color || "#F6934C"};
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    max-width: 180px; // 개별 버튼 최대 너비 제한
+
+    &:hover {
+        background-color: ${(props) => props.hoverColor || "#F9B754"};
+        transform: translateY(-2px);
+    }
+`;
+
+const WithdrawButton = styled(Button)`
+    margin-top: 50px;
+    background-color: #dc3545;
+    width: 100%;
+    max-width: 200px; // 회원탈퇴 버튼 최대 너비 제한
+
+    &:hover {
+        background-color: #c82333;
+    }
 `;
 
 function SettingPage() {
@@ -165,7 +224,7 @@ function SettingPage() {
                 });
                 localStorage.removeItem("userId");
                 alert("회원 탈퇴가 완료되었습니다.");
-                navigate("/login");
+                navigate("/");
             } catch (error) {
                 console.error("회원 탈퇴 중 오류 발생:", error);
                 alert("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
@@ -174,33 +233,52 @@ function SettingPage() {
     };
 
     return (
-        <Container>
-            <h2>프로필 수정</h2>
-            {(imagePreview || initialUserImage) && (
-                <ImagePreview
-                    src={imagePreview || initialUserImage}
-                    alt='use'
-                />
-            )}
-            <Input type='file' accept='image/*' onChange={handleImageChange} />
-            <Input
-                type='text'
-                placeholder='새로운 닉네임을 입력하세요'
-                value={nickName}
-                onChange={(e) => setNickName(e.target.value)}
-            />
-            <ButtonGroup>
-                <Button onClick={handleModify}>수정하기</Button>
-                <Button
-                    color='#dddddd'
-                    hoverColor='#bbbbbb'
-                    onClick={() => navigate("/mypage")}
-                >
-                    취소
-                </Button>
-            </ButtonGroup>
-            <WithdrawButton onClick={handleWithdraw}>회원 탈퇴</WithdrawButton>
-        </Container>
+        <div style={{ padding: "0 10px" }}>
+            <Title>프로필 수정</Title>
+            <Container>
+                <ImageUploadContainer>
+                    {(imagePreview || initialUserImage) && (
+                        <ImagePreview
+                            src={imagePreview || initialUserImage}
+                            alt='프로필'
+                        />
+                    )}
+                    <FileUploadLabel>
+                        프로필 사진 변경
+                        <HiddenFileInput
+                            type='file'
+                            accept='image/*'
+                            onChange={handleImageChange}
+                        />
+                    </FileUploadLabel>
+                </ImageUploadContainer>
+
+                <InputGroup>
+                    <InputLabel>닉네임 : </InputLabel>
+                    <Input
+                        type='text'
+                        placeholder='새로운 닉네임을 입력하세요'
+                        value={nickName}
+                        onChange={(e) => setNickName(e.target.value)}
+                    />
+                </InputGroup>
+
+                <ButtonGroup>
+                    <Button onClick={handleModify}>수정하기</Button>
+                    <Button
+                        color='#343E60'
+                        hoverColor='#1A293F'
+                        onClick={() => navigate("/mypage")}
+                    >
+                        취소
+                    </Button>
+                </ButtonGroup>
+
+                <WithdrawButton onClick={handleWithdraw}>
+                    회원 탈퇴
+                </WithdrawButton>
+            </Container>
+        </div>
     );
 }
 

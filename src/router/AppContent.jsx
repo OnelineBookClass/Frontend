@@ -9,7 +9,6 @@ import MainPage from "../main/MainPage";
 import LoginPage from "../login/LoginPage";
 import Kakao from "../login/callback/Kakao";
 import MyPage from "../mypage/MyPage";
-import RecommendedDiscussionsAndBooks from "../recommendedDiscussionsAndBooks/RecommendedDiscussionsAndBooks";
 import RecentDiscussions from "../recentDiscussions/RecentDiscussions";
 import BookSearchPage from "../booksearch/BookSearchPage";
 import BookInfo from "../bookinfo/BookInfo";
@@ -27,11 +26,14 @@ function AppContent() {
     const [loginType, setLoginType] = useState("");
     const [userId, setUserId] = useState("1234");
 
-    const shouldShowHeaderFooter = ![
-        "/",
-        "/auth/callback/kakao",
-        "/profilesetting",
-    ].includes(location.pathname);
+    const shouldShowHeaderFooter =
+        ![
+            "/",
+            "/auth/callback/kakao",
+            "/profilesetting",
+            "/chattingroom/:roomId/:userId",
+        ].includes(location.pathname) &&
+        !location.pathname.startsWith("/chattingroom/");
 
     return (
         <UserContext.Provider
@@ -73,10 +75,6 @@ function AppContent() {
                 <Route path='/auth/callback/kakao' element={<Kakao />} />
 
                 <Route path='/mypage' element={<MyPage />} />
-                <Route
-                    path='/recommended'
-                    element={<RecommendedDiscussionsAndBooks />}
-                />
                 <Route path='/recent' element={<RecentDiscussions />} />
                 <Route path='/bookSearch' element={<BookSearchPage />} />
                 <Route path='/book/:isbn' element={<BookInfo />} />

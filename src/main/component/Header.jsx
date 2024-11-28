@@ -13,7 +13,7 @@ const HeaderContainer = styled.div`
     gap: 20px;
     margin-bottom: 1rem;
     padding: 0 20px;
-    background-color: #1a293f;
+    background-color: ${(props) => (props.isDark ? "#1A293F" : "#ffffff")};
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     position: relative;
@@ -105,7 +105,7 @@ function Header() {
     };
 
     return (
-        <HeaderContainer>
+        <HeaderContainer isDark={isDark}>
             <HeaderWrapper>
                 <LogoText>몽당불</LogoText>
                 <SearchContainer>
@@ -120,7 +120,10 @@ function Header() {
                         </form>
                     </SearchInputContainer>
                     <SearchButton onClick={handleSearchClick}>
-                        <FaSearch color='white' />
+                        <FaSearch
+                            size='clamp(20px, 2vw, 25px)'
+                            color={isDark ? "white" : "#1A293F"}
+                        />
                     </SearchButton>
                 </SearchContainer>
             </HeaderWrapper>

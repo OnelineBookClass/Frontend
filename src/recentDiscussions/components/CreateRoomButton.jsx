@@ -22,8 +22,8 @@ const Button = styled.button`
     justify-content: center;
     padding: 1rem;
     font-size: 1.2rem;
-    background-color: ${({ isDark }) => (isDark ? "#ffffff" : "#0d142d")};
-    color: ${({ isDark }) => (isDark ? "#0d142d" : "#ffffff")};
+    background-color: ${({ isDark }) => (isDark ? "#ff9933" : "#0d142d")};
+    color: ${({ isDark }) => (isDark ? "#0d142d" : "#ff9933")};
     border: none;
     border-radius: 1rem;
     cursor: pointer;
@@ -46,7 +46,7 @@ const SearchInput = styled.input`
     flex: 1;
     padding: 0.8rem;
     font-size: 1rem;
-    border: 2px solid ${({ isDark }) => (isDark ? "#ffffff" : "#0d142d")};
+    border: 2px solid ${({ isDark }) => (isDark ? "#ff9933" : "#0d142d")};
     border-radius: 0.5rem;
     outline: none;
 
@@ -57,8 +57,8 @@ const SearchInput = styled.input`
 
 const SearchButton = styled.button`
     padding: 0.5rem 1.2rem;
-    background-color: ${({ isDark }) => (isDark ? "#ffffff" : "#0d142d")};
-    color: ${({ isDark }) => (isDark ? "#0d142d" : "#ffffff")};
+    background-color: ${({ isDark }) => (isDark ? "#1A293F" : "#0d142d")};
+    color: ${({ isDark }) => (isDark ? "#ff9933" : "#ffffff")};
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;

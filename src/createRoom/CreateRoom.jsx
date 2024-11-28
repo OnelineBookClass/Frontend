@@ -82,6 +82,12 @@ const Authors = styled.p`
     margin: 0.5rem 0;
 `;
 
+const ButtonWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    width: 100%;
+`;
+
 function CreateRoom() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -360,18 +366,23 @@ function CreateRoom() {
                 </QuizContainer>
             ))}
 
-            <StyledButton
-                variant='contained'
-                color='primary'
-                onClick={handleCreateRoom}
-                sx={{
-                    backgroundColor: isDark ? "#ffffff" : "#0d142d",
-                    color: isDark ? "#000000" : "#ffffff",
-                    fontFamily: "GowunDodum-Regular",
-                }}
-            >
-                방 생성
-            </StyledButton>
+            <ButtonWrapper>
+                <StyledButton
+                    variant='contained'
+                    color='primary'
+                    onClick={handleCreateRoom}
+                    sx={{
+                        backgroundColor: isDark ? "#ff9933" : "#1A293F",
+                        color: isDark ? "#1A293F" : "#ffffff",
+                        fontFamily: "GowunDodum-Regular",
+                        fontWeight: "bold",
+                        fontSize: "clamp(1rem, 5vw, 1.2rem)",
+                        width: "50%",
+                    }}
+                >
+                    방 생성
+                </StyledButton>
+            </ButtonWrapper>
         </Container>
     );
 }

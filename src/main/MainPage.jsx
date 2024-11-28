@@ -22,7 +22,12 @@ function MainPage() {
     useEffect(() => {
         const fetchMainData = async () => {
             try {
-                const response = await axiosInstance.get("/mongdangbul/home");
+                const response = await axiosInstance.get("/mongdangbul/home", {
+                    params: {
+                        userId: localStorage.getItem("userId"),
+                    },
+                });
+                console.log(response.data);
                 setMainData(response.data);
             } catch (error) {
                 console.error("메인 데이터 로딩 실패:", error);

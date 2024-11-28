@@ -69,14 +69,14 @@ export const TitleContainer = styled.div`
 
 export const WriteButton = styled.button`
     padding: 8px 16px;
-    background-color: #007bff;
-    color: white;
+    background-color: #ff9933;
+    color: #1A293F;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     
     &:hover {
-        background-color: #0056b3;
+        background-color: #ffcc66;
     }
 `;
 

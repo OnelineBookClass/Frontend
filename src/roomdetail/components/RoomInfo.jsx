@@ -3,61 +3,77 @@ import {
     RoomHeader,
     BookInfo,
     BookCover,
-    BookDetails,
     Title,
     Author,
     Tag,
-    HostInfo,
     InfoContainer,
     InfoItem,
     Label,
     Value,
     JoinButton,
+    BookCoverWrapper,
+    BookCoverOverlay,
+    InfoContent,
+    Description,
+    TagContainer,
 } from "../styles/RoomDetailPage.style";
 
 const RoomInfo = ({ roomDetail, onJoin, participating }) => {
     const isRoomFull = roomDetail.currentParticipants >= roomDetail.maximum;
 
     return (
-        <>
-            <RoomHeader>
-                <BookInfo>
+        <RoomHeader>
+            <BookInfo>
+                <BookCoverWrapper>
                     <BookCover
                         src={roomDetail.book.cover}
                         alt={roomDetail.book.title}
                     />
-                    <BookDetails>
-                        <Title>{roomDetail.book.title}</Title>
-                        <Author>{roomDetail.book.author}</Author>
+                    <Title>{roomDetail.book.title}</Title>
+                    <Author>{roomDetail.book.author}</Author>
+                    <BookCoverOverlay />
+                </BookCoverWrapper>
+
+                <InfoContainer>
+                    <TagContainer>
                         <Tag>{roomDetail.tag}</Tag>
-                    </BookDetails>
-                </BookInfo>
-                <HostInfo>방장: {roomDetail.hostNickName}</HostInfo>
-            </RoomHeader>
+                    </TagContainer>
 
-            <InfoContainer>
-                <InfoItem>
-                    <Label>참여 인원</Label>
-                    <Value isParticipants>
-                        {roomDetail.currentParticipants} / {roomDetail.maximum}
-                        명
-                    </Value>
-                </InfoItem>
-                <InfoItem>
-                    <Label>소개</Label>
-                    <Value>{roomDetail.intro}</Value>
-                </InfoItem>
-            </InfoContainer>
+                    <InfoContent>
+                        <InfoItem>
+                            <Label>방장</Label>
+                            <Value>{roomDetail.hostNickName}</Value>
+                        </InfoItem>
+                        <InfoItem>
+                            <Label>방장 평점</Label>
+                            <Value isHostRating>
+                                {roomDetail.hostRating}/5
+                            </Value>
+                        </InfoItem>
+                        <InfoItem>
+                            <Label>참여 인원</Label>
+                            <Value isParticipants>
+                                {roomDetail.currentParticipants}/
+                                {roomDetail.maximum}
+                            </Value>
+                        </InfoItem>
+                    </InfoContent>
 
-            <JoinButton
-                onClick={onJoin}
-                disabled={isRoomFull && !participating}
-            >
-                {isRoomFull && !participating
-                    ? "방이 가득 찼습니다"
-                    : "참여하기"}
-            </JoinButton>
-        </>
+                    <Description>" {roomDetail.intro} "</Description>
+
+                    <JoinButton
+                        onClick={onJoin}
+                        disabled={!participating && isRoomFull}
+                    >
+                        {participating
+                            ? "채팅방 입장하기"
+                            : isRoomFull
+                            ? "방이 가득 찼습니다"
+                            : "참여하기"}
+                    </JoinButton>
+                </InfoContainer>
+            </BookInfo>
+        </RoomHeader>
     );
 };
 
