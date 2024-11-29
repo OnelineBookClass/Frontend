@@ -16,7 +16,8 @@ const RoomItem = styled.div`
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-    background-color: #343e60;
+    background-color: ${({ isDark }) =>
+        isDark ? "#343e60" : "rgb(239, 157, 34, 0.85)"};
     &:hover {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         transform: translateY(-2px);
@@ -44,13 +45,13 @@ const RoomInfo = styled.div`
 const RoomTitle = styled.div`
     font-size: clamp(1.1rem, 1.5vw, 1.3rem);
     margin-bottom: auto;
-    color: #ffffff;
+    color: ${({ isDark }) => (isDark ? "#ffffff" : "#ffffff")};
     padding-right: 80px;
 `;
 
 const Introduction = styled.p`
     font-size: 0.95rem;
-    color: #e5e5e5;
+    color: ${({ isDark }) => (isDark ? "#e5e5e5" : "#eaeaea")};
     font-style: italic;
     margin: 0;
     line-height: 1.4;
@@ -94,7 +95,7 @@ const TagContainer = styled.div`
 
 const Tag = styled.span`
     font-size: 0.8rem;
-    color: #e5e5e5;
+    color: ${({ isDark }) => (isDark ? "#e5e5e5" : "#eaeaea")};
 `;
 
 function RoomItems({ rooms, imageURL = null }) {
