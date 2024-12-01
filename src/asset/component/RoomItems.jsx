@@ -16,10 +16,10 @@ const RoomItem = styled.div`
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-    background-color: ${({ isDark }) =>
-        isDark ? "#343e60" : "rgb(239, 157, 34, 0.85)"};
+    background-color: ${({ isDark }) => (isDark ? "#343e60" : "#ffffff")};
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     &:hover {
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
         transform: translateY(-2px);
     }
 `;
@@ -45,13 +45,13 @@ const RoomInfo = styled.div`
 const RoomTitle = styled.div`
     font-size: clamp(1.1rem, 1.5vw, 1.3rem);
     margin-bottom: auto;
-    color: ${({ isDark }) => (isDark ? "#ffffff" : "#ffffff")};
+    color: ${({ isDark }) => (isDark ? "#ffffff" : "#6D8299")};
     padding-right: 80px;
 `;
 
 const Introduction = styled.p`
     font-size: 0.95rem;
-    color: ${({ isDark }) => (isDark ? "#e5e5e5" : "#eaeaea")};
+    color: ${({ isDark }) => (isDark ? "#e5e5e5" : "#6D8299")};
     font-style: italic;
     margin: 0;
     line-height: 1.4;
@@ -73,7 +73,7 @@ const HostName = styled.div`
     top: 0;
     right: 0;
     font-size: 0.85rem;
-    color: #e5e5e5;
+    color: ${({ isDark }) => (isDark ? "#e5e5e5" : "#6D8299")};
     padding: 4px 8px;
 `;
 
@@ -82,7 +82,7 @@ const MemberCount = styled.div`
     bottom: 0;
     right: 0;
     font-size: 0.85rem;
-    color: #e5e5e5;
+    color: ${({ isDark }) => (isDark ? "#e5e5e5" : "#6D8299")};
     padding: 4px 8px;
 `;
 
@@ -95,7 +95,7 @@ const TagContainer = styled.div`
 
 const Tag = styled.span`
     font-size: 0.8rem;
-    color: ${({ isDark }) => (isDark ? "#e5e5e5" : "#eaeaea")};
+    color: ${({ isDark }) => (isDark ? "#e5e5e5" : "#6D8299")};
 `;
 
 function RoomItems({ rooms, imageURL = null }) {
@@ -118,8 +118,10 @@ function RoomItems({ rooms, imageURL = null }) {
                         alt={room.title || room.roomTitle}
                     />
                     <RoomInfo>
-                        <RoomTitle>{room.title || room.roomTitle}</RoomTitle>
-                        <HostName>{room.hostNickName}</HostName>
+                        <RoomTitle isDark={isDark}>
+                            {room.title || room.roomTitle}
+                        </RoomTitle>
+                        <HostName isDark={isDark}>{room.hostNickName}</HostName>
                         <Introduction isDark={isDark}>
                             "{room.intro}"
                         </Introduction>
