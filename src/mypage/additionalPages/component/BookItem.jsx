@@ -9,10 +9,11 @@ const Container = styled.div`
     gap: 20px;
     background-color: white;
     transition: transform 0.2s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 
     &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 `;
 
@@ -33,6 +34,7 @@ const InfoContainer = styled.div`
 const Title = styled.h2`
     font-size: 18px;
     font-weight: bold;
+    color: #1a293f;
     margin: 0;
 `;
 
@@ -50,7 +52,6 @@ const Rating = styled.span`
 
 const BookItem = ({ book }) => {
     const navigate = useNavigate();
-    console.log("book : ", book);
     return (
         <Container
             onClick={() => navigate(`/book/${book.isbn}`)}
