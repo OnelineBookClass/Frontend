@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import BookItem from "./component/BookItem";
 import { useNavigate } from "react-router-dom";
@@ -20,42 +20,46 @@ const NoBooks = styled.div`
 `;
 
 const DesiredBooksPage = () => {
-    console.log("DesiredBooksPage 컴포넌트 렌더링 시작");
-    const [books, setBooks] = useState([]);
+    console.log("컴포넌트 시작");
+    const [books, setBooks] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
     const userId = localStorage.getItem("userId");
+
+    console.log("userId:", userId);
 
     useEffect(() => {
         console.log("useEffect 실행");
         const fetchBooks = async () => {
             try {
-                console.log("데이터 fetch 시도");
+                console.log("API 호출 시작");
                 const response = await axiosInstance.get(
                     `/mongdangbul/library/books/${userId}`
                 );
-                console.log("받은 데이터:", response.data);
-                setBooks(response.data.interestBooks || []);
+                console.log("API 응답:", response.data);
+                setBooks(response.data.interestBooks);
+                setError(null);
             } catch (error) {
-                console.error(
-                    "관심 도서 목록을 불러오는데 실패했습니다:",
-                    error
-                );
+                console.error("API 에러:", error);
+                setError(error.message);
                 setBooks([]);
+            } finally {
+                setLoading(false);
             }
         };
 
         if (userId) {
             fetchBooks();
         } else {
-            console.log("userId가 없습니다");
+            setLoading(false);
+            setError("로그인이 필요합니다.");
         }
     }, [userId]);
 
-    if (!userId) {
-        console.log("userId가 없어서 리다이렉트");
-        navigate("/");
-        return null;
-    }
+    if (loading) return <div>로딩 중...</div>;
+    if (error) return <div>{error}</div>;
+    if (!books) return <div>데이터를 불러올 수 없습니다.</div>;
 
     return (
         <Container>
@@ -63,7 +67,7 @@ const DesiredBooksPage = () => {
                 <Title>관심 도서 목록</Title>
             </TitleContainer>
             <BookList>
-                {Array.isArray(books) && books.length > 0 ? (
+                {books.length > 0 ? (
                     books.map((book) => (
                         <BookItem
                             key={book.interestBookId}
