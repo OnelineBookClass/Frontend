@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import BookItem from "./component/BookItem";
 import { useNavigate } from "react-router-dom";
 import { Container, TitleContainer } from "./style/HeaderStyle";
 import Title from "../../asset/component/Title";
+import axiosInstance from "../../utils/axiosConfig";
 
 const BookList = styled.div`
     display: flex;
@@ -27,7 +27,7 @@ const DesiredBooksPage = () => {
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                const response = await axios.get(
+                const response = await axiosInstance.get(
                     `/mongdangbul/library/books/${userId}`
                 );
                 setBooks(response.data.interestBooks || []);
@@ -52,7 +52,11 @@ const DesiredBooksPage = () => {
             <BookList>
                 {books && books.length > 0 ? (
                     books.map((book) => (
-                        <BookItem key={book.interestBookId} book={book} />
+                        <BookItem
+                            key={book.interestBookId}
+                            book={book}
+                            onClick={() => navigate(`/book/${book.isbn}`)}
+                        />
                     ))
                 ) : (
                     <NoBooks>관심 도서가 존재하지 않습니다!</NoBooks>
