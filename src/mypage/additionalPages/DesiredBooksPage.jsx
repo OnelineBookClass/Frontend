@@ -67,7 +67,7 @@ const DesiredBooksPage = () => {
                 <Title>관심 도서 목록</Title>
             </TitleContainer>
             <BookList>
-                {books.length > 0 ? (
+                {books && books.length > 0 ? (
                     books.map((book) => (
                         <BookItem
                             key={book.interestBookId}

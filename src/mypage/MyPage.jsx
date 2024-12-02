@@ -156,7 +156,7 @@ function MyPage() {
 
             <SectionHeader>
                 <span>관심 도서 목록</span>
-                <IconButton onClick={() => navigate("/desired")}>
+                <IconButton onClick={() => navigate(`/desired`)}>
                     <FaArrowRight
                         style={{
                             fontSize: "1.5rem",
