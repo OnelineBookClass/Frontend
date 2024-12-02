@@ -17,6 +17,7 @@ import Profilesetting from "../login/components/Profilesetting";
 import CreateRoom from "../createRoom/CreateRoom";
 import SettingPage from "../mypage/additionalPages/SettingPage";
 import DesiredBooksPage from "../mypage/additionalPages/DesiredBooksPage";
+import InterestBooks from "../mypage/additionalPages/InterestBooks";
 import MyDiscussionRecordPage from "../mypage/additionalPages/MyDiscussionRecordPage";
 import RoomDetailPage from "../roomdetail/RoomDetailPage";
 function AppContent() {
@@ -83,6 +84,7 @@ function AppContent() {
                 <Route path='/create-group' element={<CreateRoom />} />
                 <Route path='/settings' element={<SettingPage />} />
                 <Route path='/desired' element={<DesiredBooksPage />} />
+                <Route path='/interest' element={<InterestBooks />} />
                 <Route
                     path='/mydiscussion/:discussionId'
                     element={<MyDiscussionRecordPage />}
