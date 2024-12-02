@@ -20,25 +20,25 @@ const NoBooks = styled.div`
 `;
 
 const DesiredBooksPage = () => {
-    console.log("컴포넌트 시작");
-    const [books, setBooks] = useState(null);
+    const navigate = useNavigate();
+    const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
-    const userId = localStorage.getItem("userId");
-
-    console.log("userId:", userId);
 
     useEffect(() => {
-        console.log("useEffect 실행");
+        const userId = localStorage.getItem("userId");
+
+        if (!userId) {
+            navigate("/");
+            return;
+        }
+
         const fetchBooks = async () => {
             try {
-                console.log("API 호출 시작");
                 const response = await axiosInstance.get(
                     `/mongdangbul/library/books/${userId}`
                 );
-                console.log("API 응답:", response.data);
-                setBooks(response.data.interestBooks);
+                setBooks(response.data.interestBooks || []);
                 setError(null);
             } catch (error) {
                 console.error("API 에러:", error);
@@ -49,17 +49,16 @@ const DesiredBooksPage = () => {
             }
         };
 
-        if (userId) {
-            fetchBooks();
-        } else {
-            setLoading(false);
-            setError("로그인이 필요합니다.");
-        }
-    }, [userId]);
+        fetchBooks();
+    }, [navigate]);
 
-    if (loading) return <div>로딩 중...</div>;
-    if (error) return <div>{error}</div>;
-    if (!books) return <div>데이터를 불러올 수 없습니다.</div>;
+    if (loading) {
+        return <div>로딩 중...</div>;
+    }
+
+    if (error) {
+        return <div>에러 발생: {error}</div>;
+    }
 
     return (
         <Container>
@@ -67,7 +66,7 @@ const DesiredBooksPage = () => {
                 <Title>관심 도서 목록</Title>
             </TitleContainer>
             <BookList>
-                {books && books.length > 0 ? (
+                {books?.length > 0 ? (
                     books.map((book) => (
                         <BookItem
                             key={book.interestBookId}
