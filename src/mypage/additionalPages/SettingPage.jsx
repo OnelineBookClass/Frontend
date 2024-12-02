@@ -12,6 +12,8 @@ const Container = styled.div`
     padding: 20px;
     max-width: 500px;
     margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
 `;
 
 const HiddenFileInput = styled.input`
@@ -57,6 +59,13 @@ const InputGroup = styled.div`
     gap: 10px;
     width: 100%;
     margin: 15px 0;
+    flex-wrap: wrap;
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
 `;
 
 const InputLabel = styled.span`
@@ -72,6 +81,9 @@ const Input = styled.input`
     border-radius: 10px;
     font-size: 16px;
     transition: all 0.3s ease;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 
     &:focus {
         border-color: #f6934c;
@@ -84,7 +96,12 @@ const ButtonGroup = styled.div`
     gap: 10px;
     margin-top: 30px;
     width: 100%;
-    max-width: 400px; // 버튼 그룹 최대 너비 제한
+    max-width: 400px;
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        align-items: center;
+    }
 `;
 
 const Button = styled.button`
@@ -97,7 +114,7 @@ const Button = styled.button`
     cursor: pointer;
     font-size: 16px;
     transition: all 0.3s ease;
-    max-width: 180px; // 개별 버튼 최대 너비 제한
+    max-width: 180px;
 
     &:hover {
         background-color: ${(props) => props.hoverColor || "#F9B754"};
@@ -109,7 +126,7 @@ const WithdrawButton = styled(Button)`
     margin-top: 50px;
     background-color: #dc3545;
     width: 100%;
-    max-width: 200px; // 회원탈퇴 버튼 최대 너비 제한
+    max-width: 200px;
 
     &:hover {
         background-color: #c82333;
