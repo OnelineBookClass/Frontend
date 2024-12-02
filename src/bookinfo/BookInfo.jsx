@@ -50,6 +50,7 @@ function BookInfo() {
                 imageURL={book?.thumbnail}
                 bookTitle={book?.title}
                 author={book?.author}
+                isbn={isbn}
             />
             <BookReviews
                 isbn={isbn}
