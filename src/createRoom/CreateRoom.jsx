@@ -185,6 +185,7 @@ function CreateRoom() {
             multipleChoice2: choices.quiz2.join(","),
             multipleChoice3: choices.quiz3.join(","),
         };
+        console.log("finalFormData : ", finalFormData);
 
         try {
             const response = await axiosInstance.post(
