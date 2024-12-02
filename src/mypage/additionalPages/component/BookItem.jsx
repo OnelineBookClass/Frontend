@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
     display: flex;
@@ -48,8 +49,13 @@ const Rating = styled.span`
 `;
 
 const BookItem = ({ book }) => {
+    const navigate = useNavigate();
+    console.log("book : ", book);
     return (
-        <Container>
+        <Container
+            onClick={() => navigate(`/book/${book.isbn}`)}
+            style={{ cursor: "pointer" }}
+        >
             <Thumbnail src={book.thumbnail} alt={book.bookTitle} />
             <InfoContainer>
                 <Title>{book.bookTitle}</Title>

@@ -41,6 +41,10 @@ const InterestBooks = () => {
                 );
                 if (isSubscribed) {
                     setBooks(response.data.interestBooks || []);
+                    console.log(
+                        "response.data.interestBooks : ",
+                        response.data.interestBooks
+                    );
                     setError(null);
                 }
             } catch (error) {
@@ -79,11 +83,7 @@ const InterestBooks = () => {
             <BookList>
                 {books?.length > 0 ? (
                     books.map((book) => (
-                        <BookItem
-                            key={book.interestBookId}
-                            book={book}
-                            onClick={() => navigate(`/book/${book.isbn}`)}
-                        />
+                        <BookItem key={book.interestBookId} book={book} />
                     ))
                 ) : (
                     <NoBooks>관심 도서가 존재하지 않습니다!</NoBooks>
