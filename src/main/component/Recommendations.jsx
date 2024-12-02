@@ -82,7 +82,9 @@ const settings = {
     infinite: false,
     speed: 500,
     slidesToShow: 5.5,
-    slidesToScroll: 1,
+    slidesToScroll: 2,
+    swipeToSlide: true,
+    draggable: true,
     responsive: [
         {
             breakpoint: 768,
@@ -97,17 +99,24 @@ const settings = {
 function Recommendations({ recommended }) {
     const { isDark } = useTheme();
     const navigate = useNavigate();
+    const [isDragging, setIsDragging] = React.useState(false);
     console.log("recommended : ", recommended);
 
     const handleBookClick = (book) => {
-        navigate(`/book/${book.ISBN}`);
+        if (!isDragging) {
+            navigate(`/book/${book.ISBN}`);
+        }
     };
 
     return (
         <Section>
             <Title isDark={isDark}>추천 책</Title>
             {recommended && recommended.length > 0 ? (
-                <StyledSlider {...settings}>
+                <StyledSlider
+                    {...settings}
+                    beforeChange={() => setIsDragging(true)}
+                    afterChange={() => setIsDragging(false)}
+                >
                     {recommended.map((book) => (
                         <BookCard
                             key={book.ISBN}

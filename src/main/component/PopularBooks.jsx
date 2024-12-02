@@ -73,9 +73,12 @@ const BookAuthor = styled.div`
 function PopularBooks({ books }) {
     const navigate = useNavigate();
     const { isDark } = useTheme();
+    const [isDragging, setIsDragging] = React.useState(false);
 
     const handleBookClick = (book) => {
-        navigate(`/book/${book.ISBN}`);
+        if (!isDragging) {
+            navigate(`/book/${book.ISBN}`);
+        }
     };
 
     if (!books || books.length === 0) {
@@ -85,7 +88,11 @@ function PopularBooks({ books }) {
     return (
         <Section>
             <Title isDark={isDark}>모임이 많은 책</Title>
-            <StyledSlider {...settings}>
+            <StyledSlider
+                {...settings}
+                beforeChange={() => setIsDragging(true)}
+                afterChange={() => setIsDragging(false)}
+            >
                 {books.map((book) => (
                     <BookCard
                         key={book.ISBN}
