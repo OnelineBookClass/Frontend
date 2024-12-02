@@ -23,6 +23,7 @@ const ChattingRoom = () => {
     const { isDark } = useTheme();
     const [isLoading, setIsLoading] = useState(false);
     const [loadingMessage, setLoadingMessage] = useState("");
+    const [isMaxLength, setIsMaxLength] = useState(false);
 
     // 소켓 연결 및 이벤트 리스너 설정
     useEffect(() => {
@@ -178,16 +179,33 @@ const ChattingRoom = () => {
         messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
-    // 메시지 전송
+    // 메시지 입력 핸들러 수정
+    const handleMessageChange = (e) => {
+        const message = e.target.value;
+        if (message.length <= 250) {
+            setInputMessage(message);
+            setIsMaxLength(false);
+        } else {
+            setIsMaxLength(true);
+        }
+    };
+
+    // 메시지 전송 핸들러 수정
     const sendMessage = (e) => {
         e.preventDefault();
-        if (inputMessage.trim() && socket && isJoined) {
+        if (
+            inputMessage.trim() &&
+            socket &&
+            isJoined &&
+            inputMessage.length <= 250
+        ) {
             socket.emit("chat", {
                 roomId,
                 userId,
                 msg: inputMessage,
             });
             setInputMessage("");
+            setIsMaxLength(false);
         }
     };
 
@@ -326,15 +344,21 @@ const ChattingRoom = () => {
                     <Form onSubmit={sendMessage}>
                         <Input
                             value={inputMessage}
-                            onChange={(e) => setInputMessage(e.target.value)}
+                            onChange={handleMessageChange}
                             placeholder={
-                                isJoined
+                                isMaxLength
+                                    ? "최대 250자까지 입력 가능합니다"
+                                    : isJoined
                                     ? "메시지를 입력하세요..."
                                     : "채팅방 참여 중..."
                             }
                             disabled={!isJoined}
+                            isMaxLength={isMaxLength}
                         />
-                        <SendButton type='submit' disabled={!isJoined}>
+                        <SendButton
+                            type='submit'
+                            disabled={!isJoined || isMaxLength}
+                        >
                             전송
                         </SendButton>
                     </Form>
@@ -502,6 +526,10 @@ const Input = styled.input`
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 16px;
+
+    &::placeholder {
+        color: ${(props) => (props.isMaxLength ? "#ff4444" : "#999")};
+    }
 `;
 
 const SendButton = styled.button`
