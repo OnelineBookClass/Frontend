@@ -30,12 +30,14 @@ const DesiredBooksPage = () => {
                 const response = await axios.get(
                     `/mongdangbul/library/books/${userId}`
                 );
-                setBooks(response.data.interestBooks);
+                setBooks(response.data.interestBooks || []);
+                console.log(response.data);
             } catch (error) {
                 console.error(
                     "관심 도서 목록을 불러오는데 실패했습니다:",
                     error
                 );
+                setBooks([]);
             }
         };
 
@@ -48,7 +50,7 @@ const DesiredBooksPage = () => {
                 <Title>관심 도서 목록</Title>
             </TitleContainer>
             <BookList>
-                {books.length > 0 ? (
+                {books && books.length > 0 ? (
                     books.map((book) => (
                         <BookItem key={book.interestBookId} book={book} />
                     ))
