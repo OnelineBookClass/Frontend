@@ -26,7 +26,7 @@ const ChattingRoom = () => {
 
     // 소켓 연결 및 이벤트 리스너 설정
     useEffect(() => {
-        const newSocket = io("http://localhost:3000", {
+        const newSocket = io("https://mongdangbul.store", {
             transports: ["websocket"],
             withCredentials: true,
             forceNew: true,

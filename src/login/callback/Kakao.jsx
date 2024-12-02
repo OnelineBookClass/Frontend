@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/LoginContext";
-import axios from "axios";
-import styled from "styled-components";
 import axiosInstance from "../../utils/axiosConfig";
+import styled from "styled-components";
+import axios from "axios";
 
 const Container = styled.div`
     display: flex;
@@ -51,9 +51,9 @@ export default function Kakao() {
                                 const userId = userResult.data.id;
                                 setUserId(userId);
                                 console.log(userId);
-                                axios
+                                axiosInstance
                                     .get(
-                                        `${process.env.REACT_APP_API_PORT}/mongdangbul/user/checkUser/${userId}`
+                                        `/mongdangbul/user/checkUser/${userId}`
                                     )
                                     .then((response) => {
                                         if (response.data.isExist) {

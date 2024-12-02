@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { IoIosArrowForward } from "react-icons/io";
 import { useTheme } from "../../context/ThemeContext";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -98,6 +97,7 @@ const settings = {
 function Recommendations({ recommended }) {
     const { isDark } = useTheme();
     const navigate = useNavigate();
+    console.log("recommended : ", recommended);
 
     const handleBookClick = (book) => {
         navigate(`/book/${book.ISBN}`);
@@ -116,15 +116,11 @@ function Recommendations({ recommended }) {
                             <BookImage
                                 isDark={isDark}
                                 src={book.thumbnail}
-                                alt={book.title}
-                                onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = "기본이미지URL";
-                                }}
+                                alt={book.bookTitle}
                             />
                             <BookInfo>
                                 <BookTitle isDark={isDark}>
-                                    {book.title}
+                                    {book.bookTitle}
                                 </BookTitle>
                                 <BookAuthor>{book.author}</BookAuthor>
                             </BookInfo>

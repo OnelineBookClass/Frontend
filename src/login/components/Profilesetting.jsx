@@ -8,9 +8,11 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 20px;
+    padding: 20px;
     max-width: 500px;
     margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
 `;
 
 const Title = styled.h2`
@@ -46,6 +48,8 @@ const FileUploadLabel = styled.label`
     font-size: 14px;
     transition: all 0.3s ease;
     margin-top: 10px;
+    width: fit-content;
+    text-align: center;
 
     &:hover {
         background-color: #1a293f;
@@ -62,12 +66,23 @@ const InputGroup = styled.div`
     gap: 10px;
     width: 100%;
     margin: 15px 0;
+    flex-wrap: wrap;
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
 `;
 
 const InputLabel = styled.span`
     font-size: 16px;
     font-weight: 500;
     min-width: 70px;
+
+    @media (max-width: 480px) {
+        width: 100%;
+    }
 `;
 
 const Input = styled.input`
@@ -77,10 +92,17 @@ const Input = styled.input`
     border-radius: 10px;
     font-size: 16px;
     transition: all 0.3s ease;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 
     &:focus {
         border-color: #f6934c;
         outline: none;
+    }
+
+    @media (max-width: 480px) {
+        width: 100%;
     }
 `;
 
@@ -94,11 +116,16 @@ const Button = styled.button`
     font-size: 16px;
     transition: all 0.3s ease;
     margin-top: 30px;
-    width: 200px;
+    width: 100%;
+    max-width: 200px;
 
     &:hover {
         background-color: #f9b754;
         transform: translateY(-2px);
+    }
+
+    @media (max-width: 480px) {
+        width: 100%;
     }
 `;
 
