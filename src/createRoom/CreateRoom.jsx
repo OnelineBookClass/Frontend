@@ -172,9 +172,11 @@ function CreateRoom() {
     };
 
     const handleAnswerSelect = (quizNumber, value) => {
+        const adjustedValue = parseInt(value) + 1;
+
         setFormData((prev) => ({
             ...prev,
-            [`answer${quizNumber}`]: value,
+            [`answer${quizNumber}`]: adjustedValue,
         }));
     };
 
