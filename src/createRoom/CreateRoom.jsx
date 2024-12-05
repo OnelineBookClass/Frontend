@@ -181,13 +181,55 @@ function CreateRoom() {
     };
 
     const handleCreateRoom = async () => {
+        // 유효성 검사
+        if (!formData.roomTitle.trim()) {
+            alert("방 제목을 입력해주세요.");
+            return;
+        }
+
+        if (!formData.intro.trim()) {
+            alert("한줄 소개를 입력해주세요.");
+            return;
+        }
+
+        if (!formData.tag) {
+            alert("태그를 선택해주세요.");
+            return;
+        }
+
+        // 퀴즈 유효성 검사
+        for (let i = 1; i <= 3; i++) {
+            if (!formData[`quiz${i}`].trim()) {
+                alert(`${i}번째 퀴즈 문제를 입력해주세요.`);
+                return;
+            }
+
+            if (!formData[`answer${i}`]) {
+                alert(`${i}번째 퀴즈의 정답을 선택해주세요.`);
+                return;
+            }
+
+            // 보기 입력 확인
+            const quizChoices = choices[`quiz${i}`];
+            const emptyChoiceIndex = quizChoices.findIndex(
+                (choice) => !choice.trim()
+            );
+            if (emptyChoiceIndex !== -1) {
+                alert(
+                    `${i}번째 퀴즈의 ${
+                        emptyChoiceIndex + 1
+                    }번 보기를 입력해주세요.`
+                );
+                return;
+            }
+        }
+
         const finalFormData = {
             ...formData,
             multipleChoice1: choices.quiz1.join(","),
             multipleChoice2: choices.quiz2.join(","),
             multipleChoice3: choices.quiz3.join(","),
         };
-        console.log("finalFormData : ", finalFormData);
 
         try {
             const response = await axiosInstance.post(
@@ -196,11 +238,22 @@ function CreateRoom() {
             );
             console.log("방 생성 성공:", response.data);
             alert("방 생성이 완료되었습니다!");
-
             navigate(`/chattingroom/${response.data.roomId}`);
         } catch (error) {
             console.error("방 생성 실패:", error);
-            alert("방 생성에 실패했습니다. 다시 시도해주세요.");
+            if (error.response) {
+                console.error("에러 응답:", error.response.data);
+                alert(
+                    `방 생성 실패: ${
+                        error.response.data.message ||
+                        "서버 오류가 발생했습니다."
+                    }`
+                );
+            } else {
+                alert(
+                    "서버와의 통신 중 오류가 발생했습니다. 다시 시도해주세요."
+                );
+            }
         }
     };
 
@@ -310,7 +363,7 @@ function CreateRoom() {
                                         <Radio
                                             checked={
                                                 formData[`answer${quizNum}`] ===
-                                                choiceIndex.toString()
+                                                choiceIndex + 1
                                             }
                                             onChange={(e) =>
                                                 handleAnswerSelect(

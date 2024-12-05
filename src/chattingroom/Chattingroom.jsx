@@ -20,7 +20,6 @@ const ChattingRoom = () => {
     const [participants, setParticipants] = useState([]);
     const [isHost, setIsHost] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { isDark } = useTheme();
     const [isLoading, setIsLoading] = useState(false);
     const [loadingMessage, setLoadingMessage] = useState("");
     const [isMaxLength, setIsMaxLength] = useState(false);
@@ -28,6 +27,7 @@ const ChattingRoom = () => {
     // 소켓 연결 및 이벤트 리스너 설정
     useEffect(() => {
         const newSocket = io("https://mongdangbul.store", {
+            // const newSocket = io("http://localhost:3000", {
             transports: ["websocket"],
             withCredentials: true,
             forceNew: true,
@@ -55,7 +55,10 @@ const ChattingRoom = () => {
 
         // 권한 확인됨 응답 처리
         newSocket.on("authorized", () => {
-            newSocket.emit("joinRoom", { roomId, userId });
+            console.log("권한 확인됨, 방 참여 시도");
+            // 닉네임도 함께 전송
+            const nickName = localStorage.getItem("nickName");
+            newSocket.emit("joinRoom", { roomId, userId, nickName });
         });
 
         // 채팅 메시지 수신 확인
@@ -73,6 +76,7 @@ const ChattingRoom = () => {
 
         // 사용자 입장 알림
         newSocket.on("userJoined", (data) => {
+            console.log("사용자 입장 이벤트 수신:", data);
             setMessages((prev) => [
                 ...prev,
                 {
@@ -113,6 +117,7 @@ const ChattingRoom = () => {
 
         // 참여자 목록 업데이트 벤트
         newSocket.on("participantsList", (updatedParticipants) => {
+            console.log("참여자 목록 업데이트:", updatedParticipants);
             setParticipants(updatedParticipants);
         });
 
@@ -125,6 +130,7 @@ const ChattingRoom = () => {
 
         // joinRoomSuccess 이벤트 리스너 추가
         newSocket.on("joinRoomSuccess", (data) => {
+            console.log("방 참여 성공:", data);
             setIsJoined(true);
             setIsHost(data.isHost);
             setParticipants(data.participants);
@@ -167,6 +173,7 @@ const ChattingRoom = () => {
         // 컴포넌트 언마운트 시 정리
         return () => {
             if (newSocket.connected) {
+                console.log("소켓 연결 종료");
                 newSocket.emit("leaveRoom", { roomId, userId });
             }
             newSocket.disconnect();
@@ -211,7 +218,7 @@ const ChattingRoom = () => {
 
     // 토론 종료 함수 추가
     const handleEndDiscussion = () => {
-        if (window.confirm("정말로 토론을 종료하시겠습니까?")) {
+        if (window.confirm("정말로 토론을 종료하���겠습니까?")) {
             setIsLoading(true);
             setLoadingMessage("토론이 종료중입니다...");
             socket.emit("endDiscussion", { roomId });
